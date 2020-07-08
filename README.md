@@ -22,6 +22,6 @@
 
 1. Open your `client` directory in VsCode. Open the `.env.local.example` file and replace `__YOUR_API_KEY_HERE__` with your own firebase Web API Key
 
-1. Rename the .env.local.example`file to remove the`.example`extension. This file should now just be called`.env.local`
+1. Rename the `.env.local.example` file to remove the `.example` extension. This file should now just be called `.env.local`
 
 1. Install your dependencies by running `npm install` from the same directory as your `package.json` file
