@@ -1,10 +1,10 @@
 USE [master]
 
-IF db_id('Tabloid') IS NULl
-  CREATE DATABASE [Tabloid]
+IF db_id('TabloidMVC') IS NULl
+  CREATE DATABASE [TabloidMVC]
 GO
 
-USE [Tabloid]
+USE [TabloidMVC]
 GO
 
 
@@ -25,17 +25,20 @@ CREATE TABLE [UserType] (
   [Id] integer PRIMARY KEY IDENTITY,
   [Name] nvarchar(20) NOT NULL
 )
+
 CREATE TABLE [UserProfile] (
   [Id] integer PRIMARY KEY IDENTITY,
+  [FirebaseUserId] NVARCHAR(28) NOT NULL,
   [DisplayName] nvarchar(50) NOT NULL,
   [FirstName] nvarchar(50) NOT NULL,
   [LastName] nvarchar(50) NOT NULL,
-  [Email] nvarchar(255) NOT NULL,
+  [Email] nvarchar(555) NOT NULL,
   [CreateDateTime] datetime NOT NULL,
   [ImageLocation] nvarchar(255),
   [UserTypeId] integer NOT NULL,
 
-  CONSTRAINT [FK_User_UserType] FOREIGN KEY ([UserTypeId]) REFERENCES [UserType] ([Id])
+  CONSTRAINT [FK_User_UserType] FOREIGN KEY ([UserTypeId]) REFERENCES [UserType] ([Id]),
+  CONSTRAINT UQ_FirebaseUserId UNIQUE(FirebaseUserId)
 )
 
 CREATE TABLE [Subscription] (
