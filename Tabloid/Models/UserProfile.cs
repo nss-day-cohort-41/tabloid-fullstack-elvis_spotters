@@ -29,7 +29,6 @@ namespace Tabloid.Models
         [MaxLength(255)]
         public string Email { get; set; }
 
-        [Required]
         public DateTime CreateDateTime { get; set; }
 
         [DataType(DataType.Url)]
