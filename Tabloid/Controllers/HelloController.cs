@@ -9,7 +9,7 @@ namespace Tabloid.Controllers
         [HttpGet]
         public IActionResult Hello()
         {
-            return Content("Hello");
+            return Content("hello");
         }
     }
 }
