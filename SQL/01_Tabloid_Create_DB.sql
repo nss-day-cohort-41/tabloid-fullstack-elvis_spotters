@@ -1,10 +1,10 @@
 USE [master]
 
-IF db_id('TabloidMVC') IS NULl
-  CREATE DATABASE [TabloidMVC]
+IF db_id('Tabloid') IS NULl
+  CREATE DATABASE [Tabloid]
 GO
 
-USE [TabloidMVC]
+USE [Tabloid]
 GO
 
 
