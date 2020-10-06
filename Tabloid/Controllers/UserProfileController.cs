@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System;
-using Tabloid.Data;
 using Tabloid.Models;
 using Tabloid.Repositories;
 
@@ -11,10 +9,10 @@ namespace Tabloid.Controllers
     [ApiController]
     public class UserProfileController : ControllerBase
     {
-        private readonly UserProfileRepository _userProfileRepository;
-        public UserProfileController(ApplicationDbContext context)
+        private readonly IUserProfileRepository _userProfileRepository;
+        public UserProfileController(IUserProfileRepository userProfileRepository)
         {
-            _userProfileRepository = new UserProfileRepository(context);
+            _userProfileRepository = userProfileRepository;
         }
 
         [HttpGet("{firebaseUserId}")]
