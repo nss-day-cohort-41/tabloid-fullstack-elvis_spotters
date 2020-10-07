@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Tabloid.Models;
 using Tabloid.Utils;
 
@@ -33,28 +35,7 @@ namespace Tabloid.Repositories
 
                     while (reader.Read())
                     {
-                        var post = new Post()
-                        {
-                            Id = DbUtils.GetInt(reader, "PostId"),
-                            Title = DbUtils.GetString(reader, "Title"),
-                            Content = DbUtils.GetString(reader, "Content"),
-                            ImageLocation = DbUtils.GetString(reader, "PostImageLocation"),
-                            CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
-                            PublishDateTime = DbUtils.GetNullableDateTime(reader, "PublishDateTime"),
-                            IsApproved = DbUtils.GetBool(reader, "IsApproved"),
-                            CategoryId = DbUtils.GetInt(reader, "CategoryId"),
-                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-                            UserProfile = new UserProfile()
-                            {
-                                Id = DbUtils.GetInt(reader, "UserProfileId"),
-                                DisplayName = DbUtils.GetString(reader, "DisplayName"),
-                                FirstName = DbUtils.GetString(reader, "FirstName"),
-                                LastName = DbUtils.GetString(reader, "LastName"),
-                                Email = DbUtils.GetString(reader, "Email"),
-                                CreateDateTime = DbUtils.GetDateTime(reader, "UserCreateDateTime"),
-                                ImageLocation = DbUtils.GetString(reader, "UserImageLocation")
-                            }
-                        };
+                        var post = NewPostFromDb(reader);
 
                         posts.Add(post);
                     }
@@ -64,6 +45,33 @@ namespace Tabloid.Repositories
 
                 }
             }
+        }
+
+        private Post NewPostFromDb(SqlDataReader reader)
+        {
+            return new Post()
+            {
+                Id = DbUtils.GetInt(reader, "PostId"),
+                Title = DbUtils.GetString(reader, "Title"),
+                Content = DbUtils.GetString(reader, "Content"),
+                ImageLocation = DbUtils.GetString(reader, "PostImageLocation"),
+                CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
+                PublishDateTime = DbUtils.GetNullableDateTime(reader, "PublishDateTime"),
+                IsApproved = DbUtils.GetBool(reader, "IsApproved"),
+                CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                UserProfile = new UserProfile()
+                {
+                    Id = DbUtils.GetInt(reader, "UserProfileId"),
+                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                    FirstName = DbUtils.GetString(reader, "FirstName"),
+                    LastName = DbUtils.GetString(reader, "LastName"),
+                    Email = DbUtils.GetString(reader, "Email"),
+                    CreateDateTime = DbUtils.GetDateTime(reader, "UserCreateDateTime"),
+                    ImageLocation = DbUtils.GetString(reader, "UserImageLocation"),
+                    UserTypeId = DbUtils.GetInt(reader, "UserTypeId")
+                }
+            };
         }
     }
 }
