@@ -50,11 +50,26 @@ namespace Tabloid.Utils
         }
 
         /// <summary>
+        ///  Get a boolean from a data reader object.
+        /// </summary>
+        /// <param name="reader">A SqlDataReader that has not exhausted its result set.</param>
+        /// <param name="column">The name of the column from the result set referred to by the reader.</param>
+        /// <returns>The value of the given column.</returns>
+        /// 
+        public static bool GetBool(SqlDataReader reader, string column)
+        {
+            return reader.GetBoolean(reader.GetOrdinal(column));
+        }
+
+        /// <summary>
         ///  Get an int? (nullable int) from a data reader object and gracefully handle NULL values
         /// </summary>
         /// <param name="reader">A SqlDataReader that has not exhausted it's result set.</param>
         /// <param name="column">The name of the column from the result set refereed to by the reader.</param>
         /// <returns>The value of the given column or null.</returns>
+        /// 
+
+
         public static int? GetNullableInt(SqlDataReader reader, string column)
         {
             var ordinal = reader.GetOrdinal(column);
