@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="appsettings.Local.json" />
+    <Content Remove="appsettings.Local..json" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="appsettings.Local.json" />
+    <None Include="appsettings.Local..json" />
   </ItemGroup>
 
   <ItemGroup>
