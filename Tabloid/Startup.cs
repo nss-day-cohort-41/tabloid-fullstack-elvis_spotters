@@ -49,6 +49,14 @@ namespace Tabloid
             if (env.IsDevelopment() || env.IsEnvironment("Local"))
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseCors(option =>
+                {
+                    option.AllowAnyOrigin();
+                    option.AllowAnyMethod();
+                    option.AllowAnyHeader();
+                    option.AllowCredentials();
+                });
             }
 
             app.UseHttpsRedirection();
