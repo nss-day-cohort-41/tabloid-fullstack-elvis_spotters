@@ -83,6 +83,4 @@ namespace Tabloid.Controllers
             return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
     }
-
-}
 }
