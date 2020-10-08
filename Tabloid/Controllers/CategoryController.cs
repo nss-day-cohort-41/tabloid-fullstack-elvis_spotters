@@ -33,6 +33,5 @@ namespace Tabloid.Controllers
                 return NotFound();
                 }
             }
-
         }
     }

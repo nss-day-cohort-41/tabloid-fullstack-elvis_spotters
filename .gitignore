@@ -363,3 +363,5 @@ FodyWeavers.xsd
 
 # Seed data
 *Seed_Data.sql
+
+appsettings.Local.json
