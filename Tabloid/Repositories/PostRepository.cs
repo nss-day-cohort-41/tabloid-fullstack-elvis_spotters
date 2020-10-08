@@ -67,6 +67,35 @@ namespace Tabloid.Repositories
                 }
             }
         }
+        public List<Post> GetPostsByUserId(int userId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = PostSqlQuery + @"
+                         WHERE p.UserProfileId = @UserId
+                      ORDER BY p.CreateDateTime DESC;";
+
+                    DbUtils.AddParameter(cmd, "@UserId", userId); 
+
+                    var reader = cmd.ExecuteReader();
+                    var posts = new List<Post>();
+
+                    while (reader.Read())
+                    {
+                        var post = NewPostFromDb(reader);
+
+                        posts.Add(post);
+                    }
+
+                    reader.Close();
+                    return posts;
+
+                }
+            }
+        }
 
         public Post GetPostById(int id)
         {

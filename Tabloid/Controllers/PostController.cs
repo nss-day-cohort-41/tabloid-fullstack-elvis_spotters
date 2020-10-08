@@ -38,6 +38,13 @@ namespace Tabloid.Controllers
             return Ok(post);
         }
 
+        [HttpGet("user/{id}")]
+        public IActionResult GetByUser(int id)
+        {
+            return Ok(_postRepository.GetPostsByUserId(id));
+        }
+
+
         [HttpPost]
         public IActionResult Post(Post post)
         {
