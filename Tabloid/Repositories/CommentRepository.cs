@@ -13,6 +13,7 @@ namespace Tabloid.Repositories
     {
         public CommentRepository(IConfiguration configuration) : base(configuration) { }
 
+        //returns list of comments
         public List<Comment> GetCommentsByPostId(int postId)
         {
             using (var conn = Connection)
@@ -48,6 +49,7 @@ namespace Tabloid.Repositories
                                 LEFT JOIN Post p ON c.PostId = p.Id
                                 LEFT JOIN UserProfile up ON c.UserProfileId = up.Id
                             WHERE c.PostId = @postId
+                            ORDER BY CommentCreateDateTime
                         ";
 
                     cmd.CommandText = getCommentsSql;
@@ -70,6 +72,52 @@ namespace Tabloid.Repositories
             }
         }
 
+        //add comment to database
+        public void Add (Comment comment)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO Comment
+                        (PostId, UserProfileId, Subject, Content, CreateDateTime)
+                        OUTPUT Inserted.Id
+                        VALUES
+                        (@postId, @userProfileId, @subject, @content, @createDateime)                 
+                    ";
+
+                    cmd.Parameters.AddWithValue("@postId", comment.PostId);
+                    cmd.Parameters.AddWithValue("@userProfileId", comment.UserProfileId);
+                    cmd.Parameters.AddWithValue("@subject", comment.Subject);
+                    cmd.Parameters.AddWithValue("@content", comment.Content);
+                    cmd.Parameters.AddWithValue("@createDateTime", comment.CreateDateTime);
+
+                    comment.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        //deletes comment by Id
+        public void Delete(int commentId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        DELETE FROM Comment
+                        WHERE Id = @commentId
+                    ";
+
+                    cmd.Parameters.AddWithValue("@commentId", commentId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
         private Comment GetCommentFromReader(SqlDataReader reader)
         {
             return new Comment()
