@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -12,13 +13,16 @@ namespace Tabloid.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class PostController : ControllerBase
     {
         private readonly IPostRepository _postRepository;
-        public PostController(IPostRepository postRepository)
+        private readonly IUserProfileRepository _userProfileRepository;
+
+        public PostController(IPostRepository postRepository, IUserProfileRepository userProfileRepository)
         {
             _postRepository = postRepository;
+            _userProfileRepository = userProfileRepository;
         }
 
         [HttpGet]
@@ -38,16 +42,18 @@ namespace Tabloid.Controllers
             return Ok(post);
         }
 
-        [HttpGet("user/{id}")]
-        public IActionResult GetByUser(int id)
+        [HttpGet("user")]
+        public IActionResult GetByUser()
         {
-            return Ok(_postRepository.GetPostsByUserId(id));
+            var currentUser = GetCurrentUserProfile();
+            return Ok(_postRepository.GetPostsByUserId(currentUser.Id));
         }
-
 
         [HttpPost]
         public IActionResult Post(Post post)
         {
+            var currentUser = GetCurrentUserProfile();
+            post.UserProfileId = currentUser.Id;
             _postRepository.Add(post);
             return CreatedAtAction("Get", new { id = post.Id }, post);
         }
@@ -70,5 +76,13 @@ namespace Tabloid.Controllers
             _postRepository.Delete(id);
             return NoContent();
         }
+
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+        }
     }
+
+}
 }
