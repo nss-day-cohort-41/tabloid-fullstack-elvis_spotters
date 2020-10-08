@@ -346,3 +346,5 @@ appsettings.json
 
 # Seed data
 *Seed_Data.sql
+
+02_Tabloid_Seed_Data.sql
