@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { TagContext } from "../../providers/TagProvider";
-import { ListGroup } from 'reactstrap';
+import { ListGroup, Button } from 'reactstrap';
 import Tag from './Tag';
 
 const TagList = () => {
@@ -12,6 +12,7 @@ const TagList = () => {
 
   return (
     <div>
+      <Button className="mb-4">Create Tag</Button>
       <ListGroup>
         {tagList.map(tag => <Tag key={tag.id} tag={tag} />)}
       </ListGroup>
