@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace Tabloid.Controllers
 {
-    [Authorize]
+    /*[Authorize]*/
     [Route("api/[controller]")]
     [ApiController]
     public class TagController : ControllerBase
@@ -29,6 +29,17 @@ namespace Tabloid.Controllers
         public IActionResult Get()
         {
             return Ok(_tagRepository.GetAll());
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var tag = _tagRepository.GetById(id);
+            if (tag != null)
+            {
+                NotFound();
+            }
+            return Ok(tag);
         }
 
         [HttpPost]

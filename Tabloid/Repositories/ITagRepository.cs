@@ -7,6 +7,8 @@ namespace Tabloid.Repositories
     {
         List<Tag> GetAll();
 
+        public Tag GetById(int id);
+
         public void Add(Tag tag);
     }
 }
