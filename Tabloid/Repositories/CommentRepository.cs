@@ -72,6 +72,64 @@ namespace Tabloid.Repositories
             }
         }
 
+        //returns a single comment
+        public Comment GetById(int commentId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    string getCommentSql = @"
+                            SELECT
+                                c.Id, 
+                                c.PostId, 
+                                c.Subject, 
+                                c.Content, 
+                                c.CreateDateTime AS CommentCreateDateTime, 
+                                c.UserProfileId AS CommentUserProfileId,
+                                p.Title, 
+                                p.Content AS PostContent, 
+                                p.ImageLocation AS PostImageLocation, 
+                                p.CreateDateTime AS PostCreateDateTime, 
+                                p.PublishDateTime, 
+                                p.IsApproved, 
+                                p.CategoryId, 
+                                p.UserProfileId AS PostUserProfileId,
+                                up.FirstName,
+                                up.LastName,
+                                up.DisplayName,
+                                up.Email,
+                                up.CreateDateTime AS ProfileCreateDateTime,
+                                up.ImageLocation AS ProfileImageLocation,
+                                up.UserTypeId,
+                                up.FirebaseUserId 
+                            FROM Comment c 
+                                LEFT JOIN Post p ON c.PostId = p.Id
+                                LEFT JOIN UserProfile up ON c.UserProfileId = up.Id
+                            WHERE c.Id = commentId
+                        ";
+
+                    cmd.CommandText = getCommentSql;
+
+                    cmd.Parameters.AddWithValue("@commentId", commentId);
+
+                    var reader = cmd.ExecuteReader();
+
+                    Comment comment = null;
+
+                    if (reader.Read())
+                    {
+                        comment = GetCommentFromReader(reader);
+                    }
+
+                    reader.Close();
+
+                    return comment;
+                }
+            }
+        }
+
         //add comment to database
         public void Add (Comment comment)
         {
@@ -95,6 +153,38 @@ namespace Tabloid.Repositories
                     cmd.Parameters.AddWithValue("@createDateTime", comment.CreateDateTime);
 
                     comment.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        //edit comment
+        public void Edit (Comment comment)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                       UPDATE Comment
+                       SET
+                        PostId = @postId,
+                        UserProfileId = @userProfileId,
+                        Subject = @subject,
+                        Content = @sontent,
+                        CreateDateTime = @createDateTime
+                       WHERE
+                        Id = @id
+                    ";
+
+                    cmd.Parameters.AddWithValue("@postId", comment.PostId);
+                    cmd.Parameters.AddWithValue("@userProfileId", comment.UserProfileId);
+                    cmd.Parameters.AddWithValue("@subject", comment.Subject);
+                    cmd.Parameters.AddWithValue("@content", comment.Content);
+                    cmd.Parameters.AddWithValue("@createDateTime", comment.CreateDateTime);
+                    cmd.Parameters.AddWithValue("@Id", comment.Id);
+
+                    cmd.EndExecuteNonQuery();
                 }
             }
         }
