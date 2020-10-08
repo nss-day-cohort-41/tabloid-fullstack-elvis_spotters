@@ -29,7 +29,12 @@ namespace Tabloid.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-
+            var post = _postRepository.GetPostById(id);
+            if (post == null)
+            {
+                NotFound();
+            }
+            return Ok(post);
         }
     
     }

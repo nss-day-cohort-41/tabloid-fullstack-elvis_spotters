@@ -84,6 +84,44 @@ namespace Tabloid.Repositories
             }
         }
 
+        public Post GetPostById(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT p.Id AS PostId, p.Title, p.Content, p.ImageLocation AS PostImageLocation,
+                               p.CreateDateTime AS PostCreateDateTime, p.PublishDateTime, p.IsApproved, p.CategoryId, p.UserProfileId,
+	                           c.[Name],
+	                           up.DisplayName, up.FirstName, up.LastName, up.ImageLocation AS UserImageLocation, 
+                               up.Email, up.CreateDateTime as UserCreateDateTime, up.UserTypeId
+                          FROM Post p
+                     LEFT JOIN Category c ON c.Id = p.CategoryId
+                     LEFT JOIN UserProfile up ON up.Id = p.UserProfileId
+                         WHERE p.Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        Post post = NewPostFromDb(reader);
+
+                        reader.Close();
+                        return post;
+                    }
+                    else
+                    {
+                    reader.Close();
+                    return null;
+                    }
+                }
+            }
+        }
+
         private Post NewPostFromDb(SqlDataReader reader)
         {
             return new Post()
