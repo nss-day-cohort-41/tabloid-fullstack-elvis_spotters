@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
+import { PostProvider } from "../providers/PostProvider";
 import Login from "./Login";
 import Register from "./Register";
 import PostList from "./Posts/PostList";
@@ -12,7 +13,9 @@ export default function ApplicationViews() {
     <main>
       <Switch>
         <Route path="/" exact>
-          {isLoggedIn ? <PostList /> : <Redirect to="/login" />}
+          <PostProvider>
+            {isLoggedIn ? <PostList /> : <Redirect to="/login" />}
+          </PostProvider>
         </Route>
 
         <Route path="/login">
