@@ -47,7 +47,7 @@ export default function Header() {
                       <NavLink tag={RRNavLink} to="/tags">Tag Management</NavLink>
                     </DropdownItem>
                     <DropdownItem>
-                      <NavLink tag={RRNavLink} to="/">Category Management</NavLink>
+                      <NavLink tag={RRNavLink} to="/category">Category Management</NavLink>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
