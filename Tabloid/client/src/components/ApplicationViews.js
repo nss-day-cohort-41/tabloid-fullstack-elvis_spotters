@@ -25,19 +25,20 @@ export default function ApplicationViews() {
         <Route path="/login">
           <Login />
         </Route>
-        <Route path="/category" component={Categories}/>
+        <Route path="/category" component={Categories} />
         <Route path="/register">
           <Register />
+        </Route>
+
+        <Route path="/tags" exact>
+          <TagProvider>
+            {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
+          </TagProvider>
         </Route>
 
         <Route path="/post">
           {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/login" />}
         </Route>
-        <TagProvider>
-          <Route path="/tags" exact>
-            {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
-          </Route>
-        </TagProvider>
       </Switch>
     </main>
   );

@@ -1,16 +1,24 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useContext } from 'react';
+import { UserProfileContext } from './UserProfileProvider';
 
 export const TagContext = createContext();
 
 export function TagProvider(props) {
   const apiUrl = "/api/tag";
+  const { getToken } = useContext(UserProfileContext);
 
   const [tagList, setTagList] = useState([]);
 
-  const getAllTags = async () => {
-    const res = await fetch(apiUrl);
-    const value = await res.json();
-    return setTagList(value);
+  const getAllTags = () => {
+    getToken().then(token => {
+      fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then(res => res.json())
+        .then(setTagList)
+    })
   };
 
   return (
