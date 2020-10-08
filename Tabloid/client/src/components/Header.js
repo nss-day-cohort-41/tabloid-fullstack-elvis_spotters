@@ -7,7 +7,11 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from 'reactstrap';
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
@@ -23,7 +27,7 @@ export default function Header() {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
-            { /* When isLoggedIn === true, we will render the Home link */ }
+            { /* When isLoggedIn === true, we will render the Home link */}
             {isLoggedIn &&
               <NavItem>
                 <NavLink tag={RRNavLink} to="/">Home</NavLink>
@@ -33,6 +37,21 @@ export default function Header() {
           <Nav navbar>
             {isLoggedIn &&
               <>
+                {/* Admin tools dropdown housing tag and category management */}
+                <UncontrolledDropdown nav inNavbar>
+                  <DropdownToggle nav caret>
+                    Admin Tools
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem>
+                      <NavLink tag={RRNavLink} to="/tags">Tag Management</NavLink>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <NavLink tag={RRNavLink} to="/category">Category Management</NavLink>
+                    </DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+
                 <NavItem>
                   <a aria-current="page" className="nav-link"
                     style={{ cursor: "pointer" }} onClick={logout}>Logout</a>

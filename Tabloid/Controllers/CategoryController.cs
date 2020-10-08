@@ -8,30 +8,45 @@ using Tabloid.Models;
 using Tabloid.Repositories;
 
 namespace Tabloid.Controllers
-    {
+{
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase
-        {
+    {
         private readonly ICategoryRepository _categoryRepository;
 
         public CategoryController(ICategoryRepository categoryRepository)
-            {
+        {
             _categoryRepository = categoryRepository;
-            }
+        }
 
         [HttpPost]
-        public IActionResult Post(Category category )
-            {
+        public IActionResult Post(Category category)
+        {
             try
-                {
+            {
                 _categoryRepository.AddCategory(category);
                 return Ok();
-                }
-            catch(Exception ex)
-                {
+            }
+            catch (Exception ex)
+            {
                 return NotFound();
-                }
             }
         }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            try
+            {
+                List<Category> categories = _categoryRepository.GetCategories();
+                return Ok(categories);
+            }
+            catch (Exception ex)
+            {
+                return NotFound();
+            }
+        }
+
     }
+}
