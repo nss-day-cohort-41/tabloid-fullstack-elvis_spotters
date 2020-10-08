@@ -64,7 +64,8 @@ namespace Tabloid.Repositories
                           FROM Post p
                      LEFT JOIN Category c ON c.Id = p.CategoryId
                      LEFT JOIN UserProfile up ON up.Id = p.UserProfileId
-                         WHERE p.PublishDateTime IS NOT NULL";
+                         WHERE p.PublishDateTime IS NOT NULL and p.IsApproved = 1
+                      ORDER BY p.PublishDateTime DESC;";
 
                     var reader = cmd.ExecuteReader();
                     var posts = new List<Post>();
