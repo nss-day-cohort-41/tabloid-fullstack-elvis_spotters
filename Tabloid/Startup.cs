@@ -51,13 +51,7 @@ namespace Tabloid
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseCors(option =>
-                {
-                    option.AllowAnyOrigin();
-                    option.AllowAnyMethod();
-                    option.AllowAnyHeader();
-                    option.AllowCredentials();
-                });
+
             }
 
             app.UseHttpsRedirection();
