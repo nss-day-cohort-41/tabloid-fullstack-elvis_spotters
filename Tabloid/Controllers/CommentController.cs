@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Tabloid.Repositories;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,18 +13,22 @@ namespace Tabloid.Controllers
     [ApiController]
     public class CommentController : ControllerBase
     {
-        // GET: api/<CommentController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly ICommentRepository _commentRepo;
+
+        public CommentController(ICommentRepository commentRepository)
         {
-            return new string[] { "value1", "value2" };
+            _commentRepo = commentRepository;
         }
 
-        // GET api/<CommentController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET: api/<CommentController>
+        [HttpGet("{postId}")]
+        public IActionResult Get(int postId)
         {
-            return "value";
+            var comments = _commentRepo.GetCommentsByPostId(postId);
+            if (comments == null)
+            { return NotFound(); };
+
+            return Ok(comments);
         }
 
         // POST api/<CommentController>

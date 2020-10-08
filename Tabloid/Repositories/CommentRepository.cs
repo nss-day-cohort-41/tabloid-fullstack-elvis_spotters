@@ -13,7 +13,7 @@ namespace Tabloid.Repositories
     {
         public CommentRepository(IConfiguration configuration) : base(configuration) { }
 
-        public List<Comment> GetCommentsByPost(int postId)
+        public List<Comment> GetCommentsByPostId(int postId)
         {
             using (var conn = Connection)
             {
@@ -90,7 +90,7 @@ namespace Tabloid.Repositories
                     CreateDateTime = DbUtils.GetDateTime(reader, "ProfileCreateDateTime"),
                     ImageLocation = DbUtils.GetString(reader, "ProfileImageLocation"),
                     UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
-                    FirebaseUserId = DbUtils.GetString(reader, "FirbaseUserId")
+                    FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId")
                 },
                 Post = new Post()
                 {
