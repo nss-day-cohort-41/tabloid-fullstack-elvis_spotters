@@ -5,6 +5,7 @@ import Login from "./Login";
 import Register from "./Register";
 import Hello from "./Hello";
 import TagList from "./Tags/TagList";
+import { TagProvider } from "../providers/TagProvider";
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -24,9 +25,11 @@ export default function ApplicationViews() {
           <Register />
         </Route>
 
-        <Route path="/tags" exact>
-          {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
-        </Route>
+        <TagProvider>
+          <Route path="/tags" exact>
+            {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
+          </Route>
+        </TagProvider>
       </Switch>
     </main>
   );

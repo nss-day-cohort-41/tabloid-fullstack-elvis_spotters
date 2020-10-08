@@ -10,13 +10,12 @@ export function TagProvider(props) {
   const getAllTags = async () => {
     const res = await fetch(apiUrl);
     const value = await res.json();
-    console.log(value);
     return setTagList(value);
   };
 
   return (
-    <TagContext.Provider>
-
+    <TagContext.Provider value={{ tagList, getAllTags }}>
+      {props.children}
     </TagContext.Provider>
   )
 }
