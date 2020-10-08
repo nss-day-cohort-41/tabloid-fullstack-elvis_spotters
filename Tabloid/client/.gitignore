@@ -22,5 +22,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+
+.sql
 02_Tabloid_Seed_Data.sql
 appsettings.Local.json
