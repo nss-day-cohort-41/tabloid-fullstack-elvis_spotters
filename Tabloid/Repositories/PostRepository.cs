@@ -97,6 +97,37 @@ namespace Tabloid.Repositories
             }
         }
 
+        public void Update(Post post)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                    
+                        WHERE p.Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        Post post = NewPostFromDb(reader);
+
+                        reader.Close();
+                        return post;
+                    }
+                    else
+                    {
+                    reader.Close();
+                    return null;
+                    }
+                }
+            }
+        }
+
         private string PostSqlQuery = @"
                         SELECT p.Id AS PostId, p.Title, p.Content, p.ImageLocation AS PostImageLocation,
                                p.CreateDateTime AS PostCreateDateTime, p.PublishDateTime, p.IsApproved, p.CategoryId, p.UserProfileId,
