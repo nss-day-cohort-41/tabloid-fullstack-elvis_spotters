@@ -10,10 +10,10 @@ using Tabloid.Utils;
 
 namespace Tabloid.Repositories
 {
-    public class PostRepository : BaseRepository
+    public class PostRepository : BaseRepository, IPostRepository
     {
         public PostRepository(IConfiguration configuration) : base(configuration) { }
-        
+
         public List<Post> GetAllPosts()
         {
             using (var conn = Connection)
@@ -25,12 +25,49 @@ namespace Tabloid.Repositories
                         SELECT p.Id AS PostId, p.Title, p.Content, p.ImageLocation AS PostImageLocation,
                                p.CreateDateTime AS PostCreateDateTime, p.PublishDateTime, p.IsApproved, p.CategoryId, p.UserProfileId,
 	                           c.[Name],
-	                           up.DisplayName, up.FirstName, up.LastName, up.ImageLocation AS UserImageLocation, up.Email
+	                           up.DisplayName, up.FirstName, up.LastName, up.ImageLocation AS UserImageLocation, 
+                               up.Email, up.CreateDateTime as UserCreateDateTime, up.UserTypeId
                           FROM Post p
                      LEFT JOIN Category c ON c.Id = p.CategoryId
                      LEFT JOIN UserProfile up ON up.Id = p.UserProfileId;";
 
-                    var reader = cmd.ExecuteReader();  
+                    var reader = cmd.ExecuteReader();
+                    var posts = new List<Post>();
+
+                    while (reader.Read())
+                    {
+                        var post = NewPostFromDb(reader);
+
+                        posts.Add(post);
+                    }
+
+                    reader.Close();
+                    return posts;
+
+                }
+            }
+        }
+
+        public List<Post> GetAllPublishedPosts()
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT p.Id AS PostId, p.Title, p.Content, p.ImageLocation AS PostImageLocation,
+                               p.CreateDateTime AS PostCreateDateTime, p.PublishDateTime, p.IsApproved, p.CategoryId, p.UserProfileId,
+	                           c.[Name],
+	                           up.DisplayName, up.FirstName, up.LastName, up.ImageLocation AS UserImageLocation, 
+                               up.Email, up.CreateDateTime as UserCreateDateTime, up.UserTypeId
+                          FROM Post p
+                     LEFT JOIN Category c ON c.Id = p.CategoryId
+                     LEFT JOIN UserProfile up ON up.Id = p.UserProfileId
+                         WHERE p.PublishDateTime IS NOT NULL and p.IsApproved = 1
+                      ORDER BY p.PublishDateTime DESC;";
+
+                    var reader = cmd.ExecuteReader();
                     var posts = new List<Post>();
 
                     while (reader.Read())
@@ -55,10 +92,15 @@ namespace Tabloid.Repositories
                 Title = DbUtils.GetString(reader, "Title"),
                 Content = DbUtils.GetString(reader, "Content"),
                 ImageLocation = DbUtils.GetString(reader, "PostImageLocation"),
-                CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
+                CreateDateTime = DbUtils.GetDateTime(reader, "PostCreateDateTime"),
                 PublishDateTime = DbUtils.GetNullableDateTime(reader, "PublishDateTime"),
                 IsApproved = DbUtils.GetBool(reader, "IsApproved"),
                 CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                Category = new Category()
+                {
+                    Id = DbUtils.GetInt(reader, "CategoryId"),
+                    Name = DbUtils.GetString(reader, "Name")
+                },
                 UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
                 UserProfile = new UserProfile()
                 {

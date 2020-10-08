@@ -23,6 +23,8 @@ namespace Tabloid
         {
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             services.AddTransient<ICommentRepository, CommentRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<ITagRepository, TagRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";
@@ -42,6 +44,7 @@ namespace Tabloid
                 });
 
             services.AddControllers();
+            services.AddTransient<IPostRepository, PostRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,9 +52,15 @@ namespace Tabloid
         {
             if (env.IsDevelopment() || env.IsEnvironment("Local"))
             {
+
                 app.UseDeveloperExceptionPage();
 
+                <<
+                <<<<< HEAD
 
+                    ==
+                    == == = >>
+                    >>>>> master
             }
 
             app.UseHttpsRedirection();
