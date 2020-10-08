@@ -51,10 +51,7 @@ namespace Tabloid
             {
 
                 app.UseDeveloperExceptionPage();
-<<<<<<< HEAD
 
-=======
->>>>>>> 2c690a1b6ce7cee4a139877bc9a68bf1f9f55d0b
             }
 
             app.UseHttpsRedirection();
