@@ -21,15 +21,7 @@ namespace Tabloid.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"
-                        SELECT p.Id AS PostId, p.Title, p.Content, p.ImageLocation AS PostImageLocation,
-                               p.CreateDateTime AS PostCreateDateTime, p.PublishDateTime, p.IsApproved, p.CategoryId, p.UserProfileId,
-	                           c.[Name],
-	                           up.DisplayName, up.FirstName, up.LastName, up.ImageLocation AS UserImageLocation, 
-                               up.Email, up.CreateDateTime as UserCreateDateTime, up.UserTypeId
-                          FROM Post p
-                     LEFT JOIN Category c ON c.Id = p.CategoryId
-                     LEFT JOIN UserProfile up ON up.Id = p.UserProfileId;";
+                    cmd.CommandText = PostSqlQuery;
 
                     var reader = cmd.ExecuteReader();
                     var posts = new List<Post>();
@@ -55,15 +47,7 @@ namespace Tabloid.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"
-                        SELECT p.Id AS PostId, p.Title, p.Content, p.ImageLocation AS PostImageLocation,
-                               p.CreateDateTime AS PostCreateDateTime, p.PublishDateTime, p.IsApproved, p.CategoryId, p.UserProfileId,
-	                           c.[Name],
-	                           up.DisplayName, up.FirstName, up.LastName, up.ImageLocation AS UserImageLocation, 
-                               up.Email, up.CreateDateTime as UserCreateDateTime, up.UserTypeId
-                          FROM Post p
-                     LEFT JOIN Category c ON c.Id = p.CategoryId
-                     LEFT JOIN UserProfile up ON up.Id = p.UserProfileId
+                    cmd.CommandText = PostSqlQuery + @"
                          WHERE p.PublishDateTime IS NOT NULL and p.IsApproved = 1
                       ORDER BY p.PublishDateTime DESC;";
 
@@ -91,16 +75,7 @@ namespace Tabloid.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"
-                        SELECT p.Id AS PostId, p.Title, p.Content, p.ImageLocation AS PostImageLocation,
-                               p.CreateDateTime AS PostCreateDateTime, p.PublishDateTime, p.IsApproved, p.CategoryId, p.UserProfileId,
-	                           c.[Name],
-	                           up.DisplayName, up.FirstName, up.LastName, up.ImageLocation AS UserImageLocation, 
-                               up.Email, up.CreateDateTime as UserCreateDateTime, up.UserTypeId
-                          FROM Post p
-                     LEFT JOIN Category c ON c.Id = p.CategoryId
-                     LEFT JOIN UserProfile up ON up.Id = p.UserProfileId
-                         WHERE p.Id = @Id";
+                    cmd.CommandText = PostSqlQuery + " WHERE p.Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
 
@@ -121,6 +96,16 @@ namespace Tabloid.Repositories
                 }
             }
         }
+
+        private string PostSqlQuery = @"
+                        SELECT p.Id AS PostId, p.Title, p.Content, p.ImageLocation AS PostImageLocation,
+                               p.CreateDateTime AS PostCreateDateTime, p.PublishDateTime, p.IsApproved, p.CategoryId, p.UserProfileId,
+	                           c.[Name],
+	                           up.DisplayName, up.FirstName, up.LastName, up.ImageLocation AS UserImageLocation, 
+                               up.Email, up.CreateDateTime as UserCreateDateTime, up.UserTypeId
+                          FROM Post p
+                     LEFT JOIN Category c ON c.Id = p.CategoryId
+                     LEFT JOIN UserProfile up ON up.Id = p.UserProfileId";
 
         private Post NewPostFromDb(SqlDataReader reader)
         {
