@@ -1,0 +1,7 @@
+.category_border {
+    border: black solid 1px;
+    box-shadow: 0px 0px 3px;
+}
+.category_border:hover{
+    box-shadow: 0px 0px 6px;
+}
