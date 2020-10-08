@@ -22,6 +22,7 @@ namespace Tabloid
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<ITagRepository, TagRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
@@ -50,7 +51,9 @@ namespace Tabloid
         {
             if (env.IsDevelopment() || env.IsEnvironment("Local"))
             {
+
                 app.UseDeveloperExceptionPage();
+
             }
 
             app.UseHttpsRedirection();

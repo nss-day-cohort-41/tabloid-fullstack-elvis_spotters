@@ -4,9 +4,11 @@ import { UserProfileContext } from "../providers/UserProfileProvider";
 import { PostProvider } from "../providers/PostProvider";
 import Login from "./Login";
 import Register from "./Register";
+import Hello from "./Hello";
+import Categories from "./Categories/Categories";
+import PostList from "./Posts/PostList";
 import TagList from "./Tags/TagList";
 import { TagProvider } from "../providers/TagProvider";
-import PostList from "./Posts/PostList";
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -23,7 +25,7 @@ export default function ApplicationViews() {
         <Route path="/login">
           <Login />
         </Route>
-
+        <Route path="/category" component={Categories} />
         <Route path="/register">
           <Register />
         </Route>

@@ -33,6 +33,19 @@ namespace Tabloid.Controllers
                 return NotFound();
                 }
             }
+        [HttpGet]
+        public IActionResult GetAll()
+            {
+            try
+                {
+                List<Category> categories = _categoryRepository.GetCategories();
+                return Ok(categories);
+                }
+            catch(Exception ex)
+                {
+                return NotFound();
+                }
+            }
 
         }
     }

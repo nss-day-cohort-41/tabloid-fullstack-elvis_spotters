@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tabloid.Models;
+using Tabloid.Utils;
 
 namespace Tabloid.Repositories
     {
@@ -23,6 +24,7 @@ namespace Tabloid.Repositories
                     cmd.CommandText = @"
                                         INSERT INTO
                                         Category (Name) 
+                                        OUTPUT INSERTED.Id
                                         VALUES(@name)";
                     cmd.Parameters.AddWithValue("@name", category.Name);
                     category.Id = (int)cmd.ExecuteScalar();
@@ -37,13 +39,61 @@ namespace Tabloid.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                     {
-                    cmd.CommandText = @"";
+                    cmd.CommandText = @"
+                                        SELECT 
+                                        c.Id as CategoryId,
+                                        c.Name as CategoryName 
+                                        FROM Category c
+                                        ORDER BY Name";
+                    SqlDataReader reader = cmd.ExecuteReader();
+                        while(reader.Read())
+                        {
+                        categories.Add(NewCategory(reader));
+                        }
+                    reader.Close();
+                    
+                    }
+                    conn.Close();
+                    return categories;
+                }
+            }
+        public Category GetCategoryById(int id)
+            {
+            using(SqlConnection conn = Connection)
+                {
+                conn.Open();
+                using(SqlCommand cmd = conn.CreateCommand())
+                    {
+                    cmd.CommandText = @"
+                        SELECT 
+                        c.Id as CategoryId, 
+                        c.Name as CategoryName
+                        FROM Category c
+                        WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read()) return NewCategory(reader);
+                    conn.Close();
+                    return null;
                     }
                 }
-
-
-            return categories;
             }
+        public void EditCategory(int id, Category category)
+            {
 
+            }
+        public void DeleteCategory(int id)
+            {
+
+            }
+        public Category NewCategory(SqlDataReader reader)
+            {
+            return new Category()
+                {
+                Id = DbUtils.GetInt(reader, "CategoryId"),
+                Name = DbUtils.GetString(reader, "CategoryName")
+                };
+            }
+        
         }
     }
