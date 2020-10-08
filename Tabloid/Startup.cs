@@ -41,6 +41,7 @@ namespace Tabloid
                 });
 
             services.AddControllers();
+            services.AddTransient<IPostRepository, PostRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +51,10 @@ namespace Tabloid
             {
 
                 app.UseDeveloperExceptionPage();
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c690a1b6ce7cee4a139877bc9a68bf1f9f55d0b
             }
 
             app.UseHttpsRedirection();
