@@ -38,6 +38,13 @@ namespace Tabloid.Controllers
             return Ok(post);
         }
 
+        [HttpPost]
+        public IActionResult Post(Post post)
+        {
+            _postRepository.Add(post);
+            return CreatedAtAction("Get", new { id = post.Id }, post);
+        }
+
         [HttpPut("{id}")]
         public IActionResult Put(int id, Post post)
         {
