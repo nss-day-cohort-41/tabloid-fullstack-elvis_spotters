@@ -1,6 +1,7 @@
 import React from 'react';
 import "./category.css"
 export default ({ category }) => {
+    
     let id = category.id;
     const editButton = () =>{
         console.log("EDIT CLICKED", id)
