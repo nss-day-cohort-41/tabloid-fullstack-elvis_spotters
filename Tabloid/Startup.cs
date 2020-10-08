@@ -48,7 +48,9 @@ namespace Tabloid
         {
             if (env.IsDevelopment() || env.IsEnvironment("Local"))
             {
-              
+
+                app.UseDeveloperExceptionPage();
+
             }
 
             app.UseHttpsRedirection();
