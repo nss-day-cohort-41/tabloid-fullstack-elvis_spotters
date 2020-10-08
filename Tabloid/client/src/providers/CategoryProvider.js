@@ -1,18 +1,22 @@
 
 import React, { useState, useEffect, createContext } from "react";
-import { Redirect } from "react-router-dom";
+
+import { UserProfileContext } from "./UserProfileProvider";
+
 import { Spinner } from "reactstrap";
 
 export const CategoryContext = createContext();
-const userProfile = sessionStorage.getItem("userProfile");
 
 export function CategoryProvider(props) {
     const apiUrl = "/api/category";
-    const [isLoggedIn, setIsLoggedIn] = useState(userProfile != null);
+    const { getToken } = React.useContext(UserProfileContext);
     const [categories, setCategories] = useState([]);
     const [ready, setReady] = useState(false);
     const getCategories = async () => {
-       setCategories(await fetch(apiUrl)
+        let token = await getToken();
+       setCategories(await fetch(apiUrl, { headers: {
+        Authorization: `Bearer ${token}`
+    }})
             .then(res => res.json()))
             setReady(true);
     }
