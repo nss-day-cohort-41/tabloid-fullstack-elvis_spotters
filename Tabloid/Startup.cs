@@ -22,7 +22,7 @@ namespace Tabloid
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
-
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";
             services
@@ -48,15 +48,15 @@ namespace Tabloid
         {
             if (env.IsDevelopment() || env.IsEnvironment("Local"))
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
 
-                app.UseCors(option =>
-                {
-                    option.AllowAnyOrigin();
-                    option.AllowAnyMethod();
-                    option.AllowAnyHeader();
-                    option.AllowCredentials();
-                });
+                //app.UseCors(option =>
+                //{
+                //    option.AllowAnyOrigin();
+                //    option.AllowAnyMethod();
+                //    option.AllowAnyHeader();
+                //    option.AllowCredentials();
+                //});
             }
 
             app.UseHttpsRedirection();
