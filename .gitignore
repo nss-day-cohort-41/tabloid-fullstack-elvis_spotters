@@ -341,3 +341,6 @@ healthchecksdb
 
 *.swp
 appsettings.Local.json
+
+# Seed data
+*Seed_Data.sql
