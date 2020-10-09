@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Tabloid.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Tabloid.Models;
+using System.Security.Claims;
 
 namespace Tabloid.Controllers
 {
@@ -15,15 +17,50 @@ namespace Tabloid.Controllers
     public class TagController : ControllerBase
     {
         private readonly ITagRepository _tagRepository;
-        public TagController(ITagRepository tagRepository)
+        private readonly IUserProfileRepository _userProfileRepository;
+
+        public TagController(ITagRepository tagRepository, IUserProfileRepository userProfileRepository)
         {
             _tagRepository = tagRepository;
+            _userProfileRepository = userProfileRepository;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
             return Ok(_tagRepository.GetAll());
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var tag = _tagRepository.GetById(id);
+            if (tag != null)
+            {
+                NotFound();
+            }
+            return Ok(tag);
+        }
+
+        [HttpPost]
+        public IActionResult Post(Tag tag)
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+
+            // Checking if user who is adding new tag is an Admin, if not unauthorize
+            if (currentUserProfile.UserType.Name != "Admin")
+            {
+                return Unauthorized();
+            }
+            _tagRepository.Add(tag);
+            return CreatedAtAction(nameof(Get), new { id = tag.Id }, tag);
+        }
+
+        // Method to get current user by the firebaseId
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
     }
 }
