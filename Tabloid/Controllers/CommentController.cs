@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tabloid.Models;
 using Tabloid.Repositories;
@@ -12,6 +13,7 @@ namespace Tabloid.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CommentController : ControllerBase
     {
         private readonly ICommentRepository _commentRepo;
@@ -21,7 +23,9 @@ namespace Tabloid.Controllers
             _commentRepo = commentRepository;
         }
 
-        // GET: api/<CommentController>
+
+
+        // GET: by post Id
         [HttpGet("{postId}")]
         public IActionResult Get(int postId)
         {
@@ -32,12 +36,23 @@ namespace Tabloid.Controllers
             return Ok(comments);
         }
 
+        //// GET: individual comment by postId and commentId
+        [HttpGet("{postId}/{commentId}")]
+        public IActionResult Get(int postId, int commentId)
+        {
+            var comment = _commentRepo.GetById(commentId);
+            if (comment == null)
+            { return NotFound(); };
+
+            return Ok(comment);
+        }
+
         // POST api/<CommentController>
         [HttpPost]
         public IActionResult Post(Comment comment)
         {
             _commentRepo.Add(comment);
-            return CreatedAtAction("Get", new { id = comment.Id }, comment);
+            return CreatedAtAction("Get{postId}", new { id = comment.Id }, comment);
         }
 
         // PUT api/<CommentController>/5

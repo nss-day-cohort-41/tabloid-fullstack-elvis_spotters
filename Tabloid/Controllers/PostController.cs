@@ -31,7 +31,7 @@ namespace Tabloid.Controllers
             return Ok(_postRepository.GetAllPublishedPosts());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("postId{postId}")]
         public IActionResult Get(int id)
         {
             var post = _postRepository.GetPostById(id);

@@ -1,11 +1,10 @@
-import React, { useState, useEffect, createContext } from "react";
-import { Spinner } from "reactstrap";
+import React, { useState, createContext } from "react";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 
 export const CommentContext = createContext();
 
-export const CommentProvider = (props) => {
+export function CommentProvider(props) {
 
     const apiUrl = "api/comment";
     const [comments, setComments] = useState([]);
@@ -13,7 +12,7 @@ export const CommentProvider = (props) => {
     const getCommentsByPostId = (postId) => {
         getToken().then((token) =>
             fetch(apiUrl + `/${postId}`, {
-                method: "GET",
+                method: "GET{postId}",
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

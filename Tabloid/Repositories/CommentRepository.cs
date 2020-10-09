@@ -107,7 +107,7 @@ namespace Tabloid.Repositories
                             FROM Comment c 
                                 LEFT JOIN Post p ON c.PostId = p.Id
                                 LEFT JOIN UserProfile up ON c.UserProfileId = up.Id
-                            WHERE c.Id = commentId
+                            WHERE c.Id = @commentId
                         ";
 
                     cmd.CommandText = getCommentSql;
@@ -143,7 +143,7 @@ namespace Tabloid.Repositories
                         (PostId, UserProfileId, Subject, Content, CreateDateTime)
                         OUTPUT Inserted.Id
                         VALUES
-                        (@postId, @userProfileId, @subject, @content, @createDateime)                 
+                        (@postId, @userProfileId, @subject, @content, @createDateTime)                 
                     ";
 
                     cmd.Parameters.AddWithValue("@postId", comment.PostId);
@@ -171,7 +171,7 @@ namespace Tabloid.Repositories
                         PostId = @postId,
                         UserProfileId = @userProfileId,
                         Subject = @subject,
-                        Content = @sontent,
+                        Content = @content,
                         CreateDateTime = @createDateTime
                        WHERE
                         Id = @id

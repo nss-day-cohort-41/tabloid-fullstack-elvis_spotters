@@ -1,6 +1,9 @@
 import React from "react";
 import { Row, Col } from "reactstrap";
 
+const id = post.id;
+
+
 const Post = ({ post }) => {
     return (
         <Row>
@@ -13,6 +16,7 @@ const Post = ({ post }) => {
             <Col>
                 <p>{post.category.name}</p>
             </Col>
+            <Button className="btn btn-primary float-right">Post Comments</Button>
         </Row>
     )
 }
