@@ -1,7 +1,16 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-const DeleteTagModal = ({ deleteModal, deleteToggle, tagToDelete }) => {
+const DeleteTagModal = ({ deleteModal, deleteToggle, tagToDelete, deleteTag, getAllTags }) => {
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    deleteTag(tagToDelete.Id).then(() => {
+      deleteToggle();
+      getAllTags();
+    })
+  }
 
   return (
     <div>
@@ -12,7 +21,7 @@ const DeleteTagModal = ({ deleteModal, deleteToggle, tagToDelete }) => {
         </ModalBody>
         <ModalFooter>
           <Button onClick={deleteToggle}>Cancel</Button>
-          <Button>Delete</Button>
+          <Button onClick={handleSubmit}>Delete</Button>
         </ModalFooter>
       </Modal>
     </div>

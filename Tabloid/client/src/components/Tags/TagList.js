@@ -6,7 +6,7 @@ import CreateTagModal from './CreateTagModal';
 import DeleteTagModal from './DeleteTagModal';
 
 const TagList = () => {
-  const { tagList, getAllTags, addTag } = useContext(TagContext);
+  const { tagList, getAllTags, addTag, deleteTag } = useContext(TagContext);
 
   // State for create Tag modal and form alert in modal
   const [modal, setModal] = useState(false);
@@ -45,7 +45,7 @@ const TagList = () => {
   return (
     <div>
       <CreateTagModal modal={modal} toggle={toggle} addTag={addTag} getAllTags={getAllTags} formFeedback={formFeedback} setFormFeedback={setFormFeedback} newTag={newTag} setNewTag={setNewTag} />
-      <DeleteTagModal deleteModal={deleteModal} deleteToggle={deleteToggle} tagToDelete={tagToDelete} />
+      <DeleteTagModal deleteModal={deleteModal} deleteToggle={deleteToggle} tagToDelete={tagToDelete} deleteTag={deleteTag} getAllTags={getAllTags} />
       <Button className="mb-4" onClick={toggle}>Create Tag</Button>
       <ListGroup>
         {tagList.map(tag => <Tag key={tag.id} tag={tag} tagToBeDeleted={tagToBeDeleted} />)}
