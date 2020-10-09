@@ -15,7 +15,7 @@ export default (props) =>{
 
     return (
         <>
-        <form>
+        <form onSubmit={e=>e.preventDefault()}>
   <div className="form-group">
     <label htmlFor="exampleInputEmail1">Category Name</label>
     <input

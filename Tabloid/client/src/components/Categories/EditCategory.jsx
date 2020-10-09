@@ -29,7 +29,7 @@ const EditCategory = (props) => {
 
     return (
         <>
-            <form>
+            <form onSubmit={e=>e.preventDefault()}>
                 <div className="form-group">
                     <label htmlFor="exampleInputEmail1">Edit Category Name</label>
                     <input
@@ -37,7 +37,6 @@ const EditCategory = (props) => {
                         className="form-control"
                         id="categoryName"
                         value={cat.name}
-                        aria-describedby="categoryNameInputField"
                         placeholder="Category Name"
                         onChange={e => setCat({ ...cat, name: e.target.value })}
                     />
