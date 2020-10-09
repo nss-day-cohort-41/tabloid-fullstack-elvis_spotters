@@ -4,7 +4,7 @@ import { UserProfileContext } from "./UserProfileProvider";
 export const PostContext = createContext();
 
 export function PostProvider(props) {
-    const apiUrl = "api/post";
+    const apiUrl = "/api/post";
     const { getToken } = useContext(UserProfileContext);
 
     const [posts, setPosts] = useState([]);
@@ -29,7 +29,7 @@ export function PostProvider(props) {
                     Authorization: `Bearer ${token}`
                 }
             }).then((res) => res.json())
-                .then(setPosts));
+                .then(setCategories));
     }
 
     const saveNewPost = (post) => {
@@ -39,8 +39,9 @@ export function PostProvider(props) {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json"
-                }
-            }).then((res) => res.json()))
+                },
+                body: JSON.stringify(post)
+            }));
     }
 
     return (
