@@ -18,11 +18,13 @@ namespace Tabloid.Controllers
     {
         private readonly IPostRepository _postRepository;
         private readonly IUserProfileRepository _userProfileRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public PostController(IPostRepository postRepository, IUserProfileRepository userProfileRepository)
+        public PostController(IPostRepository postRepository, IUserProfileRepository userProfileRepository, ICategoryRepository categoryRepository)
         {
             _postRepository = postRepository;
             _userProfileRepository = userProfileRepository;
+            _categoryRepository = categoryRepository;
         }
 
         [HttpGet]
@@ -52,7 +54,7 @@ namespace Tabloid.Controllers
         [HttpGet("category")]
         public IActionResult GetCategories()
         {
-            return Ok(_postRepository.GetCategories());
+            return Ok(_categoryRepository.GetCategories());
         }
 
         [HttpPost]

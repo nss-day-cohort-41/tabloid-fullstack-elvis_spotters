@@ -126,37 +126,6 @@ namespace Tabloid.Repositories
             }
         }
 
-        public List<Category> GetCategories()
-        {
-            List<Category> categories = new List<Category>();
-            using (var conn = Connection)
-            {
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"
-                                        SELECT 
-                                        c.Id as CategoryId,
-                                        c.Name as CategoryName 
-                                        FROM Category c
-                                        ORDER BY Name";
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        categories.Add(new Category()
-                        {
-                            Id = DbUtils.GetInt(reader, "CategoryId"),
-                            Name = DbUtils.GetString(reader, "CategoryName")
-                        });
-                    }
-                    reader.Close();
-
-                }
-                conn.Close();
-                return categories;
-            }
-        }
-
         public void Add(Post post)
         {
             using (var conn = Connection)
