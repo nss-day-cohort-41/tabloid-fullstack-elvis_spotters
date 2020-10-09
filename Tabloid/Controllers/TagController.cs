@@ -56,6 +56,21 @@ namespace Tabloid.Controllers
             return CreatedAtAction(nameof(Get), new { id = tag.Id }, tag);
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+
+            if (currentUserProfile.UserType.Name != "Admin")
+            {
+                return Unauthorized();
+            }
+
+            _tagRepository.Delete(id);
+
+            return NoContent();
+        }
+
         // Method to get current user by the firebaseId
         private UserProfile GetCurrentUserProfile()
         {
