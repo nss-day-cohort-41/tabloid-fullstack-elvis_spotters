@@ -33,7 +33,7 @@ export function PostProvider(props) {
     }
 
     const saveNewPost = (post) => {
-        getToken().then((token) =>
+        return getToken().then((token) =>
             fetch(apiUrl, {
                 method: "POST",
                 headers: {
@@ -41,7 +41,8 @@ export function PostProvider(props) {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(post)
-            }));
+            })
+        ).then((res) => console.log(res))
     }
 
     return (

@@ -28,8 +28,10 @@ const NewPost = (props) => {
             content: newPost.content,
             imageLocation: newPost.imageLocation || null,
             publishDateTime: newPost.publishDateTime || null,
-            categoryId: newPost.categoryId
+            categoryId: parseInt(newPost.categoryId)
         }
+
+        console.log(submittedPost)
 
         saveNewPost(submittedPost)
             .then(() => history.push("/"));
