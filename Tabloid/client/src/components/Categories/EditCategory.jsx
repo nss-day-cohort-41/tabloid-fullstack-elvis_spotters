@@ -18,6 +18,10 @@ const EditCategory = (props) => {
        await editCategory(cat)
         history.push("/category")
     }
+    const cancel =(e)=>{
+        e.preventDefault();
+        history.push("/category")
+    }
 
     useEffect(() => {
         currentCategory();
@@ -44,7 +48,7 @@ const EditCategory = (props) => {
                 <button type="button" onClick={submitCategory} className="btn btn-primary">
                     Submit
   </button>
-  <button type="button" onClick={history.push("/category")} className="btn btn-primary">
+  <button type="button" onClick={cancel} className="btn btn-primary">
                     Cancel
   </button>
             </form>
