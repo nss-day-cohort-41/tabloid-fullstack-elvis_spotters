@@ -80,10 +80,56 @@ namespace Tabloid.Repositories
             }
         public void EditCategory(int id, Category category)
             {
-
+            using(SqlConnection conn = Connection)
+                {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                    cmd.CommandText = @"
+                                         UPDATE Category
+                                         SET Name = @name
+                                         WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@name", category.Name);
+                    cmd.Parameters.AddWithValue("@id", category.Id);
+                    try
+                        {
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                        return;
+                        }
+                    catch(Exception ex)
+                        {
+                        Console.WriteLine(ex.Message);
+                        conn.Close();
+                        return;
+                        }
+                    }
+                }
             }
         public void DeleteCategory(int id)
             {
+            using(SqlConnection conn = Connection)
+                {
+                conn.Open();
+                using(SqlCommand cmd = conn.CreateCommand())
+                    {
+                    cmd.CommandText = @"DELETE Category
+                                       WHERE Id = @id";
+                    try
+                        {
+                    cmd.ExecuteNonQuery();
+                        conn.Close();
+                        return;
+                        }
+                    catch(Exception ex)
+                        {
+                        Console.WriteLine(ex.Message);
+                        conn.Close();
+                        return;
+                        }
+                    
+                    }
+                }
 
             }
         public Category NewCategory(SqlDataReader reader)

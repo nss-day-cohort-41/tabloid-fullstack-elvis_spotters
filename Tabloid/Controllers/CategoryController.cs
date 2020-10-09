@@ -9,48 +9,75 @@ using Tabloid.Models;
 using Tabloid.Repositories;
 
 namespace Tabloid.Controllers
-
-{
-    [Authorize]
+    {
+   // [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    
+
     public class CategoryController : ControllerBase
-    {
+        {
         private readonly ICategoryRepository _categoryRepository;
 
         public CategoryController(ICategoryRepository categoryRepository)
-        {
-            _categoryRepository = categoryRepository;
-        }
-
-        [HttpPost]
-        public IActionResult Post(Category category)
-        {
-            try
             {
+            _categoryRepository = categoryRepository;
+            }
+
+        [HttpPost("create")]
+        public IActionResult Post(Category category )
+            {
+            try
+                {
                 _categoryRepository.AddCategory(category);
                 return Ok();
-            }
-            catch (Exception ex)
-            {
+                }
+            catch(Exception ex)
+                {
                 return NotFound();
+                }
             }
-        }
-
         [HttpGet]
         public IActionResult GetAll()
-        {
-            try
             {
+            try
+                {
                 List<Category> categories = _categoryRepository.GetCategories();
                 return Ok(categories);
-            }
-            catch (Exception ex)
-            {
+                }
+            catch(Exception ex)
+                {
                 return NotFound();
+                }
+            }
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+            {
+            try
+                {
+            Category category = _categoryRepository.GetCategoryById(id);
+            return Ok(category);
+                }
+            catch(Exception ex)
+                {
+                Console.WriteLine(ex.Message);
+                return NotFound();
+                }
+            
+            }
+
+        [HttpPut("{id}")]
+        public IActionResult EditCategory(int id, Category category)
+            {
+            try
+                {
+                _categoryRepository.EditCategory(id, category);
+                return Ok();
+                }
+            catch(Exception ex)
+                {
+                Console.WriteLine(ex.Message);
+                return NotFound();
+                }
             }
         }
-
     }
-}
