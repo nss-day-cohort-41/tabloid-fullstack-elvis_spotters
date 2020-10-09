@@ -194,7 +194,13 @@ namespace Tabloid.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "DELETE from Post WHERE Id = @Id";
+                    cmd.CommandText = "DELETE from PostTag WHERE PostId = @Id;";
+
+                    cmd.CommandText += " DELETE from PostReaction WHERE PostId = @Id;";
+                    
+                    cmd.CommandText += " DELETE from Comment WHERE PostId = @Id;";
+
+                    cmd.CommandText += " DELETE from Post WHERE Id = @Id";
                     DbUtils.AddParameter(cmd, "@Id", id);
                     cmd.ExecuteNonQuery();
                 }
