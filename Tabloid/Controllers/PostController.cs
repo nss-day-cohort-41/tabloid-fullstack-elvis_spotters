@@ -49,6 +49,12 @@ namespace Tabloid.Controllers
             return Ok(_postRepository.GetPostsByUserId(currentUser.Id));
         }
 
+        [HttpGet("category")]
+        public IActionResult GetCategories()
+        {
+            return Ok(_postRepository.GetCategories());
+        }
+
         [HttpPost]
         public IActionResult Post(Post post)
         {
