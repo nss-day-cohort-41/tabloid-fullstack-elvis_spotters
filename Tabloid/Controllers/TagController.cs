@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace Tabloid.Controllers
 {
-    /*[Authorize]*/
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TagController : ControllerBase
