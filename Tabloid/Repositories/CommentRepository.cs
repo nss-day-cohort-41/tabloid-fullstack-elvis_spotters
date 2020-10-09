@@ -184,7 +184,7 @@ namespace Tabloid.Repositories
                     cmd.Parameters.AddWithValue("@createDateTime", comment.CreateDateTime);
                     cmd.Parameters.AddWithValue("@Id", comment.Id);
 
-                    cmd.EndExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
