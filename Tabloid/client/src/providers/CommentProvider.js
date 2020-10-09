@@ -1,12 +1,14 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useContext } from "react";
 import * as firebase from "firebase/app";
 import "firebase/auth";
+import { UserProfileContext } from "./UserProfileProvider";
 
 export const CommentContext = createContext();
 
 export function CommentProvider(props) {
 
     const apiUrl = "api/comment";
+    const { getToken } = useContext(UserProfileContext);
     const [comments, setComments] = useState([]);
 
     const getCommentsByPostId = (postId) => {

@@ -1,5 +1,5 @@
 import React, { useState, UseEffect } from "react";
-import { Card, CardHeader } from "reactstrap";
+import { Card, CardHeader, CardBody } from "reactstrap";
 
 const Comment = ({ comment }) => {
     return (
