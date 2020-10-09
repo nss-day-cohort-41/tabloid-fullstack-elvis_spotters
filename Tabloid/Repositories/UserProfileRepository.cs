@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Data.SqlClient;
 using Tabloid.Models;
 using Tabloid.Utils;
 
@@ -10,10 +11,10 @@ namespace Tabloid.Repositories
 
         public UserProfile GetByFirebaseUserId(string firebaseUserId)
         {
-            using (var conn = Connection)
+            using (SqlConnection conn = Connection)
             {
                 conn.Open();
-                using (var cmd = conn.CreateCommand())
+                using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
                         SELECT up.Id, Up.FirebaseUserId, up.FirstName, up.LastName, up.DisplayName, 
