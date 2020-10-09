@@ -1,6 +1,7 @@
+import { format } from "path";
 import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Container, Form, FormGroup, Col, Label, Input, Button } from "reactstrap";
+import { Container, Form, FormGroup, Col, Label, Input, Button, FormFeedback } from "reactstrap";
 import { PostContext } from "../../providers/PostProvider";
 
 const NewPost = (props) => {
@@ -46,12 +47,13 @@ const NewPost = (props) => {
             <div>
                 <h1>Create a New Post</h1>
             </div>
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <FormGroup row>
                     <Label for="title" sm={2}>Title</Label>
                     <Col sm={10}>
-                        <Input type="text" name="title" id="title" placeholder="Title your post" required
+                        <Input type="text" name="title" id="title" placeholder="Title your post" maxLength="255" required
                             onChange={handleFieldChange} />
+                        <FormFeedback>Please give this post a title</FormFeedback>
                     </Col>
                 </FormGroup>
                 <FormGroup row>
@@ -59,13 +61,15 @@ const NewPost = (props) => {
                     <Col sm={10}>
                         <Input type="textarea" name="content" id="content" placeholder="Say what you want to say here..." required
                             onChange={handleFieldChange} />
+                        <FormFeedback>Every form needs content!</FormFeedback>
                     </Col>
                 </FormGroup>
                 <FormGroup row>
                     <Label for="imageLocation" sm={2}>Image URL (optional)</Label>
                     <Col sm={10}>
-                        <Input type="url" name="imageLocation" id="imageLocation" placeholder="https://website.com/mypic"
+                        <Input type="url" name="imageLocation" id="imageLocation" placeholder="https://website.com/mypic" maxLength="255"
                             onChange={handleFieldChange} />
+                        <FormFeedback>Please enter a proper URL or leave blank</FormFeedback>
                     </Col>
                 </FormGroup>
                 <FormGroup row>
@@ -78,7 +82,7 @@ const NewPost = (props) => {
                 <FormGroup row>
                     <Label for="categoryId" sm={2}>Category</Label>
                     <Col sm={10}>
-                        <Input type="select" name="categoryId" id="categoryId" required onChange={handleFieldChange} >
+                        <Input type="select" name="categoryId" id="categoryId" onChange={handleFieldChange} required>
                             <option value="">Select a Category</option>
                             {categories.map(category =>
                                 <option key={category.id} value={category.id}>{category.name}</option>
@@ -86,7 +90,7 @@ const NewPost = (props) => {
                         </Input>
                     </Col>
                 </FormGroup>
-                <Button onClick={handleSubmit}>Submit</Button>
+                <Button>Submit</Button>
             </Form>
         </Container>
     )
