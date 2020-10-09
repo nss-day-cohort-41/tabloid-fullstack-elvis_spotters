@@ -44,6 +44,9 @@ const EditCategory = (props) => {
                 <button type="button" onClick={submitCategory} className="btn btn-primary">
                     Submit
   </button>
+  <button type="button" onClick={history.push("/category")} className="btn btn-primary">
+                    Cancel
+  </button>
             </form>
         </>
     )
