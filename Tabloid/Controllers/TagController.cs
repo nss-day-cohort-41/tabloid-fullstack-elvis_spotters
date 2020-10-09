@@ -46,7 +46,7 @@ namespace Tabloid.Controllers
         public IActionResult Post(Tag tag)
         {
             var currentUserProfile = GetCurrentUserProfile();
-            
+
             // Checking if user who is adding new tag is an Admin, if not unauthorize
             if (currentUserProfile.UserType.Name != "Admin")
             {

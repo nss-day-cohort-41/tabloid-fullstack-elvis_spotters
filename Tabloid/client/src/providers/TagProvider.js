@@ -36,9 +36,8 @@ export function TagProvider(props) {
     const value = await res.json();
     if (res.ok) {
       return value;
-    }
-    else {
-      throw new Error("Unauthorized, user is not an admin!");
+    } else {
+      throw new Error("Unauthorized");
     }
   };
 

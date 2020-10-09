@@ -1,26 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input, FormFeedback } from 'reactstrap';
 
-const CreateTagModal = ({ modal, toggle, addTag, getAllTags, formFeedback, setFormFeedback }) => {
-  const [tag, setTag] = useState({ Name: "" });
+const CreateTagModal = ({ modal, toggle, addTag, getAllTags, formFeedback, setFormFeedback, newTag, setNewTag }) => {
 
   const handleFieldChange = (e) => {
-    const stateToChange = { ...tag };
+    const stateToChange = { ...newTag };
     stateToChange[e.target.id] = e.target.value;
-    setTag(stateToChange);
+    setNewTag(stateToChange);
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const newTag = {
-      Name: tag.Name
+    const tag = {
+      Name: newTag.Name
     };
 
-    if (tag.Name === "") {
+    if (newTag.Name === "") {
       setFormFeedback(true);
     } else {
-      addTag(newTag).then(() => {
+      addTag(tag).then(() => {
         toggle();
         getAllTags();
       })
@@ -34,7 +33,7 @@ const CreateTagModal = ({ modal, toggle, addTag, getAllTags, formFeedback, setFo
         <ModalBody>
           <FormGroup>
             <Label for="Name">Tag Name:</Label>
-            <Input type="text" name="Name" id="Name" invalid={formFeedback} onChange={handleFieldChange} />
+            <Input type="text" name="Name" id="Name" invalid={formFeedback} onChange={handleFieldChange} maxLength="50" required />
             <FormFeedback>Can't save an empty tag!</FormFeedback>
           </FormGroup>
         </ModalBody>
