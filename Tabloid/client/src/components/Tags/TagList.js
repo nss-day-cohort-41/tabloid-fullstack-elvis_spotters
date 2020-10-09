@@ -47,7 +47,7 @@ const TagList = () => {
       <CreateTagModal modal={modal} toggle={toggle} addTag={addTag} getAllTags={getAllTags} formFeedback={formFeedback} setFormFeedback={setFormFeedback} newTag={newTag} setNewTag={setNewTag} />
       <DeleteTagModal deleteModal={deleteModal} deleteToggle={deleteToggle} tagToDelete={tagToDelete} deleteTag={deleteTag} getAllTags={getAllTags} />
       <h3 className="mb-4">Tag Management</h3>
-      <Button className="mb-4" onClick={toggle}>Create Tag</Button>
+      <Button className="mb-4" color="success" onClick={toggle}>Create Tag</Button>
       <ListGroup>
         {tagList.map(tag => <Tag key={tag.id} tag={tag} tagToBeDeleted={tagToBeDeleted} />)}
       </ListGroup>

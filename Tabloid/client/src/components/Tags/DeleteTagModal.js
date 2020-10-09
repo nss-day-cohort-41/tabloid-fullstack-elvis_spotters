@@ -21,7 +21,7 @@ const DeleteTagModal = ({ deleteModal, deleteToggle, tagToDelete, deleteTag, get
         </ModalBody>
         <ModalFooter>
           <Button onClick={deleteToggle}>Cancel</Button>
-          <Button onClick={handleSubmit}>Delete</Button>
+          <Button color="danger" onClick={handleSubmit}>Delete</Button>
         </ModalFooter>
       </Modal>
     </div>
