@@ -7,7 +7,7 @@ import DeleteTagModal from './DeleteTagModal';
 import EditTagModal from './EditTagModal';
 
 const TagList = () => {
-  const { tagList, getAllTags, addTag, deleteTag, getTagById } = useContext(TagContext);
+  const { tagList, getAllTags, addTag, deleteTag, getTagById, updateTag } = useContext(TagContext);
 
   // State for create Tag modal and form alert in modal
   const [modal, setModal] = useState(false);
@@ -44,7 +44,10 @@ const TagList = () => {
   }
 
   // Method to toggle edit Tag modal on/off
-  const editToggle = () => setEditModal(!editModal);
+  const editToggle = () => {
+    setFormFeedback(false);
+    setEditModal(!editModal);
+  }
 
   // Method to be passed to Tag component to toggle modal from edit button and pass the tag to be edited data to state
   const tagToBeEdited = (tag) => {
@@ -60,7 +63,7 @@ const TagList = () => {
     <div>
       <CreateTagModal modal={modal} toggle={toggle} addTag={addTag} getAllTags={getAllTags} formFeedback={formFeedback} setFormFeedback={setFormFeedback} newTag={newTag} setNewTag={setNewTag} />
       <DeleteTagModal deleteModal={deleteModal} deleteToggle={deleteToggle} tagToDelete={tagToDelete} deleteTag={deleteTag} getAllTags={getAllTags} />
-      <EditTagModal editModal={editModal} editToggle={editToggle} tagToEdit={tagToEdit} getTagById={getTagById} />
+      <EditTagModal editModal={editModal} editToggle={editToggle} tagToEdit={tagToEdit} getTagById={getTagById} updateTag={updateTag} formFeedback={formFeedback} setFormFeedback={setFormFeedback} getAllTags={getAllTags} />
       <h3 className="mb-4">Tag Management</h3>
       <Button className="mb-4" color="success" onClick={toggle}>Create Tag</Button>
       <ListGroup>

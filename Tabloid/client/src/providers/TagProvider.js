@@ -66,8 +66,22 @@ export function TagProvider(props) {
     return value;
   }
 
+  // Method puts (updates) existing tag
+  const updateTag = async (tag) => {
+    const token = await getToken();
+    const res = await fetch(`${apiUrl}/${tag.Id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(tag)
+    });
+    return res;
+  }
+
   return (
-    <TagContext.Provider value={{ tagList, getAllTags, addTag, deleteTag, getTagById }}>
+    <TagContext.Provider value={{ tagList, getAllTags, addTag, deleteTag, getTagById, updateTag }}>
       {props.children}
     </TagContext.Provider>
   )
