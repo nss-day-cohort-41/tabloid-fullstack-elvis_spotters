@@ -71,6 +71,26 @@ namespace Tabloid.Controllers
             return NoContent();
         }
 
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Tag tag)
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+
+            if (currentUserProfile.UserType.Name != "Admin")
+            {
+                return Unauthorized();
+            }
+
+            if (id != tag.Id)
+            {
+                return BadRequest();
+            }
+
+            _tagRepository.Update(tag);
+
+            return NoContent();
+        }
+
         // Method to get current user by the firebaseId
         private UserProfile GetCurrentUserProfile()
         {
