@@ -53,8 +53,21 @@ export function TagProvider(props) {
     return res;
   }
 
+  // Method gets specific tag by id
+  const getTagById = async (id) => {
+    const token = await getToken();
+    const res = await fetch(`${apiUrl}/${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    const value = await res.json();
+    return value;
+  }
+
   return (
-    <TagContext.Provider value={{ tagList, getAllTags, addTag, deleteTag }}>
+    <TagContext.Provider value={{ tagList, getAllTags, addTag, deleteTag, getTagById }}>
       {props.children}
     </TagContext.Provider>
   )

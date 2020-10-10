@@ -1,7 +1,7 @@
 import React from 'react';
 import { ListGroupItem, Button } from 'reactstrap';
 
-const Tag = ({ tag, tagToBeDeleted }) => {
+const Tag = ({ tag, tagToBeDeleted, tagToBeEdited }) => {
 
   return (
     <div>
@@ -9,7 +9,7 @@ const Tag = ({ tag, tagToBeDeleted }) => {
         {tag.name}
         <div>
           <Button color="danger" className="mr-2" onClick={() => tagToBeDeleted(tag)}>Delete</Button>
-          <Button color="info">Edit</Button>
+          <Button color="info" onClick={() => tagToBeEdited(tag)}>Edit</Button>
         </div>
       </ListGroupItem>
     </div>
