@@ -120,7 +120,14 @@ const NewPost = (props) => {
                         <FormFeedback>Select a category</FormFeedback>
                     </Col>
                 </FormGroup>
-                <Button disabled={!isFormValid}>Submit</Button>
+                <FormGroup row>
+                    <Col sm={1}>
+                        <Button class="primary" disabled={!isFormValid}>Submit</Button>
+                    </Col>
+                    <Col sm={1}>
+                        <Button class="secondary" type="button" onClick={() => history.push("/")}>Cancel</Button>
+                    </Col>
+                </FormGroup>
             </Form>
         </Container>
     )

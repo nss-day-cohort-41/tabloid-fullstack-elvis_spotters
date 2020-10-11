@@ -42,7 +42,7 @@ export function PostProvider(props) {
                 },
                 body: JSON.stringify(post)
             })
-        ).then((res) => console.log(res))
+        )
     }
 
     return (
