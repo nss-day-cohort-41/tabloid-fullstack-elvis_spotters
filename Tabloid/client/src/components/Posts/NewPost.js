@@ -1,7 +1,7 @@
 import { format } from "path";
 import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Container, Form, FormGroup, Col, Label, Input, Button, FormFeedback } from "reactstrap";
+import { Container, Form, FormGroup, Col, Label, Input, Button, FormFeedback, FormText } from "reactstrap";
 import { PostContext } from "../../providers/PostProvider";
 import { ValidateNewPost } from "./ValidateNewPost";
 
@@ -15,16 +15,26 @@ const NewPost = (props) => {
         title: false,
         content: false,
         imageLocation: false,
-        category: false
+        categoryId: false
     });
 
     const history = useHistory();
 
     const handleFieldChange = (evt) => {
         const stateToUpdate = { ...newPost };
+        const formFeedbackUpdate = { ...formFeedback };
         stateToUpdate[evt.target.name] = evt.target.value;
         const checkValidForm = ValidateNewPost(stateToUpdate);
         setIsFormValid(checkValidForm.isValidated);
+        // Set boolean to display errors on the form
+        if (checkValidForm.field === evt.target.name) {
+            formFeedbackUpdate[checkValidForm.field] = true;
+        } else {
+            // ValidateNewPost will not return the field if valid, so the field
+            // is selected from the input
+            formFeedbackUpdate[evt.target.name] = false;
+        }
+        setFormFeedback(formFeedbackUpdate);
         setNewPost(stateToUpdate);
     }
 
@@ -78,35 +88,36 @@ const NewPost = (props) => {
                     <Col sm={10}>
                         <Input type="textarea" name="content" id="content" placeholder="Say what you want to say here..." required
                             invalid={formFeedback.content} onChange={handleFieldChange} />
-                        <FormFeedback>Every post needs content!</FormFeedback>
+                        <FormFeedback>Enter some text for content</FormFeedback>
                     </Col>
                 </FormGroup>
                 <FormGroup row>
                     <Label for="imageLocation" sm={2}>Image URL (optional)</Label>
                     <Col sm={10}>
                         <Input type="url" name="imageLocation" id="imageLocation" placeholder="https://website.com/mypic" maxLength="255"
-                            invalid={formFeedback.imageLocation} onChange={handleFieldChange} />
-                        <FormFeedback>Please enter a proper URL or leave blank</FormFeedback>
+                            invalid={newPost.imageLocation !== undefined && formFeedback.imageLocation} onChange={handleFieldChange} />
+                        <FormFeedback>Please enter a proper URL, including http or https, or leave blank</FormFeedback>
                     </Col>
                 </FormGroup>
                 <FormGroup row>
-                    <Label for="publishDateTime" sm={2}>Date to Publish</Label>
+                    <Label for="publishDateTime" sm={2}>Date to Publish (Optional)</Label>
                     <Col sm={10}>
                         <Input type="date" name="publishDateTime" id="publishDateTime"
                             onChange={handleFieldChange} />
+                        <FormText>This post will not be visible on the main page until the date entered here.</FormText>
                     </Col>
                 </FormGroup>
                 <FormGroup row>
                     <Label for="categoryId" sm={2}>Category</Label>
                     <Col sm={10}>
-                        <Input type="select" name="categoryId" id="categoryId" invalid={formFeedback.category}
+                        <Input type="select" name="categoryId" id="categoryId" invalid={formFeedback.categoryId}
                             onChange={handleFieldChange} required>
                             <option value="">Select a Category</option>
                             {categories.map(category =>
                                 <option key={category.id} value={category.id}>{category.name}</option>
                             )}
                         </Input>
-                        <FormFeedback>Please select a category</FormFeedback>
+                        <FormFeedback>Select a category</FormFeedback>
                     </Col>
                 </FormGroup>
                 <Button disabled={!isFormValid}>Submit</Button>

@@ -23,7 +23,7 @@ export function ValidateNewPost(post) {
 
     // Validate category
     if (!post.categoryId) {
-        return { isValidated: false, field: "category" };
+        return { isValidated: false, field: "categoryId" };
     }
 
     // All validations pass
