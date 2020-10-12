@@ -108,12 +108,19 @@ namespace Tabloid.Repositories
             }
         public void DeleteCategory(int id)
             {
+            //Returning on Default, this ID should not be deleted.
+            if (id == 10) return;
             using(SqlConnection conn = Connection)
                 {
                 conn.Open();
                 using(SqlCommand cmd = conn.CreateCommand())
                     {
-                    cmd.CommandText = @"DELETE Category
+                    cmd.CommandText = @"
+                                       UPDATE Post 
+                                       SET Post.CategoryId = 10
+                                       WHERE Post.CategoryId = @id
+                                        
+                                       DELETE Category
                                        WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@id", id);
                     try
