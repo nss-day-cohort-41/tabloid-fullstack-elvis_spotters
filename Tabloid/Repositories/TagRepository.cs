@@ -128,5 +128,29 @@ namespace Tabloid.Repositories
                 }
             }
         }
+
+        // Method to update existing tag
+        public void Update(Tag tag)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE
+	                                        Tag
+                                        SET
+	                                        [Name] = @Name
+                                        WHERE
+	                                        Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Name", tag.Name);
+                    DbUtils.AddParameter(cmd, "@Id", tag.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
