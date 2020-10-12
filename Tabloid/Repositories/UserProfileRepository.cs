@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
 using Tabloid.Models;
 using Tabloid.Utils;
 
@@ -80,6 +83,72 @@ namespace Tabloid.Repositories
                 }
             }
         }
+        public List<UserProfile> GetAll()
+            {
+            List<UserProfile> userProfiles = new List<UserProfile>();
+            using(SqlConnection conn = Connection)
+                {
+                conn.Open();
+                using(SqlCommand cmd = conn.CreateCommand())
+                    {
+                    cmd.CommandText = @"
+                                        SELECT 
+                                        up.FirstName as UserProfileFirstName, 
+                                        up.LastName as UserProfileLastName, 
+                                        up.DisplayName as UserProfileDisplayName, 
+                                        up.UserTypeId as UserProfileUserTypeId, 
+                                        up.Email as UserProfileEmail,
+                                        up.ImageLocation as UserProfileImageLocation, 
+                                        up.CreateDateTime as UserProfileCreatedDateTime, 
+                                        up.Id as UserProfileId,
+                                        u.Id as UserTypeId,
+                                        u.Name as UserTypeName
+                                        FROM UserProfile up
+                                        JOIN UserType u ON u.Id = up.UserTypeId 
+                                        Order By DisplayName";
+                    try
+                        {
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while(reader.Read())
+                        {
+                        userProfiles.Add(UserProfileBuilder(reader));
+                        }
+                        conn.Close();
+                        return userProfiles;
+                        }
+                    catch(Exception ex)
+                        {
+                        conn.Close();
+                        Console.WriteLine(ex.Message);
+                        return null;
+                        }
+                    
+                    
+                    }
+                }
+            }
+
+
+
+        public UserProfile UserProfileBuilder(SqlDataReader reader)
+            {
+            return new UserProfile()
+                {
+                Id = DbUtils.GetInt(reader,"UserProfileId"),
+                FirstName = DbUtils.GetString(reader, "UserProfileFirstName"),
+                LastName = DbUtils.GetString(reader, "UserProfileLastName"),
+                DisplayName = DbUtils.GetString(reader, "UserProfileDisplayName"),
+                Email = DbUtils.GetString(reader, "UserProfileEmail"),
+                ImageLocation = DbUtils.GetString(reader, "UserProfileImageLocation"),
+                CreateDateTime = DbUtils.GetDateTime(reader, "UserProfileCreatedDateTime"),
+                UserTypeId = DbUtils.GetInt(reader, "UserProfileUserTypeId"),
+                UserType = new UserType()
+                    {
+                    Id = DbUtils.GetInt(reader, "UserTypeId"),
+                    Name = DbUtils.GetString(reader, "UserTypeName")
+                    }
+                };
+            }
 
         /*
         public UserProfile GetByFirebaseUserId(string firebaseUserId)
