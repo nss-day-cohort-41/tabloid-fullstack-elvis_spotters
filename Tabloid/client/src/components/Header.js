@@ -37,6 +37,11 @@ export default function Header() {
           <Nav navbar>
             {isLoggedIn &&
               <>
+
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/post">Posts</NavLink>
+                </NavItem>
+
                 {/* Admin tools dropdown housing tag and category management */}
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>

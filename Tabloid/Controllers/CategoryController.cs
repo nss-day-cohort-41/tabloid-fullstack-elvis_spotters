@@ -79,5 +79,20 @@ namespace Tabloid.Controllers
                 return NotFound();
                 }
             }
+        
+        [HttpDelete("{id}")]
+        public IActionResult DeleteById(int id)
+        {
+        try 
+            {
+                _categoryRepository.DeleteCategory(id);
+                return Ok();
+            }
+        catch(Exception ex)
+            {
+            Console.WriteLine(ex.Message);
+                return NotFound();
+            }
         }
     }
+}

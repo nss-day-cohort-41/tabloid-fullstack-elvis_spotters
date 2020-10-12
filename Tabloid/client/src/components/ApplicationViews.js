@@ -14,9 +14,9 @@ import { TagProvider } from "../providers/TagProvider";
 import NotFound from "./NotFound"
 import CreateCategory from "./Categories/CreateCategory";
 import EditCategory from "./Categories/EditCategory";
+import DeleteCategory from "./Categories/DeleteCategory";
 
 function ApplicationViews(props) {
-  const history = useHistory();
   //Add Views to this array, follow the pattern
   const appViews = [
     {
@@ -60,6 +60,14 @@ function ApplicationViews(props) {
       component: NewPost,
       path: "/post/new",
       to: "/login"
+    },
+    {
+      name: "DeleteCategory",
+      provider: CategoryProvider,
+      component: withRouter(DeleteCategory),
+      path: "/category/delete/:id",
+      to: "/login"
+
     },
     {
       name: "Tags",
