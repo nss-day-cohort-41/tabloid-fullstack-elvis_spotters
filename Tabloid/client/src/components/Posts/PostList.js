@@ -23,7 +23,7 @@ const PostList = (props) => {
                 <Button onClick={() => history.push("/post/new")}>Create New Post</Button>
             </Row>
             {posts.map((post) => (
-                <Post key={post.Id} post={post} />
+                <Post key={post.id} post={post} />
             ))}
         </Container>
     )
