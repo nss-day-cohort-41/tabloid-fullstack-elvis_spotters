@@ -25,10 +25,7 @@ namespace Tabloid.Controllers
         public IActionResult Get(int id)
         {
             var postTags = _postTagRepository.GetTagsByPostId(id);
-            if (postTags.Count == 0)
-            {
-                return NotFound();
-            }
+
             return Ok(postTags);
         }
     }
