@@ -24,7 +24,7 @@ const DeleteCategory = (props) =>{
        <>
        <h1>Delete Category</h1>
        <h3>Category: {category.name}</h3> 
-       {category.name === "Unassigned" ? <><Redirect to="/category"/> </> : <><button className="btn btn-danger m-1" onClick={onClickDelete}>Delete</button>
+       {category.id === 10 ? <><Redirect to="/category"/> </> : <><button className="btn btn-danger m-1" onClick={onClickDelete}>Delete</button>
        <button className="btn btn-primary" onClick={()=> props.history.push("/category")}>Cancel</button> </>}
        
        </>

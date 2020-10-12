@@ -34,10 +34,8 @@ export function CategoryProvider(props) {
             }
         }).then(res=>res.json())
         .catch(err=>{
-            console.log(err);
             history.push("/404")
         })
-        console.log(category)
         return category;
     }
     const createCategory = async (category) =>{
