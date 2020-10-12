@@ -40,7 +40,7 @@ const EditCategory = (props) => {
                         placeholder="Category Name"
                         onChange={e => setCat({ ...cat, name: e.target.value })}
                     />
-                    {cat.name.length > 25 ? <small className="">category name much be under 25 characters</small> : cat.name.length < 3 ? <small>must be greate than 2 characters</small> : <small></small>}
+                    {cat.name.length > 25 ? <small className="">category name much be under 25 characters</small> : cat.name.length < 3 ? <small>must be greater than 2 characters</small> : <small></small>}
                 </div>
 
 
