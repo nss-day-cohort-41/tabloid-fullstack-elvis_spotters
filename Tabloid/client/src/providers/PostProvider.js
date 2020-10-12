@@ -25,7 +25,6 @@ export function PostProvider(props) {
 
     const getPost = async (id) => {
         const token = await getToken()
-        console.log(`${apiUrl}/${id}`, id);
         const res = await fetch(`${apiUrl}/${id}`, {
             method: "GET",
             headers: {
@@ -65,7 +64,7 @@ export function PostProvider(props) {
 
     const updatePost = (post) => {
         return getToken().then((token) =>
-            fetch(`${apiUrl}/${post.Id}`, {
+            fetch(`${apiUrl}/${post.id}`, {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${token}`,

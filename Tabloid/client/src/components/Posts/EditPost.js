@@ -8,7 +8,17 @@ const EditPost = (props) => {
 
     const { getPost, updatePost, categories, getCategories } = useContext(PostContext);
 
-    const [editedPost, setEditedPost] = useState({});
+    const [editedPost, setEditedPost] = useState({
+        id: -1,
+        title: "",
+        content: "",
+        imageLocation: undefined,
+        createDateTime: "",
+        publishDateTime: "",
+        isApproved: false,
+        categoryId: -1,
+        userProfileId: -1
+    });
     const [isFormValid, setIsFormValid] = useState(false);
     const [formFeedback, setFormFeedback] = useState({
         title: false,
@@ -17,7 +27,7 @@ const EditPost = (props) => {
         categoryId: false
     });
 
-    const id = useParams();
+    const { id } = useParams();
     const history = useHistory();
 
     const handleFieldChange = (evt) => {
@@ -59,6 +69,7 @@ const EditPost = (props) => {
                 imageLocation: editedPost.imageLocation || null,
                 createDateTime: editedPost.createDateTime,
                 publishDateTime: editedPost.publishDateTime || null,
+                isApproved: editedPost.isApproved,
                 categoryId: parseInt(editedPost.categoryId),
                 userProfileId: editedPost.userProfileId
             }
@@ -69,7 +80,6 @@ const EditPost = (props) => {
     }
 
     useEffect(() => {
-        console.log(id);
         getCategories();
         getPost(id).then(setEditedPost);
     }, []);
@@ -104,15 +114,19 @@ const EditPost = (props) => {
                     <Label for="imageLocation" sm={2}>Image URL (optional)</Label>
                     <Col sm={10}>
                         <Input type="url" name="imageLocation" id="imageLocation" placeholder="https://website.com/mypic" maxLength="255"
-                            invalid={editedPost.imageLocation !== undefined && formFeedback.imageLocation} value={editedPost.imageLocation} onChange={handleFieldChange} />
+                            invalid={editedPost.imageLocation !== undefined && formFeedback.imageLocation} defaultValue={editedPost.imageLocation} onChange={handleFieldChange} />
                         <FormFeedback>Please enter a proper URL, including http or https, or leave blank</FormFeedback>
                     </Col>
                 </FormGroup>
                 <FormGroup row>
                     <Label for="publishDateTime" sm={2}>Date to Publish (Optional)</Label>
                     <Col sm={10}>
-                        <Input type="date" name="publishDateTime" id="publishDateTime" value={editedPost.publishDateTime}
-                            onChange={handleFieldChange} />
+                        {(editedPost.publishDateTime)
+                            ? <Input type="date" name="publishDateTime" id="publishDateTime" defaultValue={editedPost.publishDateTime.substring(0, 10) || null}
+                                onChange={handleFieldChange} />
+                            : <Input type="date" name="publishDateTime" id="publishDateTime"
+                                onChange={handleFieldChange} />
+                        }
                         <FormText>This post will not be visible on the main page until the date entered here. Delete to unpublish.</FormText>
                     </Col>
                 </FormGroup>
@@ -121,7 +135,7 @@ const EditPost = (props) => {
                     <Col sm={10}>
                         <Input type="select" name="categoryId" id="categoryId" invalid={formFeedback.categoryId} value={editedPost.categoryId}
                             onChange={handleFieldChange} required>
-                            <option value="">Select a Category</option>
+                            <option defaultValue="">Select a Category</option>
                             {categories.map(category =>
                                 <option key={category.id} value={category.id}>{category.name}</option>
                             )}
