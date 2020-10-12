@@ -51,7 +51,7 @@ function ApplicationViews(props) {
       name: "PostDetails",
       provider: PostProvider,
       component: withRouter(PostDetails),
-      path: "/post/:id",
+      path: "/post/:id/details",
       to: "/login"
     },
     {
