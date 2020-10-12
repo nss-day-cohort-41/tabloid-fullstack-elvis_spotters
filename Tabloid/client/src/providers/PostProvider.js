@@ -1,4 +1,5 @@
 import React, { useState, createContext, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { UserProfileContext } from "./UserProfileProvider";
 
 export const PostContext = createContext();
@@ -6,6 +7,7 @@ export const PostContext = createContext();
 export function PostProvider(props) {
     const apiUrl = "/api/post";
     const { getToken } = useContext(UserProfileContext);
+    const history = useHistory();
 
     const [posts, setPosts] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -29,6 +31,9 @@ export function PostProvider(props) {
                 Authorization: `Bearer ${token}`
             }
         });
+        if (!res.ok) {
+            history.push("/post");
+        }
         const value = await res.json();
         return value;
     }

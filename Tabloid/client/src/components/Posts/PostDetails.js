@@ -13,14 +13,14 @@ const PostDetails = (props) => {
 
     const history = useHistory();
 
+    const loggedInUser = JSON.parse(sessionStorage.userProfile)
+
     useEffect(() => {
         getPost(id).then((res) => {
-            setPost(res)
-            console.log(res)
-            if (sessionStorage.userProfile === res.userProfileId) {
-                console.log("TRUE")
+            if (loggedInUser.id === res.userProfileId) {
                 setCurrentUser(true);
             }
+            setPost(res)
         });
     }, []);
 
@@ -38,14 +38,15 @@ const PostDetails = (props) => {
 
                 <Row className="justify-content-between">
                     <p className="text-secondary">Written by {post.userProfile.displayName}</p>
-                    <p className="text-black-50">Published on {post.publishDateTime.substring(0, 10)}</p>
+                    {(post.publishDateTime)
+                        ? <p className="text-black-50">Published on {post.publishDateTime.substring(0, 10)}</p>
+                        : <p className="text-black-50">Unpublished</p>
+                    }
                 </Row>
 
                 <Row>
                     {currentUser
-                        ? <>
-                            <Button color="primary">Edit</Button>
-                        </>
+                        ? <Button color="primary">Edit</Button>
                         : null}
                     <Button color="primary">Delete</Button>
                 </Row>
