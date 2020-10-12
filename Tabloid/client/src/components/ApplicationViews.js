@@ -78,23 +78,23 @@ function ApplicationViews(props) {
         </ele.provider>
       </Route >
     )
-})
-return (
-  <main>
+  })
+  return (
+    <main>
 
-    <Switch>
-      <Route path="/login">
-        <Login />
-      </Route>
-      <Route path="/register">
-        <Register />
-      </Route>
-      {routes}
+      <Switch>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/register">
+          <Register />
+        </Route>
+        {routes}
 
-      <Route component={NotFound} />
-    </Switch>
-  </main>
-);
+        <Route component={NotFound} />
+      </Switch>
+    </main>
+  );
 };
 
 export default withRouter(ApplicationViews);
