@@ -60,7 +60,7 @@ const NewPost = (props) => {
             }
 
             saveNewPost(submittedPost)
-                .then(() => history.push("/"));
+                .then((res) => history.push(`/post/${res.id}/details`));
         }
     }
 
