@@ -61,7 +61,7 @@ export function TagProvider(props) {
       headers: {
         Authorization: `Bearer ${token}`
       }
-    })
+    }).catch(err => console.log(err))
     const value = await res.json();
     return value;
   }

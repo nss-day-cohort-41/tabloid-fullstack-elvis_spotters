@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input, FormFeedback } from 'reactstrap';
 
-const EditTagModal = ({ editModal, editToggle, tagToEdit, getTagById, updateTag, formFeedback, setFormFeedback, getAllTags }) => {
+const EditTagModal = ({ editModal, editToggle, tagToEdit, getTagById, updateTag, formFeedback, setFormFeedback, getAllTags, setTagToEdit }) => {
   const [tag, setTag] = useState({ Id: "", Name: "" });
 
   const handleFieldChange = (e) => {
@@ -22,6 +22,8 @@ const EditTagModal = ({ editModal, editToggle, tagToEdit, getTagById, updateTag,
       setFormFeedback(true);
     } else {
       updateTag(updatedTag).then(() => {
+        // Reset state to default after updating tag => fixes 404 not found error after deleting an edited tag
+        setTagToEdit({ Id: "", Name: "" });
         editToggle();
         getAllTags();
       })
