@@ -1,4 +1,5 @@
 import React, { useState, createContext, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { UserProfileContext } from "./UserProfileProvider";
 
 export const PostContext = createContext();
@@ -6,6 +7,7 @@ export const PostContext = createContext();
 export function PostProvider(props) {
     const apiUrl = "/api/post";
     const { getToken } = useContext(UserProfileContext);
+    const history = useHistory();
 
     const [posts, setPosts] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -19,6 +21,21 @@ export function PostProvider(props) {
                 }
             }).then((res) => res.json())
                 .then(setPosts));
+    }
+
+    const getPost = async (id) => {
+        const token = await getToken()
+        const res = await fetch(`${apiUrl}/${id}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        if (!res.ok) {
+            history.push("/post");
+        }
+        const value = await res.json();
+        return value;
     }
 
     const getCategories = () => {
@@ -46,7 +63,7 @@ export function PostProvider(props) {
     }
 
     return (
-        <PostContext.Provider value={{ posts, categories, setPosts, getAllPosts, getCategories, saveNewPost }}>
+        <PostContext.Provider value={{ posts, categories, setPosts, getAllPosts, getPost, getCategories, saveNewPost }}>
             {props.children}
         </PostContext.Provider>
     );

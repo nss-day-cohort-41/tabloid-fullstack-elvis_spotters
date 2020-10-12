@@ -39,7 +39,7 @@ namespace Tabloid.Controllers
             var post = _postRepository.GetPostById(id);
             if (post == null)
             {
-                NotFound();
+                return NotFound();
             }
             return Ok(post);
         }

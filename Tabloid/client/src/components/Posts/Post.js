@@ -1,19 +1,21 @@
 import React from "react";
-import { Row, Col } from "reactstrap";
+import { Link } from "react-router-dom";
 
 const Post = ({ post }) => {
     return (
-        <Row>
-            <Col>
-                <strong>{post.title}</strong>
-            </Col>
-            <Col>
+        <tr>
+            <td>
+                <Link to={`/post/${post.id}/details`} >
+                    <strong>{post.title}</strong>
+                </Link>
+            </td>
+            <td>
                 <em>by {post.userProfile.fullName}</em>
-            </Col>
-            <Col>
+            </td>
+            <td>
                 <p>{post.category.name}</p>
-            </Col>
-        </Row>
+            </td>
+        </tr>
     )
 }
 
