@@ -59,6 +59,11 @@ const PostDetails = (props) => {
                 : null
             }
 
+            <Row>
+                <Col sm={12} mt={5}>
+
+                </Col>
+            </Row>
         </Container>
     )
 }
