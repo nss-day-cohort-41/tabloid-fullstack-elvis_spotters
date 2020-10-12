@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { PostContext } from "../../providers/PostProvider";
 import Post from "./Post"
-import { Container, Row, Button } from "reactstrap";
+import { Container, Row, Button, Table } from "reactstrap";
 
 const PostList = (props) => {
 
@@ -22,9 +22,20 @@ const PostList = (props) => {
             <Row>
                 <Button onClick={() => history.push("/post/new")}>Create New Post</Button>
             </Row>
-            {posts.map((post) => (
-                <Post key={post.id} post={post} />
-            ))}
+            <Table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {posts.map((post) => (
+                        <Post key={post.id} post={post} />
+                    ))}
+                </tbody>
+            </Table>
         </Container>
     )
 }
