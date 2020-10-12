@@ -27,34 +27,38 @@ const PostDetails = (props) => {
 
     return (
         <Container pt={5}>
-            {}
-            <Row>
-                <section className="px-3">
-                    <Row className="justify-content-between">
-                        <h1 className="text-secondary">{post.title}</h1>
-                        <h1 className="text-black-50">{post.category.name}</h1>
-                    </Row>
+            <section className="px-3">
+                <Row className="justify-content-between">
+                    <h1 className="text-secondary">{post.title}</h1>
+                    <h1 className="text-black-50">{post.category.name}</h1>
+                </Row>
 
-                    <Row className="justify-content-between">
-                        <p className="text-secondary">Written by {post.userProfile.displayName}</p>
-                        <p className="text-black-50">Published on {post.publishDateTime}</p>
-                    </Row>
+                <Row className="justify-content-between">
+                    <p className="text-secondary">Written by {post.userProfile.displayName}</p>
+                    <p className="text-black-50">Published on {post.publishDateTime}</p>
+                </Row>
 
-                    <Row>
-                        {currentUser
-                            ? <>
-                                <Button class="button btn-primary">Edit</Button>
-                            </>
-                            : null}
-                        <Button class="button btn-primary">Delete</Button>
-                    </Row>
-                </section>
+                <Row>
+                    {currentUser
+                        ? <>
+                            <Button class="button btn-primary">Edit</Button>
+                        </>
+                        : null}
+                    <Button class="button btn-primary">Delete</Button>
+                </Row>
+            </section>
 
-                <hr />
-                {post.imageLocation !== null
-                    ? <img src=""></img>
-                    : null}
-            </Row>
+            <hr />
+
+            {post.imageLocation !== null
+                ? <Row className="justify-content-center">
+                    <div>
+                        <img src={`${post.imageLocation}`}></img>
+                    </div>
+                </Row>
+                : null
+            }
+
         </Container>
     )
 }
