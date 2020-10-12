@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using Tabloid.Models;
 using Tabloid.Repositories;
@@ -32,5 +33,18 @@ namespace Tabloid.Controllers
                 new { firebaseUserId = userProfile.FirebaseUserId },
                 userProfile);
         }
+        [Authorize]
+        [HttpGet("users")]
+        public IActionResult GetAllUsers()
+            {
+            try
+                {
+                return Ok(_userProfileRepository.GetAll());
+                }
+            catch
+                {
+                return NotFound();
+                }
+            }
     }
 }
