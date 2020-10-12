@@ -39,7 +39,7 @@ const CreateTagModal = ({ modal, toggle, addTag, getAllTags, formFeedback, setFo
         </ModalBody>
         <ModalFooter>
           <Button onClick={toggle}>Cancel</Button>
-          <Button onClick={handleSubmit}>Save</Button>
+          <Button color="success" onClick={handleSubmit}>Save</Button>
         </ModalFooter>
       </Modal>
     </div>

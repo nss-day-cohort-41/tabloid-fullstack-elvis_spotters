@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, useHistory, withRouter } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import { PostProvider } from "../providers/PostProvider";
 import { CategoryProvider } from "../providers/CategoryProvider"
@@ -11,21 +11,38 @@ import NewPost from "./Posts/NewPost";
 import TagList from "./Tags/TagList";
 import { TagProvider } from "../providers/TagProvider";
 import NotFound from "./NotFound"
+import CreateCategory from "./Categories/CreateCategory";
+import EditCategory from "./Categories/EditCategory";
 
-export default function ApplicationViews() {
+function ApplicationViews(props) {
+  const history = useHistory();
   //Add Views to this array, follow the pattern
   const appViews = [
     {
       name: "Categories",
       provider: CategoryProvider,
-      component: Categories,
+      component: withRouter(Categories),
       path: "/category",
+      to: "/login"
+    },
+    {
+      name: "CreateCategories",
+      provider: CategoryProvider,
+      component: withRouter(CreateCategory),
+      path: "/category/create",
+      to: "/login"
+    },
+    {
+      name: "EditCategory",
+      provider: CategoryProvider,
+      component: withRouter(EditCategory),
+      path: "/category/edit/:id",
       to: "/login"
     },
     {
       name: "Post",
       provider: PostProvider,
-      component: PostList,
+      component: withRouter(PostList),
       path: "/post",
       to: "/login"
     },
@@ -39,14 +56,14 @@ export default function ApplicationViews() {
     {
       name: "Tags",
       provider: TagProvider,
-      component: TagList,
+      component: withRouter(TagList),
       path: "/tags",
       to: "/login"
     },
     {
       name: "Default",
       provider: PostProvider,
-      component: PostList,
+      component: withRouter(PostList),
       path: "/",
       to: "/login"
     }
@@ -57,25 +74,31 @@ export default function ApplicationViews() {
     return (
       <Route key={index} path={ele.path} exact>
         <ele.provider>
-          {isLoggedIn ? <ele.component /> : <Redirect to={ele.to} />}
+<<<<<<< HEAD
+        {isLoggedIn ? <ele.component /> : <Redirect to={ele.to} />}
+=======
+          {isLoggedIn ? <ele.component props={props} /> : <Redirect to={ele.to} />}
+>>>>>>> master
         </ele.provider>
-      </Route>
+      </Route >
     )
-  })
-  return (
-    <main>
+})
+return (
+  <main>
 
-      <Switch>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/register">
-          <Register />
-        </Route>
-        {routes}
+    <Switch>
+      <Route path="/login">
+        <Login />
+      </Route>
+      <Route path="/register">
+        <Register />
+      </Route>
+      {routes}
 
-        <Route component={NotFound} />
-      </Switch>
-    </main>
-  );
+      <Route component={NotFound} />
+    </Switch>
+  </main>
+);
 };
+
+export default withRouter(ApplicationViews);

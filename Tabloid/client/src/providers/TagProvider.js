@@ -41,8 +41,20 @@ export function TagProvider(props) {
     }
   };
 
+  // Method deletes existing tag in API
+  const deleteTag = async (id) => {
+    const token = await getToken();
+    const res = await fetch(`${apiUrl}/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return res;
+  }
+
   return (
-    <TagContext.Provider value={{ tagList, getAllTags, addTag }}>
+    <TagContext.Provider value={{ tagList, getAllTags, addTag, deleteTag }}>
       {props.children}
     </TagContext.Provider>
   )
