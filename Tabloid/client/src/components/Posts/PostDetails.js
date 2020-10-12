@@ -7,7 +7,9 @@ const PostDetails = (props) => {
 
     const { getPost } = useContext(PostContext);
     const { id } = useParams();
+
     const [post, setPost] = useState();
+    const [currentUser, setCurrentUser] = useState(false);
 
     const history = useHistory();
 
@@ -17,6 +19,10 @@ const PostDetails = (props) => {
 
     if (!post) {
         return null;
+    }
+
+    if (sessionStorage.getItem.id === post.userProfileId) {
+        setCurrentUser(true);
     }
 
     return (
@@ -34,8 +40,20 @@ const PostDetails = (props) => {
                         <p className="text-black-50">Published on {post.publishDateTime}</p>
                     </Row>
 
-
+                    <Row>
+                        {currentUser
+                            ? <>
+                                <Button class="button btn-primary">Edit</Button>
+                            </>
+                            : null}
+                        <Button class="button btn-primary">Delete</Button>
+                    </Row>
                 </section>
+
+                <hr />
+                {post.imageLocation !== null
+                    ? <img src=""></img>
+                    : null}
             </Row>
         </Container>
     )
