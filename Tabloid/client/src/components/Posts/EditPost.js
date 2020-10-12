@@ -1,14 +1,15 @@
+import { post } from "jquery";
 import React, { useState, useContext, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { Container, Form, FormGroup, Col, Label, Input, Button, FormFeedback, FormText } from "reactstrap";
 import { PostContext } from "../../providers/PostProvider";
 import { ValidateNewPost } from "./ValidateNewPost";
 
-const NewPost = (props) => {
+const EditPost = (props) => {
 
-    const { saveNewPost, categories, getCategories } = useContext(PostContext);
+    const { getPost, updatePost, categories, getCategories } = useContext(PostContext);
 
-    const [newPost, setNewPost] = useState({});
+    const [editedPost, setEditedPost] = useState({});
     const [isFormValid, setIsFormValid] = useState(false);
     const [formFeedback, setFormFeedback] = useState({
         title: false,
@@ -17,6 +18,7 @@ const NewPost = (props) => {
         categoryId: false
     });
 
+    const id = useParams();
     const history = useHistory();
 
     const handleFieldChange = (evt) => {
@@ -39,7 +41,7 @@ const NewPost = (props) => {
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        const validation = ValidateNewPost(newPost);
+        const validation = ValidateNewPost(editedPost);
         setIsFormValid(validation.isValidated);
 
         if (validation.isFormValid === false) {
@@ -50,13 +52,16 @@ const NewPost = (props) => {
 
         } else {
 
-            // Build object to send. Post is assigned the current userProfileId, date, and a "true" value to isApproved by the API.
+            // Build object to send. Id, createDateTime, and userProfileId should come from the original post and not be editable by the user.
             const submittedPost = {
-                title: newPost.title,
-                content: newPost.content,
-                imageLocation: newPost.imageLocation || null,
-                publishDateTime: newPost.publishDateTime || null,
-                categoryId: parseInt(newPost.categoryId)
+                id: editedPost.id,
+                title: editedPost.title,
+                content: editedPost.content,
+                imageLocation: editedPost.imageLocation || null,
+                createDateTime: editedPost.createDateTime,
+                publishDateTime: editedPost.publishDateTime || null,
+                categoryId: parseInt(editedPost.categoryId),
+                userProfileId: editedPost.userProfileId
             }
 
             saveNewPost(submittedPost)
@@ -66,19 +71,20 @@ const NewPost = (props) => {
 
     useEffect(() => {
         getCategories();
+        getPost(id).then(setPost);
     }, []);
 
     return (
         <Container>
             <div>
-                <h1>Create a New Post</h1>
+                <h1>Edit Post</h1>
             </div>
             <Form onSubmit={handleSubmit}>
                 <FormGroup row>
                     <Label for="title" sm={2}>Title</Label>
                     <Col sm={10}>
                         <Input type="text" name="title" id="title" placeholder="Title your post" maxLength="255"
-                            invalid={formFeedback.title} required onChange={handleFieldChange} />
+                            invalid={formFeedback.title} value={post.title} required onChange={handleFieldChange} />
                         <FormFeedback>Please give this post a title</FormFeedback>
                     </Col>
                 </FormGroup>
@@ -86,7 +92,7 @@ const NewPost = (props) => {
                     <Label for="content" sm={2}>Post Content</Label>
                     <Col sm={10}>
                         <Input type="textarea" name="content" id="content" placeholder="Say what you want to say here..." required
-                            invalid={formFeedback.content} onChange={handleFieldChange} />
+                            invalid={formFeedback.content} value={post.content} onChange={handleFieldChange} />
                         <FormFeedback>Enter some text for content</FormFeedback>
                     </Col>
                 </FormGroup>
@@ -94,14 +100,14 @@ const NewPost = (props) => {
                     <Label for="imageLocation" sm={2}>Image URL (optional)</Label>
                     <Col sm={10}>
                         <Input type="url" name="imageLocation" id="imageLocation" placeholder="https://website.com/mypic" maxLength="255"
-                            invalid={newPost.imageLocation !== undefined && formFeedback.imageLocation} onChange={handleFieldChange} />
+                            invalid={post.imageLocation !== undefined && formFeedback.imageLocation} value={post.imageLocation} onChange={handleFieldChange} />
                         <FormFeedback>Please enter a proper URL, including http or https, or leave blank</FormFeedback>
                     </Col>
                 </FormGroup>
                 <FormGroup row>
                     <Label for="publishDateTime" sm={2}>Date to Publish (Optional)</Label>
                     <Col sm={10}>
-                        <Input type="date" name="publishDateTime" id="publishDateTime"
+                        <Input type="date" name="publishDateTime" id="publishDateTime" value={post.publishDateTime}
                             onChange={handleFieldChange} />
                         <FormText>This post will not be visible on the main page until the date entered here.</FormText>
                     </Col>
@@ -109,7 +115,7 @@ const NewPost = (props) => {
                 <FormGroup row>
                     <Label for="categoryId" sm={2}>Category</Label>
                     <Col sm={10}>
-                        <Input type="select" name="categoryId" id="categoryId" invalid={formFeedback.categoryId}
+                        <Input type="select" name="categoryId" id="categoryId" invalid={formFeedback.categoryId} value={post.categoryId}
                             onChange={handleFieldChange} required>
                             <option value="">Select a Category</option>
                             {categories.map(category =>
@@ -134,4 +140,4 @@ const NewPost = (props) => {
 
 }
 
-export default NewPost;
+export default EditPost;
