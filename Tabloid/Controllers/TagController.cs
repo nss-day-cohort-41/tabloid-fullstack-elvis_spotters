@@ -35,9 +35,9 @@ namespace Tabloid.Controllers
         public IActionResult Get(int id)
         {
             var tag = _tagRepository.GetById(id);
-            if (tag != null)
+            if (tag == null)
             {
-                NotFound();
+                return NotFound();
             }
             return Ok(tag);
         }

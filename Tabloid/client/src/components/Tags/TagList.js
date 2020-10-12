@@ -63,7 +63,7 @@ const TagList = () => {
     <div>
       <CreateTagModal modal={modal} toggle={toggle} addTag={addTag} getAllTags={getAllTags} formFeedback={formFeedback} setFormFeedback={setFormFeedback} newTag={newTag} setNewTag={setNewTag} />
       <DeleteTagModal deleteModal={deleteModal} deleteToggle={deleteToggle} tagToDelete={tagToDelete} deleteTag={deleteTag} getAllTags={getAllTags} />
-      <EditTagModal editModal={editModal} editToggle={editToggle} tagToEdit={tagToEdit} getTagById={getTagById} updateTag={updateTag} formFeedback={formFeedback} setFormFeedback={setFormFeedback} getAllTags={getAllTags} />
+      <EditTagModal editModal={editModal} editToggle={editToggle} tagToEdit={tagToEdit} getTagById={getTagById} updateTag={updateTag} formFeedback={formFeedback} setFormFeedback={setFormFeedback} getAllTags={getAllTags} setTagToEdit={setTagToEdit} />
       <h3 className="mb-4">Tag Management</h3>
       <Button className="mb-4" color="success" onClick={toggle}>Create Tag</Button>
       <ListGroup>
