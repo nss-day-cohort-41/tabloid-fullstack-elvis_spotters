@@ -122,10 +122,10 @@ const NewPost = (props) => {
                 </FormGroup>
                 <FormGroup row>
                     <Col sm={1}>
-                        <Button class="primary" disabled={!isFormValid}>Submit</Button>
+                        <Button className="primary" disabled={!isFormValid}>Submit</Button>
                     </Col>
                     <Col sm={1}>
-                        <Button class="secondary" type="button" onClick={() => history.push("/")}>Cancel</Button>
+                        <Button className="secondary" type="button" onClick={() => history.push("/")}>Cancel</Button>
                     </Col>
                 </FormGroup>
             </Form>

@@ -49,7 +49,7 @@ namespace Tabloid.Repositories
                 {
                     cmd.CommandText = PostSqlQuery + @"
                          WHERE p.PublishDateTime < SYSDATETIME() and p.IsApproved = 1
-                      ORDER BY p.PublishDateTime DESC;";
+                      ORDER BY p.PublishDateTime DESC, p.Id DESC;";
 
                     var reader = cmd.ExecuteReader();
                     var posts = new List<Post>();
