@@ -7,6 +7,7 @@ import Login from "./Login";
 import Register from "./Register";
 import Categories from "./Categories/Categories";
 import PostList from "./Posts/PostList";
+import PostDetails from "./Posts/PostDetails"
 import NewPost from "./Posts/NewPost";
 import TagList from "./Tags/TagList";
 import { TagProvider } from "../providers/TagProvider";
@@ -44,6 +45,13 @@ function ApplicationViews(props) {
       provider: PostProvider,
       component: withRouter(PostList),
       path: "/post",
+      to: "/login"
+    },
+    {
+      name: "PostDetails",
+      provider: PostProvider,
+      component: withRouter(PostDetails),
+      path: "/post/:id/details",
       to: "/login"
     },
     {
