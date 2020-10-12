@@ -74,11 +74,7 @@ function ApplicationViews(props) {
     return (
       <Route key={index} path={ele.path} exact>
         <ele.provider>
-<<<<<<< HEAD
-        {isLoggedIn ? <ele.component /> : <Redirect to={ele.to} />}
-=======
           {isLoggedIn ? <ele.component props={props} /> : <Redirect to={ele.to} />}
->>>>>>> master
         </ele.provider>
       </Route >
     )
