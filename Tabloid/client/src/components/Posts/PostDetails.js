@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { PostContext } from "../../providers/PostProvider";
 import { useHistory, useParams } from "react-router-dom";
-import { Container, Row } from "reactstrap";
+import { Container, Row, Col, Button } from "reactstrap";
 
 const PostDetails = (props) => {
 
@@ -14,15 +14,18 @@ const PostDetails = (props) => {
     const history = useHistory();
 
     useEffect(() => {
-        getPost(id).then(setPost);
+        getPost(id).then((res) => {
+            setPost(res)
+            console.log(res)
+            if (sessionStorage.userProfile === res.userProfileId) {
+                console.log("TRUE")
+                setCurrentUser(true);
+            }
+        });
     }, []);
 
     if (!post) {
         return null;
-    }
-
-    if (sessionStorage.getItem.id === post.userProfileId) {
-        setCurrentUser(true);
     }
 
     return (
@@ -35,16 +38,16 @@ const PostDetails = (props) => {
 
                 <Row className="justify-content-between">
                     <p className="text-secondary">Written by {post.userProfile.displayName}</p>
-                    <p className="text-black-50">Published on {post.publishDateTime}</p>
+                    <p className="text-black-50">Published on {post.publishDateTime.substring(0, 10)}</p>
                 </Row>
 
                 <Row>
                     {currentUser
                         ? <>
-                            <Button class="button btn-primary">Edit</Button>
+                            <Button color="primary">Edit</Button>
                         </>
                         : null}
-                    <Button class="button btn-primary">Delete</Button>
+                    <Button color="primary">Delete</Button>
                 </Row>
             </section>
 
@@ -61,7 +64,7 @@ const PostDetails = (props) => {
 
             <Row>
                 <Col sm={12} mt={5}>
-
+                    <p>{post.content}</p>
                 </Col>
             </Row>
         </Container>
