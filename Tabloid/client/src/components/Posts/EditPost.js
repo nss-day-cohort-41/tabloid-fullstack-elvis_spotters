@@ -31,7 +31,7 @@ const EditPost = (props) => {
         if (checkValidForm.field === evt.target.name) {
             formFeedbackUpdate[checkValidForm.field] = true;
         } else {
-            // ValidateNewPost will not return the field if valid, so the field
+            // ValidateNewPost will only return invalid fields, so the field
             // is selected from the input
             formFeedbackUpdate[evt.target.name] = false;
         }
