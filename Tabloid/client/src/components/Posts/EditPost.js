@@ -1,4 +1,3 @@
-import { post } from "jquery";
 import React, { useState, useContext, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { Container, Form, FormGroup, Col, Label, Input, Button, FormFeedback, FormText } from "reactstrap";
@@ -22,7 +21,7 @@ const EditPost = (props) => {
     const history = useHistory();
 
     const handleFieldChange = (evt) => {
-        const stateToUpdate = { ...newPost };
+        const stateToUpdate = { ...editedPost };
         const formFeedbackUpdate = { ...formFeedback };
         stateToUpdate[evt.target.name] = evt.target.value;
         const checkValidForm = ValidateNewPost(stateToUpdate);
@@ -36,7 +35,7 @@ const EditPost = (props) => {
             formFeedbackUpdate[evt.target.name] = false;
         }
         setFormFeedback(formFeedbackUpdate);
-        setNewPost(stateToUpdate);
+        setEditedPost(stateToUpdate);
     }
 
     const handleSubmit = (evt) => {
@@ -64,15 +63,20 @@ const EditPost = (props) => {
                 userProfileId: editedPost.userProfileId
             }
 
-            saveNewPost(submittedPost)
+            updatePost(submittedPost)
                 .then(() => history.push("/"));
         }
     }
 
     useEffect(() => {
+        console.log(id);
         getCategories();
-        getPost(id).then(setPost);
+        getPost(id).then(setEditedPost);
     }, []);
+
+    if (!editedPost) {
+        return null;
+    }
 
     return (
         <Container>
@@ -84,7 +88,7 @@ const EditPost = (props) => {
                     <Label for="title" sm={2}>Title</Label>
                     <Col sm={10}>
                         <Input type="text" name="title" id="title" placeholder="Title your post" maxLength="255"
-                            invalid={formFeedback.title} value={post.title} required onChange={handleFieldChange} />
+                            invalid={formFeedback.title} value={editedPost.title} required onChange={handleFieldChange} />
                         <FormFeedback>Please give this post a title</FormFeedback>
                     </Col>
                 </FormGroup>
@@ -92,7 +96,7 @@ const EditPost = (props) => {
                     <Label for="content" sm={2}>Post Content</Label>
                     <Col sm={10}>
                         <Input type="textarea" name="content" id="content" placeholder="Say what you want to say here..." required
-                            invalid={formFeedback.content} value={post.content} onChange={handleFieldChange} />
+                            invalid={formFeedback.content} value={editedPost.content} onChange={handleFieldChange} />
                         <FormFeedback>Enter some text for content</FormFeedback>
                     </Col>
                 </FormGroup>
@@ -100,22 +104,22 @@ const EditPost = (props) => {
                     <Label for="imageLocation" sm={2}>Image URL (optional)</Label>
                     <Col sm={10}>
                         <Input type="url" name="imageLocation" id="imageLocation" placeholder="https://website.com/mypic" maxLength="255"
-                            invalid={post.imageLocation !== undefined && formFeedback.imageLocation} value={post.imageLocation} onChange={handleFieldChange} />
+                            invalid={editedPost.imageLocation !== undefined && formFeedback.imageLocation} value={editedPost.imageLocation} onChange={handleFieldChange} />
                         <FormFeedback>Please enter a proper URL, including http or https, or leave blank</FormFeedback>
                     </Col>
                 </FormGroup>
                 <FormGroup row>
                     <Label for="publishDateTime" sm={2}>Date to Publish (Optional)</Label>
                     <Col sm={10}>
-                        <Input type="date" name="publishDateTime" id="publishDateTime" value={post.publishDateTime}
+                        <Input type="date" name="publishDateTime" id="publishDateTime" value={editedPost.publishDateTime}
                             onChange={handleFieldChange} />
-                        <FormText>This post will not be visible on the main page until the date entered here.</FormText>
+                        <FormText>This post will not be visible on the main page until the date entered here. Delete to unpublish.</FormText>
                     </Col>
                 </FormGroup>
                 <FormGroup row>
                     <Label for="categoryId" sm={2}>Category</Label>
                     <Col sm={10}>
-                        <Input type="select" name="categoryId" id="categoryId" invalid={formFeedback.categoryId} value={post.categoryId}
+                        <Input type="select" name="categoryId" id="categoryId" invalid={formFeedback.categoryId} value={editedPost.categoryId}
                             onChange={handleFieldChange} required>
                             <option value="">Select a Category</option>
                             {categories.map(category =>

@@ -25,6 +25,7 @@ export function PostProvider(props) {
 
     const getPost = async (id) => {
         const token = await getToken()
+        console.log(`${apiUrl}/${id}`, id);
         const res = await fetch(`${apiUrl}/${id}`, {
             method: "GET",
             headers: {

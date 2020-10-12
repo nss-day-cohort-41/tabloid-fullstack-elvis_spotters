@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { PostContext } from "../../providers/PostProvider";
 import Post from "./Post"
@@ -9,9 +9,12 @@ const PostList = (props) => {
     const { posts, getAllPosts } = useContext(PostContext);
 
     const history = useHistory();
+    const [currentUser, setCurrentUser] = useState();
 
     useEffect(() => {
         getAllPosts();
+        const loggedInUser = JSON.parse(sessionStorage.userProfile);
+        setCurrentUser(loggedInUser.id);
     }, []);
 
     return (
@@ -28,11 +31,12 @@ const PostList = (props) => {
                         <th>Title</th>
                         <th>Author</th>
                         <th>Category</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {posts.map((post) => (
-                        <Post key={post.id} post={post} />
+                        <Post key={post.id} post={post} currentUser={currentUser} />
                     ))}
                 </tbody>
             </Table>
