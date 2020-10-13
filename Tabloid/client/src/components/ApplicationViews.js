@@ -8,6 +8,7 @@ import Login from "./Login";
 import Register from "./Register";
 import Categories from "./Categories/Categories";
 import PostList from "./Posts/PostList";
+import MyPosts from "./Posts/MyPosts";
 import PostDetails from "./Posts/PostDetails"
 import NewPost from "./Posts/NewPost";
 import EditPost from "./Posts/EditPost";
@@ -49,6 +50,13 @@ function ApplicationViews(props) {
       provider: PostProvider,
       component: withRouter(PostList),
       path: "/post",
+      to: "/login"
+    },
+    {
+      name: "MyPosts",
+      provider: PostProvider,
+      component: withRouter(MyPosts),
+      path: "/post/my",
       to: "/login"
     },
     {

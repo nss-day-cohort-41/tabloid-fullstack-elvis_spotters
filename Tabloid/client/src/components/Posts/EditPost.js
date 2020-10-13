@@ -148,7 +148,7 @@ const EditPost = (props) => {
                         <Button className="primary" disabled={!isFormValid}>Submit</Button>
                     </Col>
                     <Col sm={1}>
-                        <Button className="secondary" type="button" onClick={() => history.push("/")}>Cancel</Button>
+                        <Button className="secondary" type="button" onClick={() => history.goBack()}>Cancel</Button>
                     </Col>
                 </FormGroup>
             </Form>
