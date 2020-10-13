@@ -60,5 +60,11 @@ namespace Tabloid.Repositories
                 }
             }
         }
+
+        // Method to add PostTag relationship
+        public void AddPostTag()
+        {
+
+        }
     }
 }
