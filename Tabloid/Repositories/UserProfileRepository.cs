@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Data.SqlClient;
-=======
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
->>>>>>> master
 using Tabloid.Models;
 using Tabloid.Utils;
 

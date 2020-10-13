@@ -88,6 +88,13 @@ function ApplicationViews(props) {
       to: "/login"
     },
     {
+      name: "Comments",
+      provider: CommentProvider,
+      component: withRouter(CommentList),
+      path: "/",
+      to: "/login"
+    },
+    {
       name: "UserProfile",
       provider: ProfileProvider,
       component: withRouter(UserProfiles),
