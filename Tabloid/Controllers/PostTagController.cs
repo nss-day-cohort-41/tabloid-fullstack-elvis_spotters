@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Tabloid.Models;
 using Tabloid.Repositories;
 
 namespace Tabloid.Controllers
@@ -27,6 +28,14 @@ namespace Tabloid.Controllers
             var postTags = _postTagRepository.GetTagsByPostId(id);
 
             return Ok(postTags);
+        }
+
+        [HttpPost]
+        public IActionResult Post(PostTag postTag)
+        {
+            _postTagRepository.AddPostTag(postTag);
+
+            return NoContent();
         }
     }
 }

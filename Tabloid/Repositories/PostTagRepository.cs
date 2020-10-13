@@ -62,9 +62,24 @@ namespace Tabloid.Repositories
         }
 
         // Method to add PostTag relationship
-        public void AddPostTag()
+        public void AddPostTag(PostTag postTag)
         {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
 
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO PostTag (PostId, TagId)
+                                        OUTPUT INSERTED.id
+                                        VALUES (@PostId, @TagId)";
+
+                    DbUtils.AddParameter(cmd, "@PostId", postTag.PostId);
+                    DbUtils.AddParameter(cmd, "@TagId", postTag.TagId);
+
+                    postTag.Id = (int)cmd.ExecuteScalar();
+                }
+            }
         }
     }
 }
