@@ -34,8 +34,22 @@ export function PostTagProvider(props) {
     return value;
   };
 
+  // Method to post new tags to post
+  const addPostTag = async (postTag) => {
+    const token = await getToken();
+    const res = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(postTag)
+    });
+    return res;
+  }
+
   return (
-    <PostTagContext.Provider value={{ getTagsByPostId, getAllTags }}>
+    <PostTagContext.Provider value={{ getTagsByPostId, getAllTags, addPostTag }}>
       {props.children}
     </PostTagContext.Provider>
   )
