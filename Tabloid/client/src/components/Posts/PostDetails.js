@@ -49,7 +49,7 @@ const PostDetails = (props) => {
 
                 <Row>
                     {currentUser
-                        ? <Button color="primary">Edit</Button>
+                        ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/edit`)}>Edit</Button>
                         : null}
                     <Button color="primary">Delete</Button>
                 </Row>
