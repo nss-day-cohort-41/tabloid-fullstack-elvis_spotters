@@ -6,7 +6,7 @@ const Comment = ({ Comment }) => {
         <Card className="border border-dark m-2">
             <CardHeader>
                 <strong className="float-left">{Comment.subject}</strong>
-                <p className="float-right">Posted on: {Comment.createDateTime}</p>
+                <p className="float-right">Posted on: {Comment.createDateTime.substring(0, 10)}</p>
             </CardHeader>
             <CardBody>
                 {Comment.content}

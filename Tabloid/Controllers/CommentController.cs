@@ -11,7 +11,6 @@ using Tabloid.Repositories;
 
 namespace Tabloid.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CommentController : ControllerBase
@@ -52,7 +51,7 @@ namespace Tabloid.Controllers
         public IActionResult Post(Comment comment)
         {
             _commentRepo.Add(comment);
-            return CreatedAtAction("Get{postId}", new { id = comment.Id }, comment);
+            return CreatedAtAction("Get", new { postId = comment.PostId }, comment);
         }
 
         // PUT api/<CommentController>/5
