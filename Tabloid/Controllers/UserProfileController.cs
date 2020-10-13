@@ -46,6 +46,7 @@ namespace Tabloid.Controllers
                 return NotFound();
                 }
             }
+        [Authorize]
         [HttpGet("details/{id}")]
         public IActionResult GetUserById(int id)
             {
@@ -59,13 +60,14 @@ namespace Tabloid.Controllers
                 return NotFound();
                 }
             }
+        [Authorize]
         [HttpPut("active")]
         public  IActionResult IsActive(UserProfile user)
             {
             try
                 {
                _userProfileRepository.isActive(user);
-                return Ok();
+                return Ok(_userProfileRepository.GetUserById(user.Id));
                 }
             catch
                 {

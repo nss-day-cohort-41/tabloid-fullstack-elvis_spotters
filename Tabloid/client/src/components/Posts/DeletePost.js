@@ -12,15 +12,8 @@ const DeletePost = (props) => {
 
     const history = useHistory();
 
-    const loggedInUser = JSON.parse(sessionStorage.userProfile);
-
     useEffect(() => {
-        getPost(id).then((res) => {
-            if (loggedInUser.id !== res.userProfileId) {
-                history.push(`/post/${id}/details`);
-            }
-            setPost(res)
-        });
+        getPost(id).then((res) => setPost(res));
     }, []);
 
     if (!post) {
