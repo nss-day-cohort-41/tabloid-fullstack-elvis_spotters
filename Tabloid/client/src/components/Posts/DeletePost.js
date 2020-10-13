@@ -68,7 +68,7 @@ const DeletePost = (props) => {
 
                 <Row>
                     <Button color="primary" onClick={confirmDelete}>Delete</Button>
-                    <Button color="primary" onClick={() => history.push(`/post/${post.id}/details`)}>Cancel</Button>
+                    <Button color="primary" onClick={() => history.goBack()}>Cancel</Button>
                 </Row>
             </section>
         </Container>

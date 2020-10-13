@@ -20,7 +20,7 @@ const PostList = (props) => {
     return (
         <Container>
             <Row>
-                <h2>User Posts</h2>
+                <h2>Published Posts</h2>
             </Row>
             <Row>
                 <Button onClick={() => history.push("/post/new")}>Create New Post</Button>
