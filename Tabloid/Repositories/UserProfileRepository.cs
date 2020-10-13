@@ -33,23 +33,7 @@ namespace Tabloid.Repositories
                     var reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        userProfile = new UserProfile()
-                        {
-                            Id = DbUtils.GetInt(reader, "Id"),
-                            FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-                            FirstName = DbUtils.GetString(reader, "FirstName"),
-                            LastName = DbUtils.GetString(reader, "LastName"),
-                            DisplayName = DbUtils.GetString(reader, "DisplayName"),
-                            Email = DbUtils.GetString(reader, "Email"),
-                            CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
-                            ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
-                            UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
-                            UserType = new UserType()
-                            {
-                                Id = DbUtils.GetInt(reader, "UserTypeId"),
-                                Name = DbUtils.GetString(reader, "UserTypeName"),
-                            }
-                        };
+                        userProfile = UserProfileBuilder(reader);
                     }
                     reader.Close();
 
@@ -125,6 +109,44 @@ namespace Tabloid.Repositories
                     
                     
                     }
+                }
+            }
+        public UserProfile GetUserById(int id)
+            {
+            using(SqlConnection conn = Connection)
+                {
+                conn.Open();
+                using(SqlCommand cmd = conn.CreateCommand())
+                    {
+                    cmd.CommandText = @"
+                                        SELECT 
+                                        up.FirstName as UserProfileFirstName, 
+                                        up.LastName as UserProfileLastName, 
+                                        up.DisplayName as UserProfileDisplayName, 
+                                        up.UserTypeId as UserProfileUserTypeId, 
+                                        up.Email as UserProfileEmail,
+                                        up.ImageLocation as UserProfileImageLocation, 
+                                        up.CreateDateTime as UserProfileCreatedDateTime, 
+                                        up.Id as UserProfileId,
+                                        u.Id as UserTypeId,
+                                        u.Name as UserTypeName
+                                        FROM UserProfile up
+                                        JOIN UserType u ON u.Id = up.UserTypeId
+                                        WHERE up.Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+                    UserProfile userProfile = null;
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                        {
+                        userProfile = UserProfileBuilder(reader);
+                        }
+                    reader.Close();
+
+                    return userProfile;
+
+                    }
+                
                 }
             }
 

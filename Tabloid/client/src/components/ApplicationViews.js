@@ -17,6 +17,7 @@ import CreateCategory from "./Categories/CreateCategory";
 import EditCategory from "./Categories/EditCategory";
 import DeleteCategory from "./Categories/DeleteCategory";
 import UserProfiles from "./UserProfile/UserProfiles";
+import UserDetails from "./UserProfile/UserDetails";
 
 function ApplicationViews(props) {
   //Add Views to this array, follow the pattern
@@ -71,6 +72,7 @@ function ApplicationViews(props) {
       to: "/login"
 
     },
+    
     {
       name: "Tags",
       provider: TagProvider,
@@ -91,7 +93,14 @@ function ApplicationViews(props) {
       component:withRouter(UserProfiles),
       path:"/userprofiles",
       to:"/login"
-    }
+    },
+    {
+      name:"UserProfileDetails",
+      provider: ProfileProvider,
+      component: withRouter(UserDetails),
+      path: "/userprofiles/details/:id",
+      to: "/login"
+    },
   ]
   const { isLoggedIn } = useContext(UserProfileContext);
   //Mapping object array "AppViews" into an array of Routes and Components
@@ -99,7 +108,7 @@ function ApplicationViews(props) {
     return (
       <Route key={index} path={ele.path} exact>
         <ele.provider>
-          {isLoggedIn ? <ele.component props={props} /> : <Redirect to={ele.to} />}
+          {isLoggedIn ? <ele.component  /> : <Redirect to={ele.to} />}
         </ele.provider>
       </Route >
     )
