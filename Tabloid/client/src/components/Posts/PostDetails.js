@@ -13,7 +13,7 @@ const PostDetails = (props) => {
 
     const history = useHistory();
 
-    const loggedInUser = JSON.parse(sessionStorage.userProfile)
+    const loggedInUser = JSON.parse(sessionStorage.userProfile);
 
     useEffect(() => {
         getPost(id).then((res) => {
@@ -23,6 +23,17 @@ const PostDetails = (props) => {
             setPost(res)
         });
     }, []);
+
+    const getReadTime = () => {
+        if (!post.content) return ("0 minutes");
+        const wordCount = post.content.split(" ").length;
+        const readTime = Math.ceil(wordCount / 265);
+        if (readTime === 1) {
+            return "1 minute";
+        } else {
+            return `${readTime} minutes`;
+        }
+    }
 
     if (!post) {
         return null;
@@ -44,11 +55,14 @@ const PostDetails = (props) => {
                     }
                 </Row>
 
+                <Row className="justify-content-start">
+                    <p className="text-secondary">Estimated read time: {getReadTime()}</p>
+                </Row>
                 <Row>
                     {currentUser
                         ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/edit`)}>Edit</Button>
                         : null}
-                    <Button color="primary">Delete</Button>
+                    <Button color="primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
                 </Row>
             </section>
 
