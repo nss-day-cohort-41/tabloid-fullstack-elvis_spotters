@@ -62,8 +62,21 @@ export function PostProvider(props) {
         );
     }
 
+    const updatePost = (post) => {
+        return getToken().then((token) =>
+            fetch(`${apiUrl}/${post.id}`, {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(post)
+            })
+        )
+    }
+
     return (
-        <PostContext.Provider value={{ posts, categories, setPosts, getAllPosts, getPost, getCategories, saveNewPost }}>
+        <PostContext.Provider value={{ posts, categories, setPosts, getAllPosts, getPost, getCategories, saveNewPost, updatePost }}>
             {props.children}
         </PostContext.Provider>
     );
