@@ -4,23 +4,26 @@ import React, { useState, useEffect, createContext } from "react";
 import { UserProfileContext } from "./UserProfileProvider";
 
 import { Spinner } from "reactstrap";
+import { Redirect, useHistory } from "react-router-dom";
 
 export const CategoryContext = createContext();
 
 export function CategoryProvider(props) {
     const apiUrl = "/api/category";
     const createURL = "/api/category/create";
-    
+    const history = useHistory();
     const { getToken } = React.useContext(UserProfileContext);
     const [categories, setCategories] = useState([]);
     const [ready, setReady] = useState(false);
     const getCategories = async () => {
         let token = await getToken();
-       setCategories(await fetch(apiUrl, { headers: {
+     
+            setCategories(await fetch(apiUrl, { headers: {
         Authorization: `Bearer ${token}`
     }})
-            .then(res => res.json()))
-            setReady(true);
+            .then(res => res.json())
+            .catch(err=>err))
+            setReady(true); 
     }
     const getCategoryById = async (id) =>{
         let token = await getToken();
@@ -30,7 +33,9 @@ export function CategoryProvider(props) {
                 "Content-Type":"application/json"
             }
         }).then(res=>res.json())
-        console.log(category)
+        .catch(err=>{
+            history.push("/404")
+        })
         return category;
     }
     const createCategory = async (category) =>{
@@ -46,12 +51,14 @@ export function CategoryProvider(props) {
     } 
     const deleteCategory = async (id)=>{
         let token = await getToken();
+        
         await fetch(`${apiUrl}/${id}`, {
             method:"DELETE",
             headers: {
                 Authorization: `Bearer ${token}`
             }
         }).then(getCategories())
+        .catch(err=>console.log(err))
     }
     const editCategory = async (category)=>{
         let token = await getToken();

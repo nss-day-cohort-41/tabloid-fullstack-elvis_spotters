@@ -35,9 +35,9 @@ namespace Tabloid.Controllers
         public IActionResult Get(int id)
         {
             var tag = _tagRepository.GetById(id);
-            if (tag != null)
+            if (tag == null)
             {
-                NotFound();
+                return NotFound();
             }
             return Ok(tag);
         }
@@ -54,6 +54,41 @@ namespace Tabloid.Controllers
             }
             _tagRepository.Add(tag);
             return CreatedAtAction(nameof(Get), new { id = tag.Id }, tag);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+
+            if (currentUserProfile.UserType.Name != "Admin")
+            {
+                return Unauthorized();
+            }
+
+            _tagRepository.Delete(id);
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Tag tag)
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+
+            if (currentUserProfile.UserType.Name != "Admin")
+            {
+                return Unauthorized();
+            }
+
+            if (id != tag.Id)
+            {
+                return BadRequest();
+            }
+
+            _tagRepository.Update(tag);
+
+            return NoContent();
         }
 
         // Method to get current user by the firebaseId

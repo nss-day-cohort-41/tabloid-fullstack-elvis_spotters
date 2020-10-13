@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Switch, Route, Redirect, useHistory, withRouter } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
+import { ProfileProvider } from "../providers/ProfileProvider";
 import { PostProvider } from "../providers/PostProvider";
 import { CategoryProvider } from "../providers/CategoryProvider";
 import { CommentProvider } from "../providers/CommentProvider";
@@ -8,15 +9,18 @@ import Login from "./Login";
 import Register from "./Register";
 import Categories from "./Categories/Categories";
 import PostList from "./Posts/PostList";
+import PostDetails from "./Posts/PostDetails"
+import NewPost from "./Posts/NewPost";
 import TagList from "./Tags/TagList";
 import CommentList from "./Comments/CommentList";
 import { TagProvider } from "../providers/TagProvider";
 import NotFound from "./NotFound"
 import CreateCategory from "./Categories/CreateCategory";
 import EditCategory from "./Categories/EditCategory";
+import DeleteCategory from "./Categories/DeleteCategory";
+import UserProfiles from "./UserProfile/UserProfiles";
 
 function ApplicationViews(props) {
-  const history = useHistory();
   //Add Views to this array, follow the pattern
   const appViews = [
     {
@@ -48,6 +52,28 @@ function ApplicationViews(props) {
       to: "/login"
     },
     {
+      name: "PostDetails",
+      provider: PostProvider,
+      component: withRouter(PostDetails),
+      path: "/post/:id/details",
+      to: "/login"
+    },
+    {
+      name: "NewPost",
+      provider: PostProvider,
+      component: NewPost,
+      path: "/post/new",
+      to: "/login"
+    },
+    {
+      name: "DeleteCategory",
+      provider: CategoryProvider,
+      component: withRouter(DeleteCategory),
+      path: "/category/delete/:id",
+      to: "/login"
+
+    },
+    {
       name: "Tags",
       provider: TagProvider,
       component: withRouter(TagList),
@@ -62,10 +88,10 @@ function ApplicationViews(props) {
       to: "/login"
     },
     {
-      name: "Comment",
-      provider: CommentProvider,
-      component: withRouter(CommentList),
-      path: "/comments/:id",
+      name: "UserProfile",
+      provider: ProfileProvider,
+      component: withRouter(UserProfiles),
+      path: "/userprofiles",
       to: "/login"
     }
   ]

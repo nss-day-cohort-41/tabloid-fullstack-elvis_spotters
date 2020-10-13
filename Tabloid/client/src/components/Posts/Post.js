@@ -1,11 +1,5 @@
-import React, { useContext } from "react";
-import { Router } from "react-router-dom";
-import { Row, Col, Button } from "reactstrap";
-import { UserProfileContext } from "../../providers/UserProfileProvider";
-import { useHistory } from "react-router-dom";
-import { CommentContext } from "../../providers/CommentProvider"
-
-
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Post = ({ post }) => {
 
@@ -13,18 +7,19 @@ const Post = ({ post }) => {
     const { getCommentsByPostId } = useContext(CommentContext);
 
     return (
-        <Row>
-            <Col>
-                <strong>{post.title}</strong>
-            </Col>
-            <Col>
+        <tr>
+            <td>
+                <Link to={`/post/${post.id}/details`} >
+                    <strong>{post.title}</strong>
+                </Link>
+            </td>
+            <td>
                 <em>by {post.userProfile.fullName}</em>
-            </Col>
-            <Col>
+            </td>
+            <td>
                 <p>{post.category.name}</p>
-            </Col>
-            <Button className="btn-Primary float-left" onClick={() => { history.push(`comments/${post.id}`) }}>View Comments</Button>
-        </Row>
+            </td>
+        </tr>
     )
 }
 

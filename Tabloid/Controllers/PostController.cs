@@ -18,11 +18,13 @@ namespace Tabloid.Controllers
     {
         private readonly IPostRepository _postRepository;
         private readonly IUserProfileRepository _userProfileRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public PostController(IPostRepository postRepository, IUserProfileRepository userProfileRepository)
+        public PostController(IPostRepository postRepository, IUserProfileRepository userProfileRepository, ICategoryRepository categoryRepository)
         {
             _postRepository = postRepository;
             _userProfileRepository = userProfileRepository;
+            _categoryRepository = categoryRepository;
         }
 
         [HttpGet]
@@ -37,7 +39,7 @@ namespace Tabloid.Controllers
             var post = _postRepository.GetPostById(id);
             if (post == null)
             {
-                NotFound();
+                return NotFound();
             }
             return Ok(post);
         }
@@ -49,11 +51,19 @@ namespace Tabloid.Controllers
             return Ok(_postRepository.GetPostsByUserId(currentUser.Id));
         }
 
+        [HttpGet("category")]
+        public IActionResult GetCategories()
+        {
+            return Ok(_categoryRepository.GetCategories());
+        }
+
         [HttpPost]
         public IActionResult Post(Post post)
         {
             var currentUser = GetCurrentUserProfile();
             post.UserProfileId = currentUser.Id;
+            post.CreateDateTime = DateTime.Now;
+            post.IsApproved = true;
             _postRepository.Add(post);
             return CreatedAtAction("Get", new { id = post.Id }, post);
         }
