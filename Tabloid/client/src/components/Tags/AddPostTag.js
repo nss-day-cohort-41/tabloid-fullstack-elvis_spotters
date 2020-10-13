@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { PostTagContext } from '../../providers/PostTagProvider';
 import { useHistory, useParams } from 'react-router-dom';
-import { Label, Input, FormGroup, Form } from 'reactstrap';
+import { Label, Input, FormGroup, Form, Button } from 'reactstrap';
 
 const AddPostTag = () => {
-  const { getTagsByPostId, getAllTags } = useContext(PostTagContext);
+  const { getTagsByPostId, getAllTags, addPostTag } = useContext(PostTagContext);
   const { id } = useParams();
 
   const [allTags, setAllTags] = useState([]);
@@ -21,7 +21,7 @@ const AddPostTag = () => {
       return (
         <FormGroup key={tag.id}>
           <Label check>
-            <Input type="checkbox" value={tag.id} defaultChecked={cats.includes(tag.id)} />{' '}
+            <Input type="checkbox" value={tag.id} checked={cats.includes(tag.id)} onChange={handleFieldChange} />{' '}
             {tag.name}
           </Label>
         </FormGroup>
@@ -44,6 +44,20 @@ const AddPostTag = () => {
     return currentTagIdsArr
   }
 
+  const handleFieldChange = (e) => {
+    const checkedTag = e.target.value;
+    const tagList = currentTagIds;
+
+    if (e.target.checked) {
+      tagList.push(parseInt(checkedTag))
+    } else {
+      const index = tagList.indexOf(parseInt(checkedTag))
+      tagList.splice(index, 1)
+    }
+
+    setCurrentTagIds(tagList)
+  }
+
   useEffect(() => {
     getAllTagsFromDB().then(() => setIsLoaded(true))
   }, [])
@@ -56,6 +70,7 @@ const AddPostTag = () => {
           <legend>Select tags you want associated with this post:</legend>
           {isLoaded ? <>{jsxArr}</> : null}
         </FormGroup>
+        <Button>Save</Button>
       </Form>
     </div>
   )
