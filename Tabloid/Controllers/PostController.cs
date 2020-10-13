@@ -76,6 +76,12 @@ namespace Tabloid.Controllers
                 return BadRequest();
             }
 
+            var currentUser = GetCurrentUserProfile();
+            if (currentUser.Id != post.UserProfileId)
+            {
+                return Unauthorized();
+            }
+
             _postRepository.Update(post);
             return NoContent();
         }
