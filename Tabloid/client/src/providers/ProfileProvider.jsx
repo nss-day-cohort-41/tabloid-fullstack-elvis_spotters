@@ -1,10 +1,12 @@
 import React, { useState, createContext, useContext } from 'react';
 import { UserProfileContext } from './UserProfileProvider';
+import { useHistory} from "react-router-dom";
 
 export const ProfileContext = createContext();
 
 export function ProfileProvider(props) {
   const apiUrl = "/api/userprofile";
+  const history = useHistory();
   const { getToken } = useContext(UserProfileContext);
 
   const [ProfileList, setProfileList] = useState([]);
@@ -29,6 +31,9 @@ export function ProfileProvider(props) {
             Authorization: `Bearer ${token}`
           }
         }).then(res => res.json())
+        .catch(err=>{
+            history.push("/404")
+        })
         return userProfile
     }
 

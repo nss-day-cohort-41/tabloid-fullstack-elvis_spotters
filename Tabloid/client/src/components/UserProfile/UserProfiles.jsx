@@ -20,8 +20,8 @@ const UserProfiles = () =>{
     }, [])
 
     return (
-    <div>
-        <h1>User Profiles</h1>
+    <div className="container">
+        <h1 className="text-center">User Profiles</h1>
         {userProfiles.length > 0 ?  <table className="table">
     <thead>
       <tr>

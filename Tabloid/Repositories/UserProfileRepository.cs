@@ -19,12 +19,20 @@ namespace Tabloid.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT up.Id, Up.FirebaseUserId, up.FirstName, up.LastName, up.DisplayName, 
-                               up.Email, up.CreateDateTime, up.ImageLocation, up.UserTypeId,
-                               ut.Name AS UserTypeName
-                          FROM UserProfile up
-                               LEFT JOIN UserType ut on up.UserTypeId = ut.Id
-                         WHERE FirebaseUserId = @FirebaseuserId";
+                                    SELECT 
+                                    up.FirstName as UserProfileFirstName, 
+                                    up.LastName as UserProfileLastName, 
+                                    up.DisplayName as UserProfileDisplayName, 
+                                    up.UserTypeId as UserProfileUserTypeId, 
+                                    up.Email as UserProfileEmail,
+                                    up.ImageLocation as UserProfileImageLocation, 
+                                    up.CreateDateTime as UserProfileCreatedDateTime, 
+                                    up.Id as UserProfileId,
+                                    u.Id as UserTypeId,
+                                    u.Name as UserTypeName
+                                    FROM UserProfile up
+                                    JOIN UserType u ON u.Id = up.UserTypeId 
+                                    WHERE FirebaseUserId = @FirebaseuserId";
 
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
 

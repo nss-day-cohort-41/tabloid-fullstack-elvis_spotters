@@ -1,5 +1,6 @@
 import React from 'react';
 import { ProfileContext } from "../../providers/ProfileProvider";
+import {Link} from "react-router-dom";
 import "./userprofile.css"
 
 const UserDetails = (props) => {
@@ -11,7 +12,7 @@ const UserDetails = (props) => {
         displayName: "JessicaJones",
         email: "Jessica@gmail.com",
         createDateTime: "2020-02-21",
-        imageLocation: "https://demos.creative-tim.com/argon-dashboard/assets/img/theme/team-4.jpg",
+        imageLocation: "https://static1.squarespace.com/static/54b7b93ce4b0a3e130d5d232/54e20ebce4b014cdbc3fd71b/5a992947e2c48320418ae5e0/1519987239570/icon.png?format=1500w",
         userTypeId: 1,
         userType: {
             id: 0,
@@ -21,9 +22,20 @@ const UserDetails = (props) => {
     })
     const getUser = async () => {
         let result = await getUserById(props.match.params.id);
-        //setUser({ result })
-        console.log(result);
+        setUser( result )
+        checkImage()
     }
+    const checkImage = () =>{
+        const image = document.getElementById('profileImg');
+        if(image){
+            image.onerror = () =>{
+            image.src = "https://static1.squarespace.com/static/54b7b93ce4b0a3e130d5d232/54e20ebce4b014cdbc3fd71b/5a992947e2c48320418ae5e0/1519987239570/icon.png?format=1500w";
+        }
+        }
+        
+    }
+
+
     React.useEffect(() => {
         getUser();
     })
@@ -31,20 +43,24 @@ const UserDetails = (props) => {
 
     return (
         <div>
-            <div>User Details</div>
+            
             <div className="main-content">
+                <h1 className="container text-center">User Details</h1>
                 <div className="container mt-7">
                     {/* Table */}
-
+                    
                     <div className="row">
+                        
                         <div className="col-xl-8 m-auto order-xl-2 mb-5 mb-xl-0">
                             <div className="card card-profile shadow">
                                 <div className="row justify-content-center">
                                     <div className="col-lg-3 order-lg-2">
+                                        
                                         <div className="card-profile-image">
                                             <a href="#">
                                                 <img
-                                                    src={user.Imagelocation || "https://demos.creative-tim.com/argon-dashboard/assets/img/theme/team-4.jpg"}
+                                                id="profileImg"
+                                                    src={user.imageLocation }
                                                     className="rounded-circle"
                                                     alt="users photo"
                                                 />
@@ -54,11 +70,11 @@ const UserDetails = (props) => {
                                 </div>
                                 <div className="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                                     <div className="d-flex justify-content-between">
-                                        <a href="#" className="btn btn-sm btn-info mr-4">
-                                            Connect
-              </a>
+                                        <Link to="/userprofiles" className="btn btn-sm btn-info mr-4">
+                                            Back
+              </Link>
                                         <a href="#" className="btn btn-sm btn-default float-right">
-                                            Message
+                                            Activate/Deactivate
               </a>
                                     </div>
                                 </div>
