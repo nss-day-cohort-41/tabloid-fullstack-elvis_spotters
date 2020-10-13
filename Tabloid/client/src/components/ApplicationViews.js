@@ -9,9 +9,11 @@ import Login from "./Login";
 import Register from "./Register";
 import Categories from "./Categories/Categories";
 import PostList from "./Posts/PostList";
+import MyPosts from "./Posts/MyPosts";
 import PostDetails from "./Posts/PostDetails"
 import NewPost from "./Posts/NewPost";
 import EditPost from "./Posts/EditPost";
+import DeletePost from "./Posts/DeletePost";
 import TagList from "./Tags/TagList";
 import CommentList from "./Comments/CommentList";
 import { TagProvider } from "../providers/TagProvider";
@@ -53,6 +55,13 @@ function ApplicationViews(props) {
       to: "/login"
     },
     {
+      name: "MyPosts",
+      provider: PostProvider,
+      component: withRouter(MyPosts),
+      path: "/post/my",
+      to: "/login"
+    },
+    {
       name: "PostDetails",
       provider: PostProvider,
       component: withRouter(PostDetails),
@@ -73,6 +82,14 @@ function ApplicationViews(props) {
       path: "/post/:id/edit",
       to: "/login"
     },
+    {
+      name: "DeletePost",
+      provider: PostProvider,
+      component: withRouter(DeletePost),
+      path: "/post/:id/delete",
+      to: "/login"
+    },
+
     {
       name: "DeleteCategory",
       provider: CategoryProvider,
