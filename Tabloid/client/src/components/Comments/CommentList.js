@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
 import { CommentContext } from "../../providers/CommentProvider";
-import { PostContext } from "../../providers/PostProvider";
 import { CardDeck, Button } from "reactstrap";
 import Comment from "./Comment";
 import { useParams } from "react-router-dom";
@@ -8,13 +7,11 @@ import { useParams } from "react-router-dom";
 
 const CommentList = () => {
     const { comments, getCommentsByPostId } = useContext(CommentContext);
-    const { getPost } = useContext(PostContext)
-    const [post, setPost] = useState();
     const { postId } = useParams();
 
     useEffect(() => {
         getCommentsByPostId(postId)
-        getPost(postId).then(post => setPost(post));
+
     }, [])
 
 
