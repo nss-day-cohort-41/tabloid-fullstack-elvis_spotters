@@ -80,6 +80,7 @@ const EditPost = (props) => {
     }
 
     useEffect(() => {
+        if ()
         getCategories();
         getPost(id).then(setEditedPost);
     }, []);
