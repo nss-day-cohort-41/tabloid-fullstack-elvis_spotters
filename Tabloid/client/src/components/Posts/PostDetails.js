@@ -28,7 +28,6 @@ const PostDetails = (props) => {
         if (!post.content) return ("0 minutes");
         const wordCount = post.content.split(" ").length;
         const readTime = Math.ceil(wordCount / 265);
-        console.log(wordCount, readTime)
         if (readTime === 1) {
             return "1 minute";
         } else {
