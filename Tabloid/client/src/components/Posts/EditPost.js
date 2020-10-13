@@ -26,6 +26,8 @@ const EditPost = (props) => {
         imageLocation: false,
         categoryId: false
     });
+    const [currentUser, setCurrentUser] = useState();
+
 
     const { id } = useParams();
     const history = useHistory();
@@ -80,9 +82,16 @@ const EditPost = (props) => {
     }
 
     useEffect(() => {
-        if ()
+        const loggedInUser = JSON.parse(sessionStorage.userProfile);
         getCategories();
-        getPost(id).then(setEditedPost);
+        getPost(id).then((res) => {
+            if (res.userProfileId != loggedInUser.id) {
+                // Kick back to previous page if another user reaches this area
+                history.push("/post");
+            } else {
+            setEditedPost(res);
+            }
+        })
     }, []);
 
     if (!editedPost) {
