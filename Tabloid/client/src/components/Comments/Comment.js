@@ -5,7 +5,8 @@ const Comment = ({ Comment }) => {
     return (
         <Card className="border border-dark m-2">
             <CardHeader>
-                <strong>{Comment.subject}</strong>
+                <strong className="float-left">{Comment.subject}</strong>
+                <p className="float-right">Posted on: {Comment.createDateTime}</p>
             </CardHeader>
             <CardBody>
                 {Comment.content}

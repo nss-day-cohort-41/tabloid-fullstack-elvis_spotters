@@ -21,7 +21,9 @@ const CommentList = () => {
     return (
         <div className="container pt-2 flex-column">
             <h3 className="align-left">Comments</h3>
-            <h3 className="float-right">Title</h3>
+            <div>
+                <h3 className="float-right">Title</h3>
+            </div>
             <div className="d-flex flex-column">
                 <Button className="btn btn-primary float-left mt-1 mb-1">New Comment</Button>
                 <hr />
