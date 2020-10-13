@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import "./userprofile.css"
 
 const UserDetails = (props) => {
-    const { getUserById } = React.useContext(ProfileContext);
+    const { getUserById, changeActiveStatus } = React.useContext(ProfileContext);
     const [user, setUser] = React.useState({
         id: 0,
         firstName: "Jessica",
@@ -14,6 +14,7 @@ const UserDetails = (props) => {
         createDateTime: "2020-02-21",
         imageLocation: "https://static1.squarespace.com/static/54b7b93ce4b0a3e130d5d232/54e20ebce4b014cdbc3fd71b/5a992947e2c48320418ae5e0/1519987239570/icon.png?format=1500w",
         userTypeId: 1,
+        isActive:true,
         userType: {
             id: 0,
             name: "No Logged In user"
@@ -34,11 +35,23 @@ const UserDetails = (props) => {
         }
         
     }
+    const setIsActive = async (e) =>{
+        e.preventDefault();
+        console.log("hitting")
+        setUser((prevState)=>{
+            
+            return {
+                ...prevState,
+                isActive:!user.isActive
+            }
+        }) 
+        await changeActiveStatus(user);
+    }
 
 
     React.useEffect(() => {
         getUser();
-    })
+    }, [])
 
 
     return (
@@ -73,9 +86,12 @@ const UserDetails = (props) => {
                                         <Link to="/userprofiles" className="btn btn-sm btn-info mr-4">
                                             Back
               </Link>
-                                        <a href="#" className="btn btn-sm btn-default float-right">
-                                            Activate/Deactivate
-              </a>
+              {user.isActive ===true ? <>  <button onClick={setIsActive} className="btn btn-sm btn-default float-right">
+                                           Deactivate
+              </button></>:<>  <button onClick={setIsActive} className="btn btn-sm btn-default float-right">
+                                            Activate
+              </button></>}
+                                      
                                     </div>
                                 </div>
                                 <div className="card-body pt-0 pt-md-4">
@@ -106,7 +122,8 @@ const UserDetails = (props) => {
                                        <h3>
                                            {user.userType.name}
                                        </h3>
-                                       <button>Activate</button>
+                                       {user.isActive ===true ? <><h3 >Active</h3></>:<><h3>Deactivated</h3></>}
+                                       
                                     </div>
                                 </div>
                             </div>

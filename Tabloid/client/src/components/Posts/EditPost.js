@@ -26,6 +26,8 @@ const EditPost = (props) => {
         imageLocation: false,
         categoryId: false
     });
+    const [currentUser, setCurrentUser] = useState();
+
 
     const { id } = useParams();
     const history = useHistory();
@@ -80,8 +82,16 @@ const EditPost = (props) => {
     }
 
     useEffect(() => {
+        const loggedInUser = JSON.parse(sessionStorage.userProfile);
         getCategories();
-        getPost(id).then(setEditedPost);
+        getPost(id).then((res) => {
+            if (res.userProfileId != loggedInUser.id) {
+                // Kick back to previous page if another user reaches this area
+                history.push("/post");
+            } else {
+            setEditedPost(res);
+            }
+        })
     }, []);
 
     if (!editedPost) {
@@ -148,7 +158,7 @@ const EditPost = (props) => {
                         <Button className="primary" disabled={!isFormValid}>Submit</Button>
                     </Col>
                     <Col sm={1}>
-                        <Button className="secondary" type="button" onClick={() => history.push("/")}>Cancel</Button>
+                        <Button className="secondary" type="button" onClick={() => history.goBack()}>Cancel</Button>
                     </Col>
                 </FormGroup>
             </Form>

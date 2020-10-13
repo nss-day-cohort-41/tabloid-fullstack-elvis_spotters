@@ -28,6 +28,7 @@ namespace Tabloid.Repositories
                                     up.ImageLocation as UserProfileImageLocation, 
                                     up.CreateDateTime as UserProfileCreatedDateTime, 
                                     up.Id as UserProfileId,
+                                    up.IsActive as IsActive,
                                     u.Id as UserTypeId,
                                     u.Name as UserTypeName
                                     FROM UserProfile up
@@ -93,6 +94,7 @@ namespace Tabloid.Repositories
                                         up.ImageLocation as UserProfileImageLocation, 
                                         up.CreateDateTime as UserProfileCreatedDateTime, 
                                         up.Id as UserProfileId,
+                                        up.IsActive as IsActive,
                                         u.Id as UserTypeId,
                                         u.Name as UserTypeName
                                         FROM UserProfile up
@@ -134,7 +136,8 @@ namespace Tabloid.Repositories
                                         up.UserTypeId as UserProfileUserTypeId, 
                                         up.Email as UserProfileEmail,
                                         up.ImageLocation as UserProfileImageLocation, 
-                                        up.CreateDateTime as UserProfileCreatedDateTime, 
+                                        up.CreateDateTime as UserProfileCreatedDateTime,
+                                        up.IsActive as IsActive,
                                         up.Id as UserProfileId,
                                         u.Id as UserTypeId,
                                         u.Name as UserTypeName
@@ -157,6 +160,40 @@ namespace Tabloid.Repositories
                 
                 }
             }
+        public void isActive(UserProfile user)
+            {
+            using(SqlConnection conn = Connection)
+                {
+                conn.Open();
+                using(SqlCommand cmd = conn.CreateCommand())
+                    {
+                    cmd.CommandText = @"UPDATE UserProfile 
+                                        SET 
+                                        FirstName=@FirstName, 
+                                        LastName=@LastName, 
+                                        DisplayName=@DisplayName,
+                                        Email=@Email, 
+                                        CreateDateTime=@CreateDateTime, 
+                                        ImageLocation=@ImageLocation,
+                                        UserTypeId=@UserTypeId, 
+                                        IsActive=@IsActive
+                                        WHERE Id =@UserProfileId";
+                    cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
+                    cmd.Parameters.AddWithValue( "@LastName", user.LastName);
+                    cmd.Parameters.AddWithValue("@DisplayName", user.DisplayName);
+                    cmd.Parameters.AddWithValue("@Email", user.Email);
+                    cmd.Parameters.AddWithValue("@CreateDateTime", user.CreateDateTime);
+                    cmd.Parameters.AddWithValue("@ImageLocation", user.ImageLocation);
+                    cmd.Parameters.AddWithValue("@UserTypeId", user.UserTypeId);
+                    cmd.Parameters.AddWithValue("@IsActive", !user.IsActive);
+                    cmd.Parameters.AddWithValue("@UserProfileId", user.Id);
+
+                    cmd.ExecuteNonQuery();
+                    }
+                conn.Close();
+
+                }
+            }
 
 
 
@@ -171,6 +208,7 @@ namespace Tabloid.Repositories
                 Email = DbUtils.GetString(reader, "UserProfileEmail"),
                 ImageLocation = DbUtils.GetString(reader, "UserProfileImageLocation"),
                 CreateDateTime = DbUtils.GetDateTime(reader, "UserProfileCreatedDateTime"),
+                IsActive = DbUtils.GetBool(reader, "IsActive"),
                 UserTypeId = DbUtils.GetInt(reader, "UserProfileUserTypeId"),
                 UserType = new UserType()
                     {

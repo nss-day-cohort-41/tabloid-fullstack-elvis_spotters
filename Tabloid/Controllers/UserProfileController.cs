@@ -59,5 +59,18 @@ namespace Tabloid.Controllers
                 return NotFound();
                 }
             }
+        [HttpPut("active")]
+        public  IActionResult IsActive(UserProfile user)
+            {
+            try
+                {
+               _userProfileRepository.isActive(user);
+                return Ok();
+                }
+            catch
+                {
+                return NotFound();
+                }
+            }
     }
 }
