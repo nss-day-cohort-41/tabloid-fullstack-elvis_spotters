@@ -91,7 +91,7 @@ function ApplicationViews(props) {
       name: "Comments",
       provider: CommentProvider,
       component: withRouter(CommentList),
-      path: "/",
+      path: "/comments/:postId",
       to: "/login"
     },
     {

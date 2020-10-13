@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 
 const Post = ({ post }) => {
 
-    const history = useHistory();
-    const { getCommentsByPostId } = useContext(CommentContext);
 
     return (
         <tr>

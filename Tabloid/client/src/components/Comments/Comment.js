@@ -1,16 +1,17 @@
-import React, { useState, UseEffect } from "react";
+import React from "react";
 import { Card, CardHeader, CardBody } from "reactstrap";
 
-const Comment = ({ comment }) => {
+const Comment = ({ Comment }) => {
     return (
-        <Card>
+        <Card className="border border-dark m-2">
             <CardHeader>
-                {comment.Subject}
+                <strong>{Comment.subject}</strong>
             </CardHeader>
             <CardBody>
-                {comment.Content}
+                {Comment.content}
             </CardBody>
         </Card>
+
     )
 }
 
