@@ -13,7 +13,7 @@ const PostDetails = (props) => {
 
     const history = useHistory();
 
-    const loggedInUser = JSON.parse(sessionStorage.userProfile)
+    const loggedInUser = JSON.parse(sessionStorage.userProfile);
 
     useEffect(() => {
         getPost(id).then((res) => {
@@ -48,7 +48,7 @@ const PostDetails = (props) => {
                     {currentUser
                         ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/edit`)}>Edit</Button>
                         : null}
-                    <Button color="primary">Delete</Button>
+                    <Button color="primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
                 </Row>
             </section>
 

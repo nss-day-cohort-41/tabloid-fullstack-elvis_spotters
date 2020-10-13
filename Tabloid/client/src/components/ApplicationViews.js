@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Switch, Route, Redirect, useHistory, withRouter } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
-import {ProfileProvider} from "../providers/ProfileProvider";
+import { ProfileProvider } from "../providers/ProfileProvider";
 import { PostProvider } from "../providers/PostProvider";
 import { CategoryProvider } from "../providers/CategoryProvider"
 import Login from "./Login";
@@ -11,6 +11,7 @@ import PostList from "./Posts/PostList";
 import PostDetails from "./Posts/PostDetails"
 import NewPost from "./Posts/NewPost";
 import EditPost from "./Posts/EditPost";
+import DeletePost from "./Posts/DeletePost";
 import TagList from "./Tags/TagList";
 import { TagProvider } from "../providers/TagProvider";
 import NotFound from "./NotFound"
@@ -72,6 +73,14 @@ function ApplicationViews(props) {
       to: "/login"
     },
     {
+      name: "DeletePost",
+      provider: PostProvider,
+      component: withRouter(DeletePost),
+      path: "/post/:id/delete",
+      to: "/login"
+    },
+
+    {
       name: "DeleteCategory",
       provider: CategoryProvider,
       component: withRouter(DeleteCategory),
@@ -94,11 +103,11 @@ function ApplicationViews(props) {
       to: "/login"
     },
     {
-      name:"UserProfile",
-      provider:ProfileProvider,
-      component:withRouter(UserProfiles),
-      path:"/userprofiles",
-      to:"/login"
+      name: "UserProfile",
+      provider: ProfileProvider,
+      component: withRouter(UserProfiles),
+      path: "/userprofiles",
+      to: "/login"
     }
   ]
   const { isLoggedIn } = useContext(UserProfileContext);
