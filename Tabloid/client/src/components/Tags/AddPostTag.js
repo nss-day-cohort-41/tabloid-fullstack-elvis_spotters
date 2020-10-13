@@ -5,6 +5,7 @@ import { Label, Input, FormGroup, Form } from 'reactstrap';
 
 const AddPostTag = () => {
   const { getTagsByPostId, getAllTags } = useContext(PostTagContext);
+  const { id } = useParams();
 
   const [allTags, setAllTags] = useState([]);
 
@@ -12,6 +13,9 @@ const AddPostTag = () => {
     getAllTags().then(res => {
       console.log(res);
       setAllTags(res);
+    });
+    getTagsByPostId(id).then(res => {
+      console.log(res);
     })
   }, [])
 
@@ -23,7 +27,7 @@ const AddPostTag = () => {
           {allTags.map(tag => (
             <FormGroup check key={tag.id}>
               <Label check>
-                <Input type="radio" name="radio1" />{' '}
+                <Input type="checkbox" value={tag.id} />{' '}
                 {tag.name}
               </Label>
             </FormGroup>
@@ -35,28 +39,3 @@ const AddPostTag = () => {
 }
 
 export default AddPostTag;
-
-{/* <FormGroup tag="fieldset">
-<legend>Radio Buttons</legend>
-
-<FormGroup check>
-  <Label check>
-    <Input type="radio" name="radio1" />{' '}
-    Option one is this and that—be sure to include why it's great
-  </Label>
-</FormGroup>
-
-<FormGroup check>
-  <Label check>
-    <Input type="radio" name="radio1" />{' '}
-    Option two can be something else and selecting it will deselect option one
-  </Label>
-</FormGroup>
-
-<FormGroup check disabled>
-  <Label check>
-    <Input type="radio" name="radio1" disabled />{' '}
-    Option three is disabled
-  </Label>
-</FormGroup>
-</FormGroup> */}
