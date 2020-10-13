@@ -10,6 +10,7 @@ import Categories from "./Categories/Categories";
 import PostList from "./Posts/PostList";
 import PostDetails from "./Posts/PostDetails"
 import NewPost from "./Posts/NewPost";
+import EditPost from "./Posts/EditPost";
 import TagList from "./Tags/TagList";
 import { TagProvider } from "../providers/TagProvider";
 import NotFound from "./NotFound"
@@ -61,6 +62,13 @@ function ApplicationViews(props) {
       provider: PostProvider,
       component: NewPost,
       path: "/post/new",
+      to: "/login"
+    },
+    {
+      name: "EditPost",
+      provider: PostProvider,
+      component: withRouter(EditPost),
+      path: "/post/:id/edit",
       to: "/login"
     },
     {
