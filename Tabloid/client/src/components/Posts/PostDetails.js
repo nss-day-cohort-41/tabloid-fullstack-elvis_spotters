@@ -57,7 +57,7 @@ const PostDetails = (props) => {
                         ? <Button color="primary">Edit</Button>
                         : null}
                     <Button color="primary">Delete</Button>
-                    {currentUser ? <Button>Manage Tags</Button> : null}
+                    {currentUser ? <Button onClick={() => history.push(`/post/tags/${id}`)}>Manage Tags</Button> : null}
                 </Row>
             </section>
 

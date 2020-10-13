@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Switch, Route, Redirect, useHistory, withRouter } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
-import {ProfileProvider} from "../providers/ProfileProvider";
+import { ProfileProvider } from "../providers/ProfileProvider";
 import { PostProvider } from "../providers/PostProvider";
 import { CategoryProvider } from "../providers/CategoryProvider"
 import Login from "./Login";
@@ -17,6 +17,8 @@ import CreateCategory from "./Categories/CreateCategory";
 import EditCategory from "./Categories/EditCategory";
 import DeleteCategory from "./Categories/DeleteCategory";
 import UserProfiles from "./UserProfile/UserProfiles";
+import { PostTagProvider } from "../providers/PostTagProvider";
+import AddPostTag from "./Tags/AddPostTag";
 
 function ApplicationViews(props) {
   //Add Views to this array, follow the pattern
@@ -79,6 +81,13 @@ function ApplicationViews(props) {
       to: "/login"
     },
     {
+      name: "AddPostTag",
+      provider: PostTagProvider,
+      component: withRouter(AddPostTag),
+      path: "/post/tags/:id",
+      to: "/login"
+    },
+    {
       name: "Default",
       provider: PostProvider,
       component: withRouter(PostList),
@@ -86,11 +95,11 @@ function ApplicationViews(props) {
       to: "/login"
     },
     {
-      name:"UserProfile",
-      provider:ProfileProvider,
-      component:withRouter(UserProfiles),
-      path:"/userprofiles",
-      to:"/login"
+      name: "UserProfile",
+      provider: ProfileProvider,
+      component: withRouter(UserProfiles),
+      path: "/userprofiles",
+      to: "/login"
     }
   ]
   const { isLoggedIn } = useContext(UserProfileContext);

@@ -76,7 +76,6 @@ export function PostProvider(props) {
             }
         }).catch(err => console.log(err));
         const value = await res.json();
-        console.log(value);
         return value;
     }
 
