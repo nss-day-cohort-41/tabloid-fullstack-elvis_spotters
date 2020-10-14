@@ -34,6 +34,10 @@ export function ProfileProvider(props) {
         .catch(err=>{
             history.push("/404")
         })
+        if(userProfile.status === 400){
+            history.push("/404")
+            return
+        }
         return userProfile
     }
 
