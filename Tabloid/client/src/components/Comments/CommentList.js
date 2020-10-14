@@ -34,7 +34,7 @@ const CommentList = () => {
                 <hr />
                 <div className="d-flex flex-column align-content-center">
                     {comments.map(comment =>
-                        <Comment key={comment.id} Comment={comment} />
+                        <Comment key={comment.id} Comment={comment} PostId={postId} />
                     )}
                 </div>
             </div>

@@ -26,6 +26,16 @@ export function CommentProvider(props) {
         return setComments(postComments);
     }
 
+    const getComment = async (postId, commentId) => {
+        const token = await getToken();
+        const result = await fetch(`${apiUrl}/${postId}/${commentId}`, {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        const comment = await result.json();
+        return comment;
+    }
+
     const getPost = async (postId) => {
         const token = await getToken();
         const result = await fetch(`/api/post/${postId}`, {
@@ -53,8 +63,18 @@ export function CommentProvider(props) {
         }).then(result => result.json());
     }
 
+    const deleteComment = async (commentId) => {
+        const token = await getToken();
+        return await fetch(`${apiUrl}/${commentId}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+    }
+
     return (
-        <CommentContext.Provider value={{ comments, setComments, getCommentsByPostId, getPost, addComment }}>
+        <CommentContext.Provider value={{ comments, setComments, getCommentsByPostId, getPost, getComment, addComment, deleteComment }}>
             {props.children}
         </CommentContext.Provider>
     );

@@ -44,7 +44,9 @@ namespace Tabloid.Controllers
         {
             var comment = _commentRepo.GetById(commentId);
             if (comment == null)
-            { return NotFound(); };
+            { 
+                return NotFound(); 
+            };
 
             return Ok(comment);
         }

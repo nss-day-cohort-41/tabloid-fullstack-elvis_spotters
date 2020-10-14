@@ -132,7 +132,7 @@ function ApplicationViews(props) {
       name: "Delete Comment",
       provider: CommentProvider,
       component: withRouter(DeleteComment),
-      path: "/comments/:commentId/delete",
+      path: "/comments/:postId/delete/:commentId",
       to: "/login"
     },
     {
