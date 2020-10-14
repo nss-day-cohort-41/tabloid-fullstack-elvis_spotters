@@ -49,7 +49,7 @@ namespace Tabloid.Repositories
                                 LEFT JOIN Post p ON c.PostId = p.Id
                                 LEFT JOIN UserProfile up ON c.UserProfileId = up.Id
                             WHERE c.PostId = @postId
-                            ORDER BY CommentCreateDateTime
+                            ORDER BY CommentCreateDateTime DESC
                         ";
 
                     cmd.CommandText = getCommentsSql;

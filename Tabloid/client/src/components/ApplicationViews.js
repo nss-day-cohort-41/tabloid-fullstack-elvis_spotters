@@ -16,6 +16,7 @@ import EditPost from "./Posts/EditPost";
 import DeletePost from "./Posts/DeletePost";
 import TagList from "./Tags/TagList";
 import CommentList from "./Comments/CommentList";
+import CreateComment from "./Comments/CreateComment";
 import { TagProvider } from "../providers/TagProvider";
 import NotFound from "./NotFound"
 import CreateCategory from "./Categories/CreateCategory";
@@ -117,6 +118,13 @@ function ApplicationViews(props) {
       provider: CommentProvider,
       component: withRouter(CommentList),
       path: "/comments/:postId",
+      to: "/login"
+    },
+    {
+      name: "Comments",
+      provider: CommentProvider,
+      component: withRouter(CreateComment),
+      path: "/comments/:postId/create",
       to: "/login"
     },
     {
