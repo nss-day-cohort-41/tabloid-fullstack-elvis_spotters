@@ -86,7 +86,8 @@ const PostDetails = (props) => {
                 </Col>
             </Row>
             <Row>
-                <Button className="btn btn-primary" onClick={() => history.push(`/comments/${post.id}`)} >View Comments</Button>
+                <Button className="btn btn-primary m-2" type="button" onClick={() => history.push(`/comments/${post.id}`)} >View Comments</Button>
+                <Button className="btn btn-primary m-2" type="button" onClick={() => history.push(`/comments/${post.id}/create`)} >Add Comment</Button>
             </Row>
         </Container>
     )

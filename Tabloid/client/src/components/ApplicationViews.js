@@ -23,6 +23,7 @@ import CreateCategory from "./Categories/CreateCategory";
 import EditCategory from "./Categories/EditCategory";
 import DeleteCategory from "./Categories/DeleteCategory";
 import UserProfiles from "./UserProfile/UserProfiles";
+import DeleteComment from "./Comments/DeleteComment";
 
 function ApplicationViews(props) {
   //Add Views to this array, follow the pattern
@@ -121,10 +122,17 @@ function ApplicationViews(props) {
       to: "/login"
     },
     {
-      name: "Comments",
+      name: "Add Comment",
       provider: CommentProvider,
       component: withRouter(CreateComment),
       path: "/comments/:postId/create",
+      to: "/login"
+    },
+    {
+      name: "Delete Comment",
+      provider: CommentProvider,
+      component: withRouter(DeleteComment),
+      path: "/comments/:commentId/delete",
       to: "/login"
     },
     {

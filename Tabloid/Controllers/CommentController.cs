@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,10 +17,12 @@ namespace Tabloid.Controllers
     public class CommentController : ControllerBase
     {
         private readonly ICommentRepository _commentRepo;
+        private readonly IUserProfileRepository _userProfileRepo;
 
-        public CommentController(ICommentRepository commentRepository)
+        public CommentController(ICommentRepository commentRepository, IUserProfileRepository userProfileRepository)
         {
             _commentRepo = commentRepository;
+            _userProfileRepo = userProfileRepository;
         }
 
 
@@ -50,6 +53,7 @@ namespace Tabloid.Controllers
         [HttpPost]
         public IActionResult Post(Comment comment)
         {
+            comment.CreateDateTime = DateTime.Now;
             _commentRepo.Add(comment);
             return CreatedAtAction("Get", new { postId = comment.PostId }, comment);
         }
@@ -75,5 +79,7 @@ namespace Tabloid.Controllers
             _commentRepo.Delete(id);
             return NoContent();
         }
+
+
     }
 }

@@ -15,6 +15,7 @@ namespace Tabloid.Models
         public UserProfile UserProfile { get; set; }
 
         [Required]
+        [MaxLength(255)]
         public string Subject { get; set; }
 
         [Required]
