@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { PostContext } from "../../providers/PostProvider";
 import { useHistory, useParams } from "react-router-dom";
 import { Container, Row, Col, Button } from "reactstrap";
+import { Link } from "react-router-dom";
 
 const PostDetails = (props) => {
 
@@ -14,6 +15,8 @@ const PostDetails = (props) => {
     const history = useHistory();
 
     const loggedInUser = JSON.parse(sessionStorage.userProfile);
+
+
 
     useEffect(() => {
         getPost(id).then((res) => {
@@ -81,6 +84,10 @@ const PostDetails = (props) => {
                 <Col sm={12} mt={5}>
                     <p>{post.content}</p>
                 </Col>
+            </Row>
+            <Row>
+                <Button className="btn btn-primary m-2" type="button" onClick={() => history.push(`/comments/${post.id}`)} >View Comments</Button>
+                <Button className="btn btn-primary m-2" type="button" onClick={() => history.push(`/comments/${post.id}/create`)} >Add Comment</Button>
             </Row>
         </Container>
     )
