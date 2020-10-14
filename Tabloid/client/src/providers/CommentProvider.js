@@ -73,8 +73,20 @@ export function CommentProvider(props) {
         })
     }
 
+    const editComment = async (comment) => {
+        const token = await getToken();
+        return await fetch(`${apiUrl}/${comment.id}`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(comment)
+        });
+    }
+
     return (
-        <CommentContext.Provider value={{ comments, setComments, getCommentsByPostId, getPost, getComment, addComment, deleteComment }}>
+        <CommentContext.Provider value={{ comments, setComments, getCommentsByPostId, getPost, getComment, addComment, deleteComment, editComment }}>
             {props.children}
         </CommentContext.Provider>
     );
