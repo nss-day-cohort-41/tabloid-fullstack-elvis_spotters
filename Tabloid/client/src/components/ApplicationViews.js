@@ -3,7 +3,8 @@ import { Switch, Route, Redirect, useHistory, withRouter } from "react-router-do
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import { ProfileProvider } from "../providers/ProfileProvider";
 import { PostProvider } from "../providers/PostProvider";
-import { CategoryProvider } from "../providers/CategoryProvider"
+import { CategoryProvider } from "../providers/CategoryProvider";
+import { CommentProvider } from "../providers/CommentProvider";
 import Login from "./Login";
 import Register from "./Register";
 import Categories from "./Categories/Categories";
@@ -14,6 +15,10 @@ import NewPost from "./Posts/NewPost";
 import EditPost from "./Posts/EditPost";
 import DeletePost from "./Posts/DeletePost";
 import TagList from "./Tags/TagList";
+import CommentList from "./Comments/CommentList";
+import CreateComment from "./Comments/CreateComment";
+import DeleteComment from "./Comments/DeleteComment";
+import EditComment from "./Comments/EditComment";
 import { TagProvider } from "../providers/TagProvider";
 import NotFound from "./NotFound"
 import CreateCategory from "./Categories/CreateCategory";
@@ -114,18 +119,46 @@ function ApplicationViews(props) {
       to: "/login"
     },
     {
+      name: "Comments",
+      provider: CommentProvider,
+      component: withRouter(CommentList),
+      path: "/comments/:postId",
+      to: "/login"
+    },
+    {
+      name: "Add Comment",
+      provider: CommentProvider,
+      component: withRouter(CreateComment),
+      path: "/comments/:postId/create",
+      to: "/login"
+    },
+    {
+      name: "Delete Comment",
+      provider: CommentProvider,
+      component: withRouter(DeleteComment),
+      path: "/comments/:postId/delete/:commentId",
+      to: "/login"
+    },
+    {
+      name: "Edit Comment",
+      provider: CommentProvider,
+      component: withRouter(EditComment),
+      path: "/comments/:postId/edit/:commentId",
+      to: "/login"
+    },
+    {
+      name: "UserProfile",
+      provider: ProfileProvider,
+      component: withRouter(UserDetails),
+      path: "/userprofiles/details/:id",
+      to: "/login"
+    },
+    {
       name:"UserProfile",
       provider:ProfileProvider,
       component:withRouter(UserProfiles),
       path:"/userprofiles",
       to:"/login"
-    },
-    {
-      name:"UserProfileDetails",
-      provider: ProfileProvider,
-      component: withRouter(UserDetails),
-      path: "/userprofiles/details/:id",
-      to: "/login"
     },
     {
       name:"UserProfileDetails",
@@ -143,7 +176,7 @@ function ApplicationViews(props) {
         <ele.provider>
           {isLoggedIn ? <ele.component  /> : <Redirect to={ele.to} />}
         </ele.provider>
-      </Route >
+      </Route>
     )
   })
   return (
