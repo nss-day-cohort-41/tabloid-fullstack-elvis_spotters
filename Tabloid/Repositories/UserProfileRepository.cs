@@ -194,7 +194,40 @@ namespace Tabloid.Repositories
 
                 }
             }
+        public void isAdmin(UserProfile user)
+            {
+            using (SqlConnection conn = Connection)
+                {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                    cmd.CommandText = @"UPDATE UserProfile 
+                                        SET 
+                                        FirstName=@FirstName, 
+                                        LastName=@LastName, 
+                                        DisplayName=@DisplayName,
+                                        Email=@Email, 
+                                        CreateDateTime=@CreateDateTime, 
+                                        ImageLocation=@ImageLocation,
+                                        UserTypeId=@UserTypeId, 
+                                        IsActive=@IsActive
+                                        WHERE Id =@UserProfileId";
+                    cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", user.LastName);
+                    cmd.Parameters.AddWithValue("@DisplayName", user.DisplayName);
+                    cmd.Parameters.AddWithValue("@Email", user.Email);
+                    cmd.Parameters.AddWithValue("@CreateDateTime", user.CreateDateTime);
+                    cmd.Parameters.AddWithValue("@ImageLocation", user.ImageLocation);
+                    cmd.Parameters.AddWithValue("@UserTypeId", user.UserTypeId);
+                    cmd.Parameters.AddWithValue("@IsActive", user.IsActive);
+                    cmd.Parameters.AddWithValue("@UserProfileId", user.Id);
 
+                    cmd.ExecuteNonQuery();
+                    }
+                conn.Close();
+
+                }
+            }
 
 
         public UserProfile UserProfileBuilder(SqlDataReader reader)

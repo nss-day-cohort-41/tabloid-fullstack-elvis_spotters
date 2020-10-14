@@ -3,8 +3,8 @@ import { ProfileContext } from "../../providers/ProfileProvider";
 import {Link} from "react-router-dom";
 import "./userprofile.css"
 
-const UserDetails = (props) => {
-    const { getUserById, changeActiveStatus } = React.useContext(ProfileContext);
+const UserEdit = (props) => {
+    const { getUserById, changeAdminStatus } = React.useContext(ProfileContext);
     const [user, setUser] = React.useState({
         id: 0,
         firstName: "Jessica",
@@ -18,8 +18,7 @@ const UserDetails = (props) => {
         userType: {
             id: 0,
             name: "No Logged In user"
-        },
-        arrOfUsers:[]
+        }
 
     })
     const getUser = async () => {
@@ -36,17 +35,20 @@ const UserDetails = (props) => {
         }
         
     }
-    const setIsActive = async (e) =>{
+    const setIsAdmin = async (e) =>{
         e.preventDefault();
         console.log("hitting")
         setUser((prevState)=>{
             
             return {
                 ...prevState,
-                isActive:!user.isActive
+                userTypeId: user.userTypeId === 1 ? 2:1
             }
+            
         }) 
-        await changeActiveStatus(user);
+        let updatedUser = Object.assign({}, user);
+        updatedUser.userTypeId = user.userTypeId === 1 ? 2:1;
+        await changeAdminStatus(updatedUser);
     }
 
 
@@ -87,10 +89,10 @@ const UserDetails = (props) => {
                                         <Link to="/userprofiles" className="btn btn-sm btn-info mr-4">
                                             Back
               </Link>
-              {user.isActive ===true ? <>  <button onClick={setIsActive} className="btn btn-sm btn-default float-right">
-                                           Deactivate
-              </button></>:<>  <button onClick={setIsActive} className="btn btn-sm btn-default float-right">
-                                            Activate
+              {user.userTypeId === 1 ? <>  <button onClick={setIsAdmin} className="btn btn-sm btn-default float-right">
+                                           Demote
+              </button></>:<>  <button onClick={setIsAdmin} className="btn btn-sm btn-default float-right">
+                                            Promote
               </button></>}
                                       
                                     </div>
@@ -121,7 +123,7 @@ const UserDetails = (props) => {
               </div>
                                         <hr className="my-4" />
                                        <h3>
-                                           {user.userType.name}
+                                           {user.userTypeId === 1 ? "Admin" : "Author"}
                                        </h3>
                                        {user.isActive ===true ? <><h3 >Active</h3></>:<><h3>Deactivated</h3></>}
                                        
@@ -137,4 +139,4 @@ const UserDetails = (props) => {
         </div>
     )
 }
-export default UserDetails;
+export default UserEdit;

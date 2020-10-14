@@ -21,6 +21,7 @@ import EditCategory from "./Categories/EditCategory";
 import DeleteCategory from "./Categories/DeleteCategory";
 import UserProfiles from "./UserProfile/UserProfiles";
 import UserDetails from "./UserProfile/UserDetails";
+import UserEdit from "./UserProfile/UserEdit";
 
 function ApplicationViews(props) {
   //Add Views to this array, follow the pattern
@@ -124,6 +125,13 @@ function ApplicationViews(props) {
       provider: ProfileProvider,
       component: withRouter(UserDetails),
       path: "/userprofiles/details/:id",
+      to: "/login"
+    },
+    {
+      name:"UserProfileDetails",
+      provider: ProfileProvider,
+      component: withRouter(UserEdit),
+      path: "/userprofiles/edit/:id",
       to: "/login"
     },
   ]

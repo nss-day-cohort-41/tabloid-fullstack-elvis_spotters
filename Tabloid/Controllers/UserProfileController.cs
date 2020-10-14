@@ -74,5 +74,19 @@ namespace Tabloid.Controllers
                 return NotFound();
                 }
             }
-    }
+        [Authorize]
+        [HttpPut("admin")]
+        public IActionResult IsAdmin(UserProfile user)
+            {
+            try
+                {
+                _userProfileRepository.isActive(user);
+                return Ok(_userProfileRepository.GetUserById(user.Id));
+                }
+            catch
+                {
+                return NotFound();
+                }
+            }
+        }
 }

@@ -10,5 +10,6 @@ namespace Tabloid.Repositories
         List<UserProfile> GetAll();
         UserProfile GetUserById(int id);
         void isActive(UserProfile user);
+        void isAdmin(UserProfile user);
     }
 }

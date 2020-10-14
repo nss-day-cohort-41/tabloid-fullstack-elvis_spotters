@@ -29,6 +29,7 @@ const UserProfiles = () =>{
         <th scope="col">Name </th>
         <th scope="col">Username</th>
         <th scope="col">Type</th>
+        <th scope="col">Edit</th>
       </tr>
     </thead>
     <tbody>

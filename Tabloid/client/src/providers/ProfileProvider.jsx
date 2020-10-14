@@ -52,10 +52,25 @@ export function ProfileProvider(props) {
         })
         return userProfile
     }
+    const changeAdminStatus = async (data) =>{
+        let token = await getToken();
+        let userProfile = await fetch(`${apiUrl}/admin/`, {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type":"application/json"
+          },
+          body: JSON.stringify(data)
+        }).then(res => res.json())
+        .catch(err=>{
+            history.push("/404")
+        })
+        return userProfile
+    }
 
 
   return (
-    <ProfileContext.Provider value={{ ProfileList, getUserProfiles, getUserById, changeActiveStatus}}>
+    <ProfileContext.Provider value={{ ProfileList, getUserProfiles, getUserById, changeActiveStatus, changeAdminStatus}}>
       {props.children}
     </ProfileContext.Provider>
   )
