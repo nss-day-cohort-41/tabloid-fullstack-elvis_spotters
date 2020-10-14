@@ -10,11 +10,18 @@ const CommentList = () => {
     const { postId } = useParams();
     const history = useHistory();
     const [post, setPost] = useState();
+    const [currentUser, setCurrentUser] = useState();
 
     useEffect(() => {
         getCommentsByPostId(postId)
             .then(getPost(postId)
                 .then(result => setPost(result)))
+
+    }, [])
+
+    useEffect(() => {
+        const user = JSON.parse(sessionStorage.userProfile);
+        setCurrentUser(user.id);
     }, [])
 
 
@@ -34,7 +41,7 @@ const CommentList = () => {
                 <hr />
                 <div className="d-flex flex-column align-content-center">
                     {comments.map(comment =>
-                        <Comment key={comment.id} Comment={comment} PostId={postId} />
+                        <Comment key={comment.id} Comment={comment} PostId={postId} CurrentUser={currentUser} />
                     )}
                 </div>
             </div>

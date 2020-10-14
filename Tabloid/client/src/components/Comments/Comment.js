@@ -1,17 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardHeader, CardBody, Button } from "reactstrap";
 import { useHistory } from "react-router-dom";
 
-const Comment = ({ Comment, PostId }) => {
+const Comment = ({ Comment, PostId, CurrentUser }) => {
 
     const history = useHistory();
+
+
 
     return (
         <Card className="border border-dark m-2">
             <CardHeader className="">
                 <div className="d-flex justify-content-between">
                     <strong>{Comment.subject}</strong>
-                    <Button className="btn btn-primary" type="button" onClick={() => history.push(`/comments/${PostId}/delete/${Comment.id}`)}> Delete</Button>
+                    <div>
+                        {CurrentUser !== Comment.userProfileId ? "" :
+                            <Button className="btn btn-primary m-1" type="button" onClick={() => history.push(`/comments/${PostId}/edit/${Comment.id}`)}> Edit</Button>
+                        }
+                        <Button className="btn btn-danger m-1" type="button" onClick={() => history.push(`/comments/${PostId}/delete/${Comment.id}`)}> Delete</Button>
+                    </div>
                 </div>
                 <div className="justify-content-between mt-2 mb-0">
                     <p className="float-left">Author: {Comment.userProfile.displayName}</p>

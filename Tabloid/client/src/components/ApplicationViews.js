@@ -17,13 +17,14 @@ import DeletePost from "./Posts/DeletePost";
 import TagList from "./Tags/TagList";
 import CommentList from "./Comments/CommentList";
 import CreateComment from "./Comments/CreateComment";
+import DeleteComment from "./Comments/DeleteComment";
+import EditComment from "./Comments/EditComment";
 import { TagProvider } from "../providers/TagProvider";
 import NotFound from "./NotFound"
 import CreateCategory from "./Categories/CreateCategory";
 import EditCategory from "./Categories/EditCategory";
 import DeleteCategory from "./Categories/DeleteCategory";
 import UserProfiles from "./UserProfile/UserProfiles";
-import DeleteComment from "./Comments/DeleteComment";
 
 function ApplicationViews(props) {
   //Add Views to this array, follow the pattern
@@ -133,6 +134,13 @@ function ApplicationViews(props) {
       provider: CommentProvider,
       component: withRouter(DeleteComment),
       path: "/comments/:postId/delete/:commentId",
+      to: "/login"
+    },
+    {
+      name: "Edit Comment",
+      provider: CommentProvider,
+      component: withRouter(EditComment),
+      path: "/comments/:postId/edit/:commentId",
       to: "/login"
     },
     {
