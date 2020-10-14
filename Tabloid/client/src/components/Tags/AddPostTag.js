@@ -21,7 +21,7 @@ const AddPostTag = () => {
       return (
         <FormGroup key={tag.id}>
           <Label check>
-            <Input type="checkbox" value={tag.id} checked={cats.includes(tag.id)} onChange={handleFieldChange} />{' '}
+            <Input type="checkbox" value={tag.id} defaultChecked={cats.includes(tag.id)} onChange={handleFieldChange} />{' '}
             {tag.name}
           </Label>
         </FormGroup>
@@ -34,19 +34,28 @@ const AddPostTag = () => {
   const getAllTagsFromDB = async () => {
     const res = await getAllTags();
     setAllTags(res)
-    await getTagsByPostIdFromDB().then((cats) => arrOfCheckBoxes(res, cats))
+    let cats = await getTagsByPostIdFromDB()
+    arrOfCheckBoxes(res, cats)
+    setCurrentTagIds(cats)
+
+    // .then((cats) => {
+    //   arrOfCheckBoxes(res, cats)
+    //   setCurrentTagIds(cats)
+    // })
   }
 
   const getTagsByPostIdFromDB = async () => {
     const res = await getTagsByPostId(id);
     currentTagIdsArr = await res.map(tag => tag.tagId);
-    setCurrentTagIds(currentTagIdsArr);
+    // setCurrentTagIds(currentTagIdsArr);
     return currentTagIdsArr
   }
 
   const handleFieldChange = (e) => {
-    const checkedTag = e.target.value;
-    const tagList = currentTagIds;
+    let checkedTag = e.target.value;
+    console.log(checkedTag)
+    let tagList = [...currentTagIds];
+    console.log(tagList)
 
     if (e.target.checked) {
       tagList.push(parseInt(checkedTag))
