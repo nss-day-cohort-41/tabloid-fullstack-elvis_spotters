@@ -31,13 +31,14 @@ export function CommentProvider(props) {
         const result = await fetch(`${apiUrl}/${postId}/${commentId}`, {
             method: "GET",
             headers: { Authorization: `Bearer ${token}` }
-        }).then(res=>res)
-        .catch(err=>history.push("/404"));
+        }).then(res => res)
+            .catch(err => history.push("/404"));
         const comment = await result.json();
-        if(comment.status !== 200 ){
+        if (comment.status === 404) {
             history.push("/404")
-        };
+        }
         return comment;
+
     }
 
     const getPost = async (postId) => {

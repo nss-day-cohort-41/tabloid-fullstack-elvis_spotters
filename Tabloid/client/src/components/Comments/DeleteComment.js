@@ -16,7 +16,7 @@ const DeleteComment = () => {
     }
 
     useEffect(() => {
-        getComment(postId, commentId).then(result => setComment(result))
+        getComment(postId, commentId).then(result => { console.log(result); setComment(result) })
     }, [])
 
     return (
