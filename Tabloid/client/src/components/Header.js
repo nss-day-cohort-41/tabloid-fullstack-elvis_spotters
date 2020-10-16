@@ -42,7 +42,7 @@ export default function Header() {
                 </NavItem>
 
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/post">Posts</NavLink>
+                  <NavLink tag={RRNavLink} to="/post">All Posts</NavLink>
                 </NavItem>
 
                 <NavItem>

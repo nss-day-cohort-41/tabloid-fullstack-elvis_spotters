@@ -8,6 +8,7 @@ import { CommentProvider } from "../providers/CommentProvider";
 import Login from "./Login";
 import Register from "./Register";
 import Categories from "./Categories/Categories";
+import Homepage from "./Posts/Homepage";
 import PostList from "./Posts/PostList";
 import MyPosts from "./Posts/MyPosts";
 import PostDetails from "./Posts/PostDetails"
@@ -114,7 +115,7 @@ function ApplicationViews(props) {
     {
       name: "Default",
       provider: PostProvider,
-      component: withRouter(PostList),
+      component: withRouter(Homepage),
       path: "/",
       to: "/login"
     },
