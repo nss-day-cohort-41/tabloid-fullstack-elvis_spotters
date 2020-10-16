@@ -20,7 +20,7 @@ export function CommentProvider(props) {
         const results = await fetch(`${apiUrl}/${postId}`, {
             method: "GET",
             headers: { Authorization: `Bearer ${token}` }
-        }).catch(err => console.log(err), history.push("/404"));
+        }).catch(err => history.push("/404"));
 
         const postComments = await results.json();
         return setComments(postComments);
