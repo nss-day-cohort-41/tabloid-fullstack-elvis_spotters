@@ -20,7 +20,7 @@ export function CommentProvider(props) {
         const results = await fetch(`${apiUrl}/${postId}`, {
             method: "GET",
             headers: { Authorization: `Bearer ${token}` }
-        }).catch(err => console.log(err));
+        }).catch(err => console.log(err), history.push("/404"));
 
         const postComments = await results.json();
         return setComments(postComments);
@@ -48,7 +48,7 @@ export function CommentProvider(props) {
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        });
+        }).catch(err => history.push("/404"));
         if (!result.ok) {
             history.push(`${apiUrl}/${postId}`);
         }
@@ -65,7 +65,7 @@ export function CommentProvider(props) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(comment)
-        }).then(result => result.json());
+        }).then(result => result.json()).catch(err => history.push("/404"));
     }
 
     const deleteComment = async (commentId) => {
