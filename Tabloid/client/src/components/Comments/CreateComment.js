@@ -25,7 +25,8 @@ const CreateComment = () => {
             Subject: subject,
             Content: content
         }
-        await addComment(newComment).then(history.push(`/comments/${postId}`))
+        await addComment(newComment)
+        history.push(`/comments/${postId}`)
     };
 
     useEffect(() => {
