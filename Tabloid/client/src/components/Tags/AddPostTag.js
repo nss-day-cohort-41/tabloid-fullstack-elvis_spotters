@@ -77,7 +77,11 @@ const AddPostTag = () => {
           </Label>
         </FormGroup>
       ))}
-      <Button className="mt-4" onClick={handleSave}>Save</Button>
+      <div className="row mt-4">
+        <Button className="mr-2" onClick={() => history.push(`/post/${id}/details`)}>Cancel</Button>
+        <Button color="success" onClick={handleSave}>Save</Button>
+
+      </div>
     </div>
   )
 }
