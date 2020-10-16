@@ -16,7 +16,7 @@ const CreateComment = () => {
     const { addComment } = useContext(CommentContext);
 
 
-    const submitHandler = (event) => {
+    const submitHandler = async (event) => {
         event.preventDefault();
 
         const newComment = {
@@ -25,7 +25,7 @@ const CreateComment = () => {
             Subject: subject,
             Content: content
         }
-        addComment(newComment).then(history.push(`/comments/${postId}`))
+        await addComment(newComment).then(history.push(`/comments/${postId}`))
     };
 
     useEffect(() => {
