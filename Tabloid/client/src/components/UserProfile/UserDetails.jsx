@@ -1,10 +1,10 @@
 import React from 'react';
 import { ProfileContext } from "../../providers/ProfileProvider";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./userprofile.css"
 
 const UserDetails = (props) => {
-    const { getUserById, changeActiveStatus } = React.useContext(ProfileContext);
+    const { getUserById, changeActiveStatus, getAdminCount } = React.useContext(ProfileContext);
     const [user, setUser] = React.useState({
         id: 0,
         firstName: "Jessica",
@@ -14,39 +14,44 @@ const UserDetails = (props) => {
         createDateTime: "2020-02-21",
         imageLocation: "https://static1.squarespace.com/static/54b7b93ce4b0a3e130d5d232/54e20ebce4b014cdbc3fd71b/5a992947e2c48320418ae5e0/1519987239570/icon.png?format=1500w",
         userTypeId: 1,
-        isActive:true,
+        isActive: true,
         userType: {
             id: 0,
             name: "No Logged In user"
         },
-        arrOfUsers:[]
+        arrOfUsers: []
 
     })
     const getUser = async () => {
         let result = await getUserById(props.match.params.id);
-        setUser( result )
+        setUser(result)
         checkImage()
     }
-    const checkImage = () =>{
+    const checkImage = () => {
         const image = document.getElementById('profileImg');
-        if(image){
-            image.onerror = () =>{
-            image.src = "https://static1.squarespace.com/static/54b7b93ce4b0a3e130d5d232/54e20ebce4b014cdbc3fd71b/5a992947e2c48320418ae5e0/1519987239570/icon.png?format=1500w";
-        }
-        }
-        
-    }
-    const setIsActive = async (e) =>{
-        e.preventDefault();
-        console.log("hitting")
-        setUser((prevState)=>{
-            
-            return {
-                ...prevState,
-                isActive:!user.isActive
+        if (image) {
+            image.onerror = () => {
+                image.src = "https://static1.squarespace.com/static/54b7b93ce4b0a3e130d5d232/54e20ebce4b014cdbc3fd71b/5a992947e2c48320418ae5e0/1519987239570/icon.png?format=1500w";
             }
-        }) 
-        await changeActiveStatus(user);
+        }
+
+    }
+    const setIsActive = async (e) => {
+        e.preventDefault();
+        const adminCount = await getAdminCount();
+        if (adminCount === 1 && user.isActive === true && user.userType.id == 1) {
+            window.alert("Please assign another Admin before deactivating this user");
+        }
+        else {
+            setUser((prevState) => {
+
+                return {
+                    ...prevState,
+                    isActive: !user.isActive
+                }
+            }) 
+            await changeActiveStatus(user);
+        }
     }
 
 
@@ -57,24 +62,24 @@ const UserDetails = (props) => {
 
     return (
         <div>
-            
+
             <div className="main-content">
                 <h1 className="container text-center">User Details</h1>
                 <div className="container mt-7">
                     {/* Table */}
-                    
+
                     <div className="row">
-                        
+
                         <div className="col-xl-8 m-auto order-xl-2 mb-5 mb-xl-0">
                             <div className="card card-profile shadow">
                                 <div className="row justify-content-center">
                                     <div className="col-lg-3 order-lg-2">
-                                        
+
                                         <div className="card-profile-image">
                                             <a href="#">
                                                 <img
-                                                id="profileImg"
-                                                    src={user.imageLocation }
+                                                    id="profileImg"
+                                                    src={user.imageLocation}
                                                     className="rounded-circle"
                                                     alt="users photo"
                                                 />
@@ -87,19 +92,19 @@ const UserDetails = (props) => {
                                         <Link to="/userprofiles" className="btn btn-sm btn-info mr-4">
                                             Back
               </Link>
-              {user.isActive ===true ? <>  <button onClick={setIsActive} className="btn btn-sm btn-default float-right">
-                                           Deactivate
-              </button></>:<>  <button onClick={setIsActive} className="btn btn-sm btn-default float-right">
-                                            Activate
+                                        {user.isActive === true ? <>  <button onClick={setIsActive} className="btn btn-sm btn-default float-right">
+                                            Deactivate
+              </button></> : <>  <button onClick={setIsActive} className="btn btn-sm btn-default float-right">
+                                                Activate
               </button></>}
-                                      
+
                                     </div>
                                 </div>
                                 <div className="card-body pt-0 pt-md-4">
                                     <div className="row">
                                         <div className="col">
                                             <div className="card-profile-stats d-flex justify-content-center mt-md-5">
-                                              
+
                                             </div>
                                         </div>
                                     </div>
@@ -110,21 +115,21 @@ const UserDetails = (props) => {
                                         <div className="h5 font-weight-300">
                                             <i className="ni location_pin mr-2" />
                @{user.displayName}
-              </div>
+                                        </div>
                                         <div className="h5 mt-4">
                                             <i className="ni business_briefcase-24 mr-2" />
-                {user.email}
-              </div>
+                                            {user.email}
+                                        </div>
                                         <div>
                                             <i className="ni education_hat mr-2" />
                Creation Date: {user.createDateTime}
-              </div>
+                                        </div>
                                         <hr className="my-4" />
-                                       <h3>
-                                           {user.userType.name}
-                                       </h3>
-                                       {user.isActive ===true ? <><h3 >Active</h3></>:<><h3>Deactivated</h3></>}
-                                       
+                                        <h3>
+                                            {user.userType.name}
+                                        </h3>
+                                        {user.isActive === true ? <><h3 >Active</h3></> : <><h3>Deactivated</h3></>}
+
                                     </div>
                                 </div>
                             </div>
@@ -133,7 +138,7 @@ const UserDetails = (props) => {
                 </div>
             </div>;
 
-            
+
         </div>
     )
 }

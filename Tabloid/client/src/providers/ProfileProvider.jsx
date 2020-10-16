@@ -72,9 +72,18 @@ export function ProfileProvider(props) {
         return userProfile
     }
 
+    const getAdminCount = () => {
+      return getToken().then((token) =>
+        fetch(`${apiUrl}/admin`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }).then(resp => resp.json()));
+    }
 
   return (
-    <ProfileContext.Provider value={{ ProfileList, getUserProfiles, getUserById, changeActiveStatus, changeAdminStatus}}>
+    <ProfileContext.Provider value={{ ProfileList, getUserProfiles, getUserById, changeActiveStatus, changeAdminStatus, getAdminCount}}>
       {props.children}
     </ProfileContext.Provider>
   )

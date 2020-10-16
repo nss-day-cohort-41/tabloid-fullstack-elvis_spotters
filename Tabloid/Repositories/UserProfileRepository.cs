@@ -160,6 +160,30 @@ namespace Tabloid.Repositories
                 
                 }
             }
+
+        public int CountUserType(int userTypeId)
+        {
+            using(SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using(SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT COUNT(Id) AS UserCount FROM UserProfile
+                                        WHERE UserTypeId = @UserTypeId";
+                    DbUtils.AddParameter(cmd, "@UserTypeId", userTypeId);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    int userCount = 0;
+                    if (reader.Read())
+                    {
+                        userCount = DbUtils.GetInt(reader, "UserCount");
+                    }
+
+                    reader.Close();
+                    return userCount;
+                }
+            }
+        }
         public void isActive(UserProfile user)
             {
             using(SqlConnection conn = Connection)
