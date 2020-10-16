@@ -3,20 +3,21 @@ import { PostContext } from "../../providers/PostProvider";
 import { useHistory, useParams } from "react-router-dom";
 import { Container, Row, Col, Button } from "reactstrap";
 import { Link } from "react-router-dom";
+import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 const PostDetails = (props) => {
 
     const { getPost } = useContext(PostContext);
+    const { getToken } = useContext(UserProfileContext);
     const { id } = useParams();
 
     const [post, setPost] = useState();
     const [currentUser, setCurrentUser] = useState(false);
+    const [isSubscribed, setIsSubscribed] = useState(false);
 
     const history = useHistory();
 
     const loggedInUser = JSON.parse(sessionStorage.userProfile);
-
-
 
     useEffect(() => {
         getPost(id).then((res) => {
@@ -26,6 +27,20 @@ const PostDetails = (props) => {
             setPost(res)
         });
     }, []);
+
+    const subscribe = (evt) => {
+        evt.preventDefault();
+        getToken().then((token) =>
+        fetch("/api/subscription", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: post.userProfileId
+        }).then(res => res.json())
+        .then(() => setIsSubscribed(true)));
+    }
 
     const getReadTime = () => {
         if (!post.content) return ("0 minutes");
@@ -51,7 +66,12 @@ const PostDetails = (props) => {
                 </Row>
 
                 <Row className="justify-content-between">
-                    <p className="text-secondary">Written by {post.userProfile.displayName}</p>
+                    <p className="text-secondary">Written by {post.userProfile.displayName} {'\t'} 
+                        <span>{isSubscribed
+                            ? <p>Subscribed!</p>
+                            : <Button onClick={subscribe} outline color="primary" size="sm">Subscribe</Button>
+                        } </span>
+                    </p>
                     {(post.publishDateTime)
                         ? <p className="text-black-50">Published on {post.publishDateTime.substring(0, 10)}</p>
                         : <p className="text-black-50">Unpublished</p>

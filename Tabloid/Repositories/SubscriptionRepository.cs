@@ -55,7 +55,7 @@ namespace Tabloid.Repositories
                     cmd.CommandText = @" INSERT INTO Subscription (SubscriberUserProfileId, ProviderUserProfileId,
                                                                    BeginDateTime)
                                          OUTPUT INSERTED.Id
-                                         VALUES (@SubscriberId, ProviderId, BeginDateTime)";
+                                         VALUES (@SubscriberId, @ProviderId, @BeginDateTime)";
 
                     DbUtils.AddParameter(cmd, "@SubscriberId", subscription.SubscriberUserProfileId);
                     DbUtils.AddParameter(cmd, "@ProviderId", subscription.ProviderUserProfileId);

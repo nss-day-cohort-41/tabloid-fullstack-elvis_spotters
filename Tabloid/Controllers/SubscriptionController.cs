@@ -39,11 +39,17 @@ namespace Tabloid.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(Subscription subscription)
+        public IActionResult Post([FromBody] int providerId)
         {
             var currentUser = GetCurrentUserProfile();
-            subscription.SubscriberUserProfileId = currentUser.Id;
-            subscription.BeginDateTime = DateTime.Now;
+
+            Subscription subscription = new Subscription()
+            {
+                SubscriberUserProfileId = currentUser.Id,
+                ProviderUserProfileId = providerId,
+                BeginDateTime = DateTime.Now
+            };
+
             _subscriptionRepository.Add(subscription);
             return CreatedAtAction("Get", new { id = subscription.Id }, subscription);
         }
