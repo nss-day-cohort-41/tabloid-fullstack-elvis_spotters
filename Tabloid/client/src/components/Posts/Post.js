@@ -1,7 +1,11 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { Button } from "reactstrap";
 
-const Post = ({ post }) => {
+const Post = ({ post, currentUser }) => {
+
+    const history = useHistory();
+
     return (
         <tr>
             <td>
@@ -14,6 +18,13 @@ const Post = ({ post }) => {
             </td>
             <td>
                 <p>{post.category.name}</p>
+            </td>
+            <td>
+                {(currentUser === post.userProfile.id)
+                    ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/edit`)}>Edit</Button>
+                    : null}
+                <Button color="primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
+
             </td>
         </tr>
     )

@@ -23,6 +23,17 @@ export function PostProvider(props) {
                 .then(setPosts));
     }
 
+    const getMyPosts = () => {
+        getToken().then((token) =>
+            fetch(`${apiUrl}/user`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then((res) => res.json())
+                .then(setPosts));
+    }
+
     const getPost = async (id) => {
         const token = await getToken()
         const res = await fetch(`${apiUrl}/${id}`, {
@@ -79,8 +90,34 @@ export function PostProvider(props) {
         return value;
     }
 
+    // <---------- Methods for PostTag above this line ---------->
+
+    const updatePost = (post) => {
+        return getToken().then((token) =>
+            fetch(`${apiUrl}/${post.id}`, {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(post)
+            })
+        )
+    }
+
+    const deletePost = async (id) => {
+        const token = await getToken();
+        const res = await fetch(`${apiUrl}/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return null;
+    }
+
     return (
-        <PostContext.Provider value={{ posts, categories, setPosts, getAllPosts, getPost, getCategories, saveNewPost, getTagsByPostId }}>
+        <PostContext.Provider value={{ posts, categories, setPosts, getAllPosts, getMyPosts, getPost, getCategories, saveNewPost, updatePost, deletePost, getTagsByPostId }}>
             {props.children}
         </PostContext.Provider>
     );

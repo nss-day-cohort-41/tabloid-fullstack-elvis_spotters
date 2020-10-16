@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { PostContext } from "../../providers/PostProvider";
 import { useHistory, useParams } from "react-router-dom";
 import { Container, Row, Col, Button, Badge } from "reactstrap";
+import { Link } from "react-router-dom";
 
 const PostDetails = (props) => {
 
@@ -22,7 +23,9 @@ const PostDetails = (props) => {
 
     const history = useHistory();
 
-    const loggedInUser = JSON.parse(sessionStorage.userProfile)
+    const loggedInUser = JSON.parse(sessionStorage.userProfile);
+
+
 
     useEffect(() => {
         getPost(id).then((res) => {
@@ -35,6 +38,17 @@ const PostDetails = (props) => {
         // Invoking method to get all tags associated with post upon page load
         getTagsByPostIdFromDb();
     }, [tags]);
+
+    const getReadTime = () => {
+        if (!post.content) return ("0 minutes");
+        const wordCount = post.content.split(" ").length;
+        const readTime = Math.ceil(wordCount / 265);
+        if (readTime === 1) {
+            return "1 minute";
+        } else {
+            return `${readTime} minutes`;
+        }
+    }
 
     if (!post) {
         return null;
@@ -56,11 +70,14 @@ const PostDetails = (props) => {
                     }
                 </Row>
 
+                <Row className="justify-content-start">
+                    <p className="text-secondary">Estimated read time: {getReadTime()}</p>
+                </Row>
                 <Row>
                     {currentUser
-                        ? <Button color="primary">Edit</Button>
+                        ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/edit`)}>Edit</Button>
                         : null}
-                    <Button color="primary">Delete</Button>
+                    <Button color="primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
                     <Button onClick={() => history.push(`/post/tags/${id}`)}>Manage Tags</Button>
                 </Row>
             </section>
@@ -85,6 +102,10 @@ const PostDetails = (props) => {
                 <Col sm={12} mt={5}>
                     <p>{post.content}</p>
                 </Col>
+            </Row>
+            <Row>
+                <Button className="btn btn-primary m-2" type="button" onClick={() => history.push(`/comments/${post.id}`)} >View Comments</Button>
+                <Button className="btn btn-primary m-2" type="button" onClick={() => history.push(`/comments/${post.id}/create`)} >Add Comment</Button>
             </Row>
         </Container>
     )

@@ -8,7 +8,7 @@ namespace Tabloid.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserProfileController : ControllerBase
+    public class  UserProfileController : ControllerBase
     {
         private readonly IUserProfileRepository _userProfileRepository;
         public UserProfileController(IUserProfileRepository userProfileRepository)
@@ -46,5 +46,47 @@ namespace Tabloid.Controllers
                 return NotFound();
                 }
             }
-    }
+        [Authorize]
+        [HttpGet("details/{id}")]
+        public IActionResult GetUserById(int id)
+            {
+            try
+                {
+                return Ok(_userProfileRepository.GetUserById(id));
+                }
+            catch
+                {
+
+                return NotFound();
+                }
+            }
+        [Authorize]
+        [HttpPut("active")]
+        public  IActionResult IsActive(UserProfile user)
+            {
+            try
+                {
+               _userProfileRepository.isActive(user);
+                return Ok(_userProfileRepository.GetUserById(user.Id));
+                }
+            catch
+                {
+                return NotFound();
+                }
+            }
+        [Authorize]
+        [HttpPut("admin")]
+        public IActionResult IsAdmin(UserProfile user)
+            {
+            try
+                {
+                _userProfileRepository.isActive(user);
+                return Ok(_userProfileRepository.GetUserById(user.Id));
+                }
+            catch
+                {
+                return NotFound();
+                }
+            }
+        }
 }

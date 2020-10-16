@@ -4,15 +4,15 @@ import { PostContext } from "../../providers/PostProvider";
 import Post from "./Post"
 import { Container, Row, Button, Table } from "reactstrap";
 
-const PostList = (props) => {
+const MyPosts = (props) => {
 
-    const { posts, getAllPosts } = useContext(PostContext);
+    const { posts, getMyPosts } = useContext(PostContext);
 
     const history = useHistory();
     const [currentUser, setCurrentUser] = useState();
 
     useEffect(() => {
-        getAllPosts();
+        getMyPosts();
         const loggedInUser = JSON.parse(sessionStorage.userProfile);
         setCurrentUser(loggedInUser.id);
     }, []);
@@ -20,7 +20,7 @@ const PostList = (props) => {
     return (
         <Container>
             <Row>
-                <h2>Published Posts</h2>
+                <h2>My Posts</h2>
             </Row>
             <Row>
                 <Button onClick={() => history.push("/post/new")}>Create New Post</Button>
@@ -44,4 +44,4 @@ const PostList = (props) => {
     )
 }
 
-export default PostList
+export default MyPosts
