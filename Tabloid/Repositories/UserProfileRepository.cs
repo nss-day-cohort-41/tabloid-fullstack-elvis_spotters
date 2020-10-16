@@ -35,7 +35,7 @@ namespace Tabloid.Repositories
                                     JOIN UserType u ON u.Id = up.UserTypeId 
                                     WHERE FirebaseUserId = @FirebaseuserId";
 
-                    DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
+                    DbUtils.AddParameter(cmd, "@FirebaseuserId", firebaseUserId);
 
                     UserProfile userProfile = null;
 
