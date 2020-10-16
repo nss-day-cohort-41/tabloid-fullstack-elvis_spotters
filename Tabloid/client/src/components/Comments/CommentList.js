@@ -16,13 +16,11 @@ const CommentList = () => {
         getCommentsByPostId(postId)
             .then(getPost(postId)
                 .then(result => setPost(result)))
-
-    }, [])
-
-    useEffect(() => {
         const user = JSON.parse(sessionStorage.userProfile);
         setCurrentUser(user.id);
+
     }, [])
+
 
 
     return (

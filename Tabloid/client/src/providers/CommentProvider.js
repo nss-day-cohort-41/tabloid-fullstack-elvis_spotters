@@ -58,14 +58,16 @@ export function CommentProvider(props) {
 
     const addComment = async (comment) => {
         const token = await getToken();
-        return await fetch(apiUrl, {
+        const result = await fetch(apiUrl, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(comment)
-        }).then(result => result.json()).catch(err => history.push("/404"));
+        }).catch(err => history.push("/404"));
+        const taco = await result.json();
+        return taco;
     }
 
     const deleteComment = async (commentId) => {
