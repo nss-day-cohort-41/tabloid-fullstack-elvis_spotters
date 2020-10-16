@@ -44,6 +44,31 @@ namespace Tabloid.Repositories
             }
         }
 
+        public bool CheckSubscription(int subscriberId, int providerId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT Id FROM Subscription
+                                         WHERE SubscriberUserProfileId = @subscriberId
+                                           AND ProviderUserProfileId = @providerId";
+                    DbUtils.AddParameter(cmd, "@subscriberId", subscriberId);
+                    DbUtils.AddParameter(cmd, "@providerId", providerId);
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        reader.Close();
+                        return true;
+                    }
+
+                    reader.Close();
+                    return false;
+                }
+            }
+        }
+
         public void Add(Subscription subscription)
         {
             using (var conn = Connection)

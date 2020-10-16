@@ -38,17 +38,25 @@ namespace Tabloid.Controllers
             return Ok(subscription);
         }
 
-        [HttpPost]
-        public IActionResult Post([FromBody] int providerId)
+        [HttpGet("check")]
+        public IActionResult CheckSubscription(string id)
         {
-            var currentUser = GetCurrentUserProfile();
-
-            Subscription subscription = new Subscription()
+            try
             {
-                SubscriberUserProfileId = currentUser.Id,
-                ProviderUserProfileId = providerId,
-                BeginDateTime = DateTime.Now
-            };
+                int providerId = Int32.Parse(id);
+                var currentUser = GetCurrentUserProfile();
+                return Ok(_subscriptionRepository.CheckSubscription(currentUser.Id, providerId));
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Post(Subscription subscription)
+        {
+            subscription.BeginDateTime = DateTime.Now;
 
             _subscriptionRepository.Add(subscription);
             return CreatedAtAction("Get", new { id = subscription.Id }, subscription);

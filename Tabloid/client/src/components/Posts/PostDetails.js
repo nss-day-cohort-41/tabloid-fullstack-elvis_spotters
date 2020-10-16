@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { PostContext } from "../../providers/PostProvider";
 import { useHistory, useParams } from "react-router-dom";
 import { Container, Row, Col, Button } from "reactstrap";
-import { Link } from "react-router-dom";
 import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 const PostDetails = (props) => {
@@ -20,16 +19,35 @@ const PostDetails = (props) => {
     const loggedInUser = JSON.parse(sessionStorage.userProfile);
 
     useEffect(() => {
+
+        const checkSubscription = async (providerId) => {
+            const token = await getToken();
+            const res = await fetch(`../../api/subscription/check?id=${providerId}`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            const value = await res.json();
+            return value;
+        }
+
         getPost(id).then((res) => {
             if (loggedInUser.id === res.userProfileId) {
                 setCurrentUser(true);
             }
+            checkSubscription(res.userProfileId).then(setIsSubscribed);
             setPost(res)
         });
+
     }, []);
 
     const subscribe = (evt) => {
         evt.preventDefault();
+        const subscription = {
+            subscriberUserProfileId: loggedInUser.id,
+            providerUserProfileId: post.userProfileId
+        };
         getToken().then((token) =>
         fetch("/api/subscription", {
             method: "POST",
@@ -37,7 +55,7 @@ const PostDetails = (props) => {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
-            body: post.userProfileId
+            body: JSON.stringify(subscription)
         }).then(res => res.json())
         .then(() => setIsSubscribed(true)));
     }
@@ -66,9 +84,10 @@ const PostDetails = (props) => {
                 </Row>
 
                 <Row className="justify-content-between">
+                    {console.log(isSubscribed)}
                     <p className="text-secondary">Written by {post.userProfile.displayName} {'\t'} 
-                        <span>{isSubscribed
-                            ? <p>Subscribed!</p>
+                        <span className="text-success">{isSubscribed
+                            ? "Subscribed!"
                             : <Button onClick={subscribe} outline color="primary" size="sm">Subscribe</Button>
                         } </span>
                     </p>
