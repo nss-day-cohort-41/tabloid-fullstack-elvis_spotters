@@ -67,6 +67,46 @@ namespace Tabloid.Repositories
                 }
             }
         }
+
+        public List<Post> GetSubscribedPosts(int userProfileId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT p.Id AS PostId, p.Title, p.Content, p.ImageLocation AS PostImageLocation,
+                               p.CreateDateTime AS PostCreateDateTime, p.PublishDateTime, p.IsApproved, p.CategoryId, p.UserProfileId,
+	                           c.[Name],
+	                           up.DisplayName, up.FirstName, up.LastName, up.ImageLocation AS UserImageLocation, 
+                               up.Email, up.CreateDateTime as UserCreateDateTime, up.UserTypeId
+                          FROM Post p
+                    RIGHT JOIN Subscription s ON s.ProviderUserProfileId = p.UserProfileId
+                     LEFT JOIN Category c ON c.Id = p.CategoryId
+                     LEFT JOIN UserProfile up ON up.Id = p.UserProfileId
+                         WHERE p.SubscriberUserProfileId = @SubscriberId
+                               AND p.PublishDateTime < SYSDATETIME() AND p.IsApproved = 1
+                      ORDER BY p.PublishDateTime DESC, p.Id DESC;";
+
+                    DbUtils.AddParameter(cmd, "@SubscriberId", userProfileId);
+
+                    var reader = cmd.ExecuteReader();
+                    var posts = new List<Post>();
+
+                    while (reader.Read())
+                    {
+                        var post = NewPostFromDb(reader);
+
+                        posts.Add(post);
+                    }
+
+                    reader.Close();
+                    return posts;
+                }
+            }
+        }
+
         public List<Post> GetPostsByUserId(int userId)
         {
             using (var conn = Connection)
