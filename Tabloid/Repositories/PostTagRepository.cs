@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,6 +79,24 @@ namespace Tabloid.Repositories
                     DbUtils.AddParameter(cmd, "@TagId", postTag.TagId);
 
                     postTag.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        // Method to delete PostTag
+        public void DeletePostTag(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM PostTag WHERE id = @id";
+
+                    DbUtils.AddParameter(cmd, "@id", id);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }

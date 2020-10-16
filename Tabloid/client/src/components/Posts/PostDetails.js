@@ -14,6 +14,12 @@ const PostDetails = (props) => {
     // State for tags associated with post
     const [tags, setTags] = useState([]);
 
+    // Method to get all tags associated with post
+    const getTagsByPostIdFromDb = async () => {
+        const res = await getTagsByPostId(id);
+        setTags(res);
+    }
+
     const history = useHistory();
 
     const loggedInUser = JSON.parse(sessionStorage.userProfile)
@@ -26,11 +32,9 @@ const PostDetails = (props) => {
             setPost(res)
         });
 
-        // Getting tags associated to post, then setting state
-        getTagsByPostId(id).then(res => {
-            setTags(res);
-        });
-    }, []);
+        // Invoking method to get all tags associated with post upon page load
+        getTagsByPostIdFromDb();
+    }, [tags]);
 
     if (!post) {
         return null;

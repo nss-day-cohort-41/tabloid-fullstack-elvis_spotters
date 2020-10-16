@@ -33,7 +33,27 @@ namespace Tabloid.Controllers
         [HttpPost]
         public IActionResult Post(PostTag postTag)
         {
+            // Getting all current tags associated with post
+            var currentTags = _postTagRepository.GetTagsByPostId(postTag.PostId);
+
+            // Making sure duplicate Tags aren't added
+            foreach (PostTag tag in currentTags)
+            {
+                if (postTag.TagId == tag.TagId)
+                {
+                    return NoContent();
+                }
+            }
+
             _postTagRepository.AddPostTag(postTag);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _postTagRepository.DeletePostTag(id);
 
             return NoContent();
         }

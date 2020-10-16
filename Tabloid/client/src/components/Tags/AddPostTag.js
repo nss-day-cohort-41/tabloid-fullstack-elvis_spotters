@@ -1,86 +1,83 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { PostTagContext } from '../../providers/PostTagProvider';
-import { useHistory, useParams } from 'react-router-dom';
-import { Label, Input, FormGroup, Form, Button } from 'reactstrap';
+import { useParams, useHistory } from 'react-router-dom';
+import { FormGroup, Label, Input, Button } from 'reactstrap';
 
 const AddPostTag = () => {
-  const { getTagsByPostId, getAllTags, addPostTag } = useContext(PostTagContext);
+  const { getAllTags, getTagsByPostId, addPostTag, getAllPosts } = useContext(PostTagContext);
   const { id } = useParams();
+  const history = useHistory();
 
   const [allTags, setAllTags] = useState([]);
-  const [currentTagIds, setCurrentTagIds] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [jsxArr, setJsxArr] = useState([]);
+  const [currentTags, setCurrentTags] = useState([]);
 
-  let currentTagIdsArr = [];
-
-  const arrOfCheckBoxes = (res, cats) => {
-
-    let arr = res.map(tag => {
-
-      return (
-        <FormGroup key={tag.id}>
-          <Label check>
-            <Input type="checkbox" value={tag.id} defaultChecked={cats.includes(tag.id)} onChange={handleFieldChange} />{' '}
-            {tag.name}
-          </Label>
-        </FormGroup>
-      )
-    })
-
-    setJsxArr(arr);
-  }
-
-  const getAllTagsFromDB = async () => {
+  const getAllTagsFromDb = async () => {
     const res = await getAllTags();
-    setAllTags(res)
-    let cats = await getTagsByPostIdFromDB()
-    arrOfCheckBoxes(res, cats)
-    setCurrentTagIds(cats)
-
-    // .then((cats) => {
-    //   arrOfCheckBoxes(res, cats)
-    //   setCurrentTagIds(cats)
-    // })
+    setAllTags(res);
   }
 
-  const getTagsByPostIdFromDB = async () => {
+  const getTagsByPostIdFromDb = async () => {
     const res = await getTagsByPostId(id);
-    currentTagIdsArr = await res.map(tag => tag.tagId);
-    // setCurrentTagIds(currentTagIdsArr);
-    return currentTagIdsArr
+    setCurrentTags(res.map(tag => tag.tagId));
+  }
+
+  // Method to protect addPostTag route from non-existent posts and re-directs user to post list
+  const getAllPostsFromDb = async () => {
+    const res = await getAllPosts();
+    const postIds = res.map(post => post.id)
+    if (!postIds.includes(parseInt(id))) {
+      return history.push('/post')
+    }
   }
 
   const handleFieldChange = (e) => {
-    let checkedTag = e.target.value;
-    console.log(checkedTag)
-    let tagList = [...currentTagIds];
-    console.log(tagList)
+    const stateToChange = [...currentTags];
+    const checkedTag = e.target.value;
 
+    // If option is checked, add tagId to list of currentTags, else, find index of unchecked option and remove from list
     if (e.target.checked) {
-      tagList.push(parseInt(checkedTag))
+      stateToChange.push(parseInt(checkedTag));
     } else {
-      const index = tagList.indexOf(parseInt(checkedTag))
-      tagList.splice(index, 1)
+      const index = stateToChange.indexOf(parseInt(checkedTag));
+      stateToChange.splice(index, 1);
     }
 
-    setCurrentTagIds(tagList)
+    setCurrentTags(stateToChange);
+  }
+
+  const handleSave = (e) => {
+    e.preventDefault();
+
+    for (let i = 0; i < currentTags.length; i++) {
+      const postTag = {
+        PostId: parseInt(id),
+        TagId: currentTags[i]
+      }
+
+      addPostTag(postTag)
+    }
+
+    history.push(`/post/${id}/details`)
   }
 
   useEffect(() => {
-    getAllTagsFromDB().then(() => setIsLoaded(true))
+    getAllPostsFromDb();
+    getAllTagsFromDb();
+    getTagsByPostIdFromDb();
   }, [])
-
 
   return (
     <div>
-      <Form>
-        <FormGroup tag="fieldset">
-          <legend>Select tags you want associated with this post:</legend>
-          {isLoaded ? <>{jsxArr}</> : null}
+      <h4 className="mb-3">Add tags to post</h4>
+      {allTags.map(tag => (
+        <FormGroup check key={tag.id}>
+          <Label check>
+            <Input type="checkbox" checked={currentTags.includes(tag.id)} value={tag.id} onChange={handleFieldChange} />{' '}
+            {tag.name}
+          </Label>
         </FormGroup>
-        <Button>Save</Button>
-      </Form>
+      ))}
+      <Button className="mt-4" onClick={handleSave}>Save</Button>
     </div>
   )
 }
