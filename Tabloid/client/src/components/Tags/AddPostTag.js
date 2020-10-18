@@ -48,14 +48,8 @@ const AddPostTag = () => {
   const handleSave = (e) => {
     e.preventDefault();
 
-    for (let i = 0; i < currentTags.length; i++) {
-      const postTag = {
-        PostId: parseInt(id),
-        TagId: currentTags[i]
-      }
-
-      addPostTag(postTag)
-    }
+    // Passing postId from route parameter and list of selected tag ids as arguments to addPostTag method
+    addPostTag(id, currentTags);
 
     history.push(`/post/${id}/details`)
   }
@@ -68,7 +62,7 @@ const AddPostTag = () => {
 
   return (
     <div>
-      <h4 className="mb-3">Add tags to post</h4>
+      <h4 className="mb-3">Add or remove tags associated with the post:</h4>
       {allTags.map(tag => (
         <FormGroup check key={tag.id}>
           <Label check>

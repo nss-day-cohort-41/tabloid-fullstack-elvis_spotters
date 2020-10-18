@@ -55,15 +55,15 @@ export function PostTagProvider(props) {
   }
 
   // Method to post new tags to post
-  const addPostTag = async (postTag) => {
+  const addPostTag = async (postId, listOfTags) => {
     const token = await getToken();
-    const res = await fetch(apiUrl, {
+    const res = await fetch(`${apiUrl}/${postId}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(postTag)
+      body: JSON.stringify(listOfTags)
     });
     if (res.ok) {
       return console.log("Success")

@@ -83,8 +83,8 @@ namespace Tabloid.Repositories
             }
         }
 
-        // Method to delete PostTag
-        public void DeletePostTag(int id)
+        // Method deletes PostTag record by tag id and post id, when user no longer wants a tag associated with a post
+        public void RemoveTagFromPost(int tagId, int postId)
         {
             using (SqlConnection conn = Connection)
             {
@@ -92,9 +92,13 @@ namespace Tabloid.Repositories
 
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "DELETE FROM PostTag WHERE id = @id";
+                    cmd.CommandText = @"DELETE FROM
+	                                        PostTag
+                                        WHERE
+	                                        TagId = @TagId AND PostId = @PostId;";
 
-                    DbUtils.AddParameter(cmd, "@id", id);
+                    DbUtils.AddParameter(cmd, "@TagId", tagId);
+                    DbUtils.AddParameter(cmd, "@PostId", postId);
 
                     cmd.ExecuteNonQuery();
                 }

@@ -9,6 +9,6 @@ namespace Tabloid.Repositories
 
         public void AddPostTag(PostTag postTag);
 
-        public void DeletePostTag(int id);
+        public void RemoveTagFromPost(int tagId, int postId);
     }
 }
