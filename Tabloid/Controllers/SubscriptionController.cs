@@ -56,6 +56,8 @@ namespace Tabloid.Controllers
         [HttpPost("{providerId}")]
         public IActionResult Post(int providerId)
         {
+            // Only the provider ID is returned from the browser. The rest of the object is built here.
+
             var currentUser = GetCurrentUserProfile();
             var subscription = new Subscription()
             {
@@ -71,6 +73,9 @@ namespace Tabloid.Controllers
         [HttpPut("{providerId}")]
         public IActionResult Unsubscribe(int providerId)
         {
+            // Only the provider ID is returned from the browser. 
+            // The rest of the object is retrieved and appended here.
+
             var currentUser = GetCurrentUserProfile();
             var subscription = _subscriptionRepository.GetSubScriptionByMembers(currentUser.Id, providerId);
             

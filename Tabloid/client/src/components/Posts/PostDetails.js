@@ -54,6 +54,8 @@ const PostDetails = (props) => {
         getTagsByPostIdFromDb();
     }, []);
 
+    // Both subscription methods return only the current post's author Id.
+    // The rest of the subscription is built by the API to limit possible interaction with the user.
     const subscribe = (evt) => {
         evt.preventDefault();
         getToken().then((token) =>
