@@ -44,18 +44,13 @@ const PostDetails = (props) => {
 
     const subscribe = (evt) => {
         evt.preventDefault();
-        const subscription = {
-            subscriberUserProfileId: loggedInUser.id,
-            providerUserProfileId: post.userProfileId
-        };
         getToken().then((token) =>
-        fetch("/api/subscription", {
+        fetch(`/api/subscription/${post.userProfileId}`, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
-            },
-            body: JSON.stringify(subscription)
+            }
         }).then(res => res.json())
         .then(() => setIsSubscribed(true)));
     }
