@@ -7,7 +7,7 @@ import { UserProfileContext } from "../../providers/UserProfileProvider";
 const PostDetails = (props) => {
 
     const { getPost, getTagsByPostId } = useContext(PostContext);
-    const { getToken } = useContext(UserProfileContext);
+    const { getToken, isAdministrator } = useContext(UserProfileContext);
     
     const { id } = useParams();
 
@@ -123,8 +123,12 @@ const PostDetails = (props) => {
                 <Row>
                     {currentUser
                         ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/edit`)}>Edit</Button>
-                        : null}
-                    <Button color="primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
+                        : null
+                    }
+                    {currentUser || isAdministrator
+                        ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
+                        : null
+                    }
                     <Button onClick={() => history.push(`/post/tags/${id}`)}>Manage Tags</Button>
                 </Row>
             </section>

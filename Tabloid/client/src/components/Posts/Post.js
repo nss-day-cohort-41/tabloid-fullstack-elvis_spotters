@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Button } from "reactstrap";
+import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 const Post = ({ post, currentUser }) => {
 
+    const { isAdministrator } = useContext(UserProfileContext);
     const history = useHistory();
 
     return (
@@ -23,9 +25,9 @@ const Post = ({ post, currentUser }) => {
                 {(currentUser === post.userProfile.id)
                     ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/edit`)}>Edit</Button>
                     : null}
-                {(currentUser === post.userProfile.id || isAdmin)
-                ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
-                : null
+                {(currentUser === post.userProfile.id || isAdministrator)
+                    ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
+                    : null
                 }
             </td>
         </tr>
