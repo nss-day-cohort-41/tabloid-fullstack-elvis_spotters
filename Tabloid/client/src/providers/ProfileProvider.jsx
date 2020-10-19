@@ -35,10 +35,11 @@ export function ProfileProvider(props) {
         .catch(err=>{
             history.push("/404")
         })
-        if(userProfile.status === 400){
+        if(!userProfile){
             history.push("/404")
             return
         }
+        console.log(userProfile);
         return userProfile
     }
 

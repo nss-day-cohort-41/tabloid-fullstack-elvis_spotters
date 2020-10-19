@@ -29,6 +29,7 @@ const UserDetails = (props) => {
     const history = useHistory();
     const getUser = async () => {
         let result = await getUserById(props.match.params.id);
+        if(!result) return;
         setOriginalState(result.isActive);
         setUser( result )
         checkImage()
