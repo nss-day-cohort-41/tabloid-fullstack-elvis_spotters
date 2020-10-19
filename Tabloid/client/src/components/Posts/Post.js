@@ -23,8 +23,10 @@ const Post = ({ post, currentUser }) => {
                 {(currentUser === post.userProfile.id)
                     ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/edit`)}>Edit</Button>
                     : null}
-                <Button color="primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
-
+                {(currentUser === post.userProfile.id || isAdmin)
+                ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
+                : null
+                }
             </td>
         </tr>
     )
