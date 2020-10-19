@@ -26,6 +26,8 @@ import EditCategory from "./Categories/EditCategory";
 import DeleteCategory from "./Categories/DeleteCategory";
 import UserProfiles from "./UserProfile/UserProfiles";
 import UserProfilesInActive from "./UserProfile/UserProfilesInActive";
+import { PostTagProvider } from "../providers/PostTagProvider";
+import AddPostTag from "./Tags/AddPostTag";
 import UserDetails from "./UserProfile/UserDetails";
 import UserEdit from "./UserProfile/UserEdit";
 
@@ -104,12 +106,19 @@ function ApplicationViews(props) {
       to: "/login"
 
     },
-    
+
     {
       name: "Tags",
       provider: TagProvider,
       component: withRouter(TagList),
       path: "/tags",
+      to: "/login"
+    },
+    {
+      name: "AddPostTag",
+      provider: PostTagProvider,
+      component: withRouter(AddPostTag),
+      path: "/post/tags/:id",
       to: "/login"
     },
     {
@@ -169,7 +178,14 @@ function ApplicationViews(props) {
       to:"/login"
     },
     {
-      name:"UserProfileDetails",
+      name: "UserProfile",
+      provider: ProfileProvider,
+      component: withRouter(UserProfiles),
+      path: "/userprofiles",
+      to: "/login"
+    },
+    {
+      name: "UserProfileDetails",
       provider: ProfileProvider,
       component: withRouter(UserEdit),
       path: "/userprofiles/edit/:id",
@@ -182,7 +198,7 @@ function ApplicationViews(props) {
     return (
       <Route key={index} path={ele.path} exact>
         <ele.provider>
-          {isLoggedIn ? <ele.component  /> : <Redirect to={ele.to} />}
+          {isLoggedIn ? <ele.component /> : <Redirect to={ele.to} />}
         </ele.provider>
       </Route>
     )

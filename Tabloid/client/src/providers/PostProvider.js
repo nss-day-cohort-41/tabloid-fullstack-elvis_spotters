@@ -74,6 +74,25 @@ export function PostProvider(props) {
         );
     }
 
+    // <---------- Methods for PostTag below this line ---------->
+
+    const postTagApiUrl = "/api/posttag";
+
+    // Method to get all tags associated with specific post
+    const getTagsByPostId = async (postId) => {
+        const token = await getToken();
+        const res = await fetch(`${postTagApiUrl}/${postId}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).catch(err => console.log(err));
+        const value = await res.json();
+        return value;
+    }
+
+    // <---------- Methods for PostTag above this line ---------->
+
     const updatePost = (post) => {
         return getToken().then((token) =>
             fetch(`${apiUrl}/${post.id}`, {
@@ -99,7 +118,7 @@ export function PostProvider(props) {
     }
 
     return (
-        <PostContext.Provider value={{ posts, categories, setPosts, getAllPosts, getMyPosts, getPost, getCategories, saveNewPost, updatePost, deletePost }}>
+        <PostContext.Provider value={{ posts, categories, setPosts, getAllPosts, getMyPosts, getPost, getCategories, saveNewPost, updatePost, deletePost, getTagsByPostId }}>
             {props.children}
         </PostContext.Provider>
     );
