@@ -25,6 +25,7 @@ const EditComment = () => {
     }
 
     useEffect(() => {
+
         const currentUser = JSON.parse(sessionStorage.userProfile);
         getComment(postId, commentId)
             .then(result => {
@@ -35,10 +36,19 @@ const EditComment = () => {
                 }
             })
             .then(result => {
-                setSubject(result.subject)
-                setContent(result.content)
-                setCommentToEdit(result)
+                try {
+                    setSubject(result.subject)
+                    setContent(result.content)
+                    setCommentToEdit(result)
+                }
+                catch (err) {
+                    history.push("/404");
+                }
             });
+
+
+
+
     }, [])
 
 
