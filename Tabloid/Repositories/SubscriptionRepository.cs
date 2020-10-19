@@ -78,7 +78,7 @@ namespace Tabloid.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT Id, SubscriberUserProfileId, ProviderUserProfileId,
-                                               StartDateTime, EndDateTime
+                                               BeginDateTime, EndDateTime
                                           FROM Subscription
                                          WHERE SubscriberUserProfileId = @subscriberId
                                                AND ProviderUserProfileId = @providerId;";

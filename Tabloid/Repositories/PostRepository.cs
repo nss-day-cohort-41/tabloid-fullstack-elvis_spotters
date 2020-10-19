@@ -85,7 +85,7 @@ namespace Tabloid.Repositories
                     RIGHT JOIN Subscription s ON s.ProviderUserProfileId = p.UserProfileId
                      LEFT JOIN Category c ON c.Id = p.CategoryId
                      LEFT JOIN UserProfile up ON up.Id = p.UserProfileId
-                         WHERE s.SubscriberUserProfileId = @SubscriberId
+                         WHERE s.SubscriberUserProfileId = @SubscriberId AND s.EndDateTime IS NULL
                                AND p.PublishDateTime < SYSDATETIME() AND p.IsApproved = 1
                       ORDER BY p.PublishDateTime DESC, p.Id DESC;";
 
