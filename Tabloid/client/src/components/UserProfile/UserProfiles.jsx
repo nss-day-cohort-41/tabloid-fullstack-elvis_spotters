@@ -40,7 +40,7 @@ const UserProfiles = () =>{
         <th scope="col">Username</th>
         <th scope="col">Type</th>
         <th scope="col">Active Status</th>
-        <th scope="col"></th>
+        <th scope="col">Edit User Type</th>
       </tr>
     </thead>
     <tbody>
