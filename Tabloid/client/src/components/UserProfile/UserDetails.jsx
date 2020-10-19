@@ -1,10 +1,14 @@
 import React from 'react';
 import { ProfileContext } from "../../providers/ProfileProvider";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import "./userprofile.css"
 
 const UserDetails = (props) => {
     const { getUserById, changeActiveStatus } = React.useContext(ProfileContext);
+    const [originalState, setOriginalState]  =React.useState(true);
+    const [throttle, setThrottle] = React.useState({
+        count:0
+    })
     const [user, setUser] = React.useState({
         id: 0,
         firstName: "Jessica",
@@ -22,8 +26,10 @@ const UserDetails = (props) => {
         arrOfUsers:[]
 
     })
+    const history = useHistory();
     const getUser = async () => {
         let result = await getUserById(props.match.params.id);
+        setOriginalState(result.isActive);
         setUser( result )
         checkImage()
     }
@@ -37,6 +43,8 @@ const UserDetails = (props) => {
         
     }
     const setIsActive = async (e) =>{
+        if(throttle.count >= 1)return;
+        setThrottle({count:1});
         e.preventDefault();
         console.log("hitting")
         setUser((prevState)=>{
@@ -47,6 +55,7 @@ const UserDetails = (props) => {
             }
         }) 
         await changeActiveStatus(user);
+        history.push(`/userprofiles/${originalState === true? "active" : "inactive"}`);
     }
 
 
@@ -84,13 +93,13 @@ const UserDetails = (props) => {
                                 </div>
                                 <div className="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                                     <div className="d-flex justify-content-between">
-                                        <Link to="/userprofiles" className="btn btn-sm btn-info mr-4">
-                                            Back
-              </Link>
-              {user.isActive ===true ? <>  <button onClick={setIsActive} className="btn btn-sm btn-default float-right">
-                                           Deactivate
-              </button></>:<>  <button onClick={setIsActive} className="btn btn-sm btn-default float-right">
-                                            Activate
+                                        <button type="button" onClick={e=>history.push(`/userprofiles/${originalState === true? "active" : "inactive"}`)} className="btn btn-sm btn-info mr-4">
+                                            Cancel
+              </button>
+              {originalState ===true ? <>  <button type="button" onClick={setIsActive} className="btn btn-sm btn-default float-right">
+                                          Confirm Deactivate
+              </button></>:<>  <button type="button" onClick={setIsActive} className="btn btn-sm btn-default float-right">
+                                            Confirm Activate
               </button></>}
                                       
                                     </div>

@@ -1,7 +1,8 @@
 import React from 'react';
 import { ProfileContext } from "../../providers/ProfileProvider";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import "./userprofile.css"
+import { useState } from 'react';
 
 const UserEdit = (props) => {
     const { getUserById, changeAdminStatus } = React.useContext(ProfileContext);
@@ -21,6 +22,11 @@ const UserEdit = (props) => {
         }
 
     })
+    const [throttle, setThrottle] = useState({
+        count:0
+    });
+   
+    const history = useHistory();
     const getUser = async () => {
         let result = await getUserById(props.match.params.id);
         setUser( result )
@@ -36,8 +42,11 @@ const UserEdit = (props) => {
         
     }
     const setIsAdmin = async (e) =>{
+        if(throttle.count >=1)return;
+        console.log("THROTTLE", throttle);
+        setThrottle({count:1});
         e.preventDefault();
-        console.log("hitting")
+        console.log("hitting SET ABMIN")
         setUser((prevState)=>{
             
             return {
@@ -49,6 +58,7 @@ const UserEdit = (props) => {
         let updatedUser = Object.assign({}, user);
         updatedUser.userTypeId = user.userTypeId === 1 ? 2:1;
         await changeAdminStatus(updatedUser);
+        history.push(`/userprofiles/${user.isActive === true ? "active" : "inactive"}`);
     }
 
 
@@ -86,12 +96,12 @@ const UserEdit = (props) => {
                                 </div>
                                 <div className="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                                     <div className="d-flex justify-content-between">
-                                        <Link to="/userprofiles" className="btn btn-sm btn-info mr-4">
-                                            Back
+                                        <Link to={`/userprofiles/${user.isActive === true ? "active" : "inactive"}`} className="btn btn-sm btn-info mr-4">
+                                            Cancel
               </Link>
-              {user.userTypeId === 1 ? <>  <button onClick={setIsAdmin} className="btn btn-sm btn-default float-right">
-                                           Demote
-              </button></>:<>  <button onClick={setIsAdmin} className="btn btn-sm btn-default float-right">
+              {user.userTypeId === 1 ? <>  <button type="button" onClick={setIsAdmin} className="btn btn-sm btn-default float-right">
+                                           Commence Demotion
+              </button></>:<>  <button type="button" onClick={setIsAdmin} className="btn btn-sm btn-default float-right">
                                             Promote
               </button></>}
                                       

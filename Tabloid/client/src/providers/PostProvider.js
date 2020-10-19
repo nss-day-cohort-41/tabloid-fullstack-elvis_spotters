@@ -11,6 +11,7 @@ export function PostProvider(props) {
 
     const [posts, setPosts] = useState([]);
     const [categories, setCategories] = useState([]);
+    
 
     const getAllPosts = () => {
         getToken().then((token) =>

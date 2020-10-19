@@ -25,6 +25,7 @@ import CreateCategory from "./Categories/CreateCategory";
 import EditCategory from "./Categories/EditCategory";
 import DeleteCategory from "./Categories/DeleteCategory";
 import UserProfiles from "./UserProfile/UserProfiles";
+import UserProfilesInActive from "./UserProfile/UserProfilesInActive";
 import UserDetails from "./UserProfile/UserDetails";
 import UserEdit from "./UserProfile/UserEdit";
 
@@ -157,7 +158,14 @@ function ApplicationViews(props) {
       name:"UserProfile",
       provider:ProfileProvider,
       component:withRouter(UserProfiles),
-      path:"/userprofiles",
+      path:"/userprofiles/active",
+      to:"/login"
+    },
+    {
+      name:"UserProfile",
+      provider:ProfileProvider,
+      component:withRouter(UserProfilesInActive),
+      path:"/userprofiles/inactive",
       to:"/login"
     },
     {

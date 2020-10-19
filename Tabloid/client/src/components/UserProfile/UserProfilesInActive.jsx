@@ -1,16 +1,28 @@
 import React from 'react';
 import {ProfileContext} from "../../providers/ProfileProvider";
 import ProfileListItems from "./UserProfileListItem";
-import {useHistory} from "react-router-dom"
-
+import {useHistory} from "react-router-dom";
 const UserProfiles = () =>{
-    const [activeUserProfiles, setUserProfiles] = React.useState([]);
+    const [inActiveUserProfiles, setInActiveUserProfiles]  = React.useState([]);
+   
     const {getUserProfiles} = React.useContext(ProfileContext);
     const history = useHistory();
     const getProfiles = async () =>{
        let users = await getUserProfiles();
-       let activeUsers = getActiveUsers(users);
-      await setUserProfiles(activeUsers);
+       let inActiveUsers = getInActiveUsers(users);
+    
+      await setInActiveUserProfiles(inActiveUsers);
+    }
+
+
+
+    const getInActiveUsers = (users) =>{
+      let count = 1;
+      let inActiveUsers = users.map((ele, index)=>{
+        if(ele.isActive !== false)return;
+          return <ProfileListItems key={index} user={ele} index={count++}/>
+      });
+      return inActiveUsers;
     }
     const getActiveUsers = (users)=>{
       let count = 1;
@@ -30,21 +42,20 @@ const UserProfiles = () =>{
     return (
     <div className="container">
         <h1 className="text-center">User Profiles</h1>
-        <h2 className="text-center">{ "Active" } </h2>
-    <button type="button" className="btn-sm btn btn-info" onClick={e=>history.push("/userprofiles/inactive")}>{"Go to inactive"}</button>
-        {activeUserProfiles.length > 0 ?  <table className="table">
+        <h2 className="text-center">{"Inactive"} </h2>
+    <button type="button" className="btn-sm btn btn-info " onClick={e=>history.push(`/userprofiles/active`)}>{"Go to active"}</button>
+        {inActiveUserProfiles.length > 0 ?  <table className="table">
     <thead>
       <tr>
         <th scope="col">#</th>
         <th scope="col">Name </th>
         <th scope="col">Username</th>
         <th scope="col">Type</th>
-        <th scope="col">Active Status</th>
-        <th scope="col"></th>
+        <th scope="col">Edit</th>
       </tr>
     </thead>
     <tbody>
-    {activeUserProfiles}
+    {inActiveUserProfiles}
     </tbody>
   </table> : <small></small>}
    
