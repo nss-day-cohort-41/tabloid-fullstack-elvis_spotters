@@ -37,7 +37,7 @@ const PostDetails = (props) => {
 
         // Invoking method to get all tags associated with post upon page load
         getTagsByPostIdFromDb();
-    }, [tags]);
+    }, []);
 
     const getReadTime = () => {
         if (!post.content) return ("0 minutes");

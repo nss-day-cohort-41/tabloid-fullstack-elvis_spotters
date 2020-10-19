@@ -45,13 +45,11 @@ const AddPostTag = () => {
     setCurrentTags(stateToChange);
   }
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
 
     // Passing postId from route parameter and list of selected tag ids as arguments to addPostTag method
-    addPostTag(id, currentTags);
-
-    history.push(`/post/${id}/details`)
+    await addPostTag(id, currentTags).then(() => history.push(`/post/${id}/details`));
   }
 
   useEffect(() => {
