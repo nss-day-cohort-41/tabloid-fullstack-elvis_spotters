@@ -1,16 +1,25 @@
 import React, { useState, useEffect, useContext } from "react";
 import { PostContext } from "../../providers/PostProvider";
 import { useHistory, useParams } from "react-router-dom";
-import { Container, Row, Col, Button } from "reactstrap";
+import { Container, Row, Col, Button, Badge } from "reactstrap";
 import { Link } from "react-router-dom";
 
 const PostDetails = (props) => {
 
-    const { getPost } = useContext(PostContext);
+    const { getPost, getTagsByPostId } = useContext(PostContext);
     const { id } = useParams();
 
     const [post, setPost] = useState();
     const [currentUser, setCurrentUser] = useState(false);
+
+    // State for tags associated with post
+    const [tags, setTags] = useState([]);
+
+    // Method to get all tags associated with post
+    const getTagsByPostIdFromDb = async () => {
+        const res = await getTagsByPostId(id);
+        setTags(res);
+    }
 
     const history = useHistory();
 
@@ -25,6 +34,9 @@ const PostDetails = (props) => {
             }
             setPost(res)
         });
+
+        // Invoking method to get all tags associated with post upon page load
+        getTagsByPostIdFromDb();
     }, []);
 
     const getReadTime = () => {
@@ -66,10 +78,16 @@ const PostDetails = (props) => {
                         ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/edit`)}>Edit</Button>
                         : null}
                     <Button color="primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
+                    <Button onClick={() => history.push(`/post/tags/${id}`)}>Manage Tags</Button>
                 </Row>
             </section>
 
             <hr />
+
+            {/* Rendering of associated tags on post details */}
+            <Row className="mb-3 px-3">
+                {tags.map(tag => <Badge color="dark" className="p-2 mr-2" key={tag.id}>{tag.tag.name}</Badge>)}
+            </Row>
 
             {post.imageLocation !== null
                 ? <Row className="justify-content-center">

@@ -114,6 +114,9 @@ namespace Tabloid.Repositories
         // Method to delete existing tag by id
         public void Delete(int id)
         {
+            // Invoking method to delete PostTag records associated with tag id to be deleted
+            DeletePostTags(id);
+
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
@@ -147,6 +150,27 @@ namespace Tabloid.Repositories
 
                     DbUtils.AddParameter(cmd, "@Name", tag.Name);
                     DbUtils.AddParameter(cmd, "@Id", tag.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        // Method to delete PostTag records associated with tag id
+        public void DeletePostTags(int tagId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"DELETE FROM
+	                                        PostTag
+                                        WHERE
+	                                        TagId = @TagId";
+
+                    DbUtils.AddParameter(cmd, "@TagId", tagId);
 
                     cmd.ExecuteNonQuery();
                 }
