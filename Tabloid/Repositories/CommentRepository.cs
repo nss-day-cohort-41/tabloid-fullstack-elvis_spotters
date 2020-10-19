@@ -152,9 +152,19 @@ namespace Tabloid.Repositories
                     cmd.Parameters.AddWithValue("@content", comment.Content);
                     cmd.Parameters.AddWithValue("@createDateTime", comment.CreateDateTime);
 
+                 
                     comment.Id = (int)cmd.ExecuteScalar();
+
+
+
+
                 }
             }
+        }
+
+        private void NotFound()
+        {
+            throw new NotImplementedException();
         }
 
         //edit comment

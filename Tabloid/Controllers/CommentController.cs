@@ -57,8 +57,17 @@ namespace Tabloid.Controllers
         public IActionResult Post(Comment comment)
         {
             comment.CreateDateTime = DateTime.Now;
-            _commentRepo.Add(comment);
+            try
+            {
+                _commentRepo.Add(comment);
+
+            }
+            catch (Exception ex)
+            {
+                return NoContent();
+            }
             return CreatedAtAction("Get", new { postId = comment.PostId }, comment);
+
         }
 
         // PUT api/<CommentController>/5
