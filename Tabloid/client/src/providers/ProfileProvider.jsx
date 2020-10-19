@@ -39,7 +39,6 @@ export function ProfileProvider(props) {
       history.push("/404")
       return
     }
-    console.log(userProfile);
     return userProfile
   }
 

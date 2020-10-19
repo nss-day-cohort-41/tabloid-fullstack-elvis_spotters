@@ -48,7 +48,7 @@ const UserDetails = (props) => {
         setThrottle({ count: 1 });
         e.preventDefault();
         const adminCount = await getAdminCount();
-        if (adminCount === 1 && user.isActive === true && user.userType.id == 1) {
+        if (adminCount === 1 && user.isActive === true && user.userTypeId == 1) {
             window.alert("Please assign another Admin before deactivating this user");
         } else {
             setUser((prevState) => {

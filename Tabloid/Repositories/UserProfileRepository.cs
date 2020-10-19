@@ -169,7 +169,7 @@ namespace Tabloid.Repositories
                 using(SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT COUNT(Id) AS UserCount FROM UserProfile
-                                        WHERE UserTypeId = @UserTypeId";
+                                        WHERE UserTypeId = @UserTypeId AND IsActive = 1";
                     DbUtils.AddParameter(cmd, "@UserTypeId", userTypeId);
 
                     SqlDataReader reader = cmd.ExecuteReader();

@@ -81,7 +81,8 @@ namespace Tabloid.Repositories
                                                BeginDateTime, EndDateTime
                                           FROM Subscription
                                          WHERE SubscriberUserProfileId = @subscriberId
-                                               AND ProviderUserProfileId = @providerId;";
+                                               AND ProviderUserProfileId = @providerId
+                                               AND EndDateTime IS NULL;";
                     DbUtils.AddParameter(cmd, "@subscriberId", subscriberId);
                     DbUtils.AddParameter(cmd, "@providerId", providerId);
                     var subscription = new Subscription();

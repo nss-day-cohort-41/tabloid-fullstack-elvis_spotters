@@ -103,7 +103,6 @@ const PostDetails = (props) => {
                 </Row>
 
                 <Row className="justify-content-between">
-                    {console.log(isSubscribed)}
                     <p className="text-secondary">Written by {post.userProfile.displayName} {'\t'} 
                         <span className="text-success">{isSubscribed
                             ? <Button onClick={unsubscribe} outline color="danger" size="sm">Unubscribe</Button>

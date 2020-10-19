@@ -22,24 +22,24 @@ const Homepage = (props) => {
             <Row>
                 <h2>Posts from Authors You have Subscribed To</h2>
             </Row>
-            <Row>
-                <Button onClick={() => history.push("/post/new")}>Create New Post</Button>
-            </Row>
-            <Table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Category</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {posts.map((post) => (
-                        <Post key={post.id} post={post} currentUser={currentUser} />
-                    ))}
-                </tbody>
-            </Table>
+                    {posts.length > 0
+                    ? <Table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {posts.map((post) => (
+                                <Post key={post.id} post={post} currentUser={currentUser} />
+                                ))}
+                        </tbody>
+                    </Table>
+                    : <p><em>Subscribe to some authors to see their posts here.</em></p>
+                    }
         </Container>
     )
 }

@@ -27,11 +27,13 @@ const UserEdit = (props) => {
     });
 
     const history = useHistory();
+
     const getUser = async () => {
         let result = await getUserById(props.match.params.id);
         setUser(result)
         checkImage()
     }
+
     const checkImage = () => {
         const image = document.getElementById('profileImg');
         if (image) {
@@ -43,12 +45,11 @@ const UserEdit = (props) => {
     }
     const setIsAdmin = async (e) => {
         if (throttle.count >= 1) return;
-        console.log("THROTTLE", throttle);
         setThrottle({ count: 1 });
         e.preventDefault();
         const adminCount = await getAdminCount();
 
-        if (adminCount === 1 && user.isActive === true && user.userType.id == 1) {
+        if (adminCount === 1 && user.isActive === true && user.userTypeId == 1) {
             window.alert("Please assign another Admin before demoting this user");
         } else {
             setUser((prevState) => {
