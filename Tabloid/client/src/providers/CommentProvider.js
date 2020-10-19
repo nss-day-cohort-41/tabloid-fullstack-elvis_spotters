@@ -20,7 +20,7 @@ export function CommentProvider(props) {
         const results = await fetch(`${apiUrl}/${postId}`, {
             method: "GET",
             headers: { Authorization: `Bearer ${token}` }
-        }).catch(err => console.log(err));
+        }).catch(err => history.push("/404"));
 
         const postComments = await results.json();
         return setComments(postComments);
@@ -31,13 +31,14 @@ export function CommentProvider(props) {
         const result = await fetch(`${apiUrl}/${postId}/${commentId}`, {
             method: "GET",
             headers: { Authorization: `Bearer ${token}` }
-        }).then(res=>res)
-        .catch(err=>history.push("/404"));
+        }).then(res => res)
+            .catch(err => history.push("/404"));
         const comment = await result.json();
-        if(comment.status !== 200 ){
+        if (comment.status === 404) {
             history.push("/404")
-        };
+        }
         return comment;
+
     }
 
     const getPost = async (postId) => {
@@ -47,7 +48,7 @@ export function CommentProvider(props) {
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        });
+        }).catch(err => history.push("/404"));
         if (!result.ok) {
             history.push(`${apiUrl}/${postId}`);
         }
@@ -64,7 +65,9 @@ export function CommentProvider(props) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(comment)
-        }).then(result => result.json());
+        }).then(res => res.json())
+            .catch(err => history.push("/404"));
+
     }
 
     const deleteComment = async (commentId) => {
