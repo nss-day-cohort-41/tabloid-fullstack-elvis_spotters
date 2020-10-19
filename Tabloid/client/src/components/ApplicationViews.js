@@ -26,6 +26,7 @@ import CreateCategory from "./Categories/CreateCategory";
 import EditCategory from "./Categories/EditCategory";
 import DeleteCategory from "./Categories/DeleteCategory";
 import UserProfiles from "./UserProfile/UserProfiles";
+import UserProfilesInActive from "./UserProfile/UserProfilesInActive";
 import { PostTagProvider } from "../providers/PostTagProvider";
 import AddPostTag from "./Tags/AddPostTag";
 import UserDetails from "./UserProfile/UserDetails";
@@ -162,6 +163,20 @@ function ApplicationViews(props) {
       component: withRouter(UserDetails),
       path: "/userprofiles/details/:id",
       to: "/login"
+    },
+    {
+      name:"UserProfile",
+      provider:ProfileProvider,
+      component:withRouter(UserProfiles),
+      path:"/userprofiles/active",
+      to:"/login"
+    },
+    {
+      name:"UserProfile",
+      provider:ProfileProvider,
+      component:withRouter(UserProfilesInActive),
+      path:"/userprofiles/inactive",
+      to:"/login"
     },
     {
       name: "UserProfile",

@@ -95,7 +95,7 @@ namespace Tabloid.Controllers
             {
             try
                 {
-                _userProfileRepository.isActive(user);
+                _userProfileRepository.isAdmin(user);
                 return Ok(_userProfileRepository.GetUserById(user.Id));
                 }
             catch
