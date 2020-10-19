@@ -62,14 +62,16 @@ namespace Tabloid.Controllers
             return CreatedAtAction("Get", new { id = subscription.Id }, subscription);
         }
 
-        [HttpPut]
-        public IActionResult Unsubscribe(int id)
+        [HttpPut("{providerId}")]
+        public IActionResult Unsubscribe(int providerId)
         {
             var currentUser = GetCurrentUserProfile();
+            var subscription = _subscriptionRepository.GetSubScriptionByMembers(currentUser.Id, providerId);
+            
             subscription.EndDateTime = DateTime.Now;
 
-            _subscriptionRepository.Add(subscription);
-            return CreatedAtAction("Get", new { id = subscription.Id }, subscription);
+            _subscriptionRepository.Update(subscription);
+            return NoContent();
         }
 
         private UserProfile GetCurrentUserProfile()

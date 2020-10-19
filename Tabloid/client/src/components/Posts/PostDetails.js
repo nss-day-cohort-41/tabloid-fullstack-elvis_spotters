@@ -60,6 +60,18 @@ const PostDetails = (props) => {
         .then(() => setIsSubscribed(true)));
     }
 
+    const unsubscribe = (evt) => {
+        evt.preventDefault();
+        getToken().then((token) =>
+        fetch(`/api/subscription/${post.userProfileId}`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        }).then(() => setIsSubscribed(false)));
+    }
+
     const getReadTime = () => {
         if (!post.content) return ("0 minutes");
         const wordCount = post.content.split(" ").length;
@@ -87,7 +99,7 @@ const PostDetails = (props) => {
                     {console.log(isSubscribed)}
                     <p className="text-secondary">Written by {post.userProfile.displayName} {'\t'} 
                         <span className="text-success">{isSubscribed
-                            ? "Subscribed!"
+                            ? <Button onClick={unsubscribe} outline color="danger" size="sm">Unubscribe</Button>
                             : <Button onClick={subscribe} outline color="primary" size="sm">Subscribe</Button>
                         } </span>
                     </p>

@@ -53,8 +53,8 @@ namespace Tabloid.Repositories
                 {
                     cmd.CommandText = @"SELECT Id FROM Subscription
                                          WHERE SubscriberUserProfileId = @subscriberId
-                                           AND ProviderUserProfileId = @providerId
-                                           AND EndDateTime IS NULL";
+                                               AND ProviderUserProfileId = @providerId
+                                               AND EndDateTime IS NULL";
                     DbUtils.AddParameter(cmd, "@subscriberId", subscriberId);
                     DbUtils.AddParameter(cmd, "@providerId", providerId);
                     var reader = cmd.ExecuteReader();
@@ -66,6 +66,37 @@ namespace Tabloid.Repositories
 
                     reader.Close();
                     return false;
+                }
+            }
+        }
+
+        public Subscription GetSubScriptionByMembers(int subscriberId, int providerId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT Id, SubscriberUserProfileId, ProviderUserProfileId,
+                                               StartDateTime, EndDateTime
+                                          FROM Subscription
+                                         WHERE SubscriberUserProfileId = @subscriberId
+                                               AND ProviderUserProfileId = @providerId;";
+                    DbUtils.AddParameter(cmd, "@subscriberId", subscriberId);
+                    DbUtils.AddParameter(cmd, "@providerId", providerId);
+                    var subscription = new Subscription();
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        subscription.Id = DbUtils.GetInt(reader, "Id");
+                        subscription.SubscriberUserProfileId = DbUtils.GetInt(reader, "SubscriberUserProfileId");
+                        subscription.ProviderUserProfileId = DbUtils.GetInt(reader, "ProviderUserProfileId");
+                        subscription.BeginDateTime = DbUtils.GetDateTime(reader, "BeginDateTime");
+                        subscription.EndDateTime = DbUtils.GetNullableDateTime(reader, "EndDateTime");
+                    }
+
+                    reader.Close();
+                    return subscription;
                 }
             }
         }
