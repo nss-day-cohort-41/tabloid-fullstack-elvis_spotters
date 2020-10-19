@@ -53,7 +53,8 @@ namespace Tabloid.Repositories
                 {
                     cmd.CommandText = @"SELECT Id FROM Subscription
                                          WHERE SubscriberUserProfileId = @subscriberId
-                                           AND ProviderUserProfileId = @providerId";
+                                           AND ProviderUserProfileId = @providerId
+                                           AND EndDateTime IS NULL";
                     DbUtils.AddParameter(cmd, "@subscriberId", subscriberId);
                     DbUtils.AddParameter(cmd, "@providerId", providerId);
                     var reader = cmd.ExecuteReader();
@@ -87,6 +88,32 @@ namespace Tabloid.Repositories
                     DbUtils.AddParameter(cmd, "@BeginDateTime", subscription.BeginDateTime);
 
                     subscription.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void Update(Subscription subscription)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE Subscription 
+                                           SET SubscriberUserProfileId = @SubscriberUserProfileId,
+                                               ProviderUserProfileId = @ProviderUserProfileId,
+                                               BeginDateTime = @BeginDateTime,
+                                               EndDateTime = @EndDateTime
+                                         WHERE Id = @Id;";
+
+                    DbUtils.AddParameter(cmd, "@SubscriberUserProfileId", subscription.SubscriberUserProfileId);
+                    DbUtils.AddParameter(cmd, "@ProviderUserProfileId", subscription.ProviderUserProfileId);
+                    DbUtils.AddParameter(cmd, "@BeginDateTime", subscription.BeginDateTime);
+                    DbUtils.AddParameter(cmd, "@EndDateTime", subscription.EndDateTime);
+                    DbUtils.AddParameter(cmd, "@Id", subscription.Id);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }

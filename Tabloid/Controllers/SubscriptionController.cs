@@ -62,11 +62,20 @@ namespace Tabloid.Controllers
             return CreatedAtAction("Get", new { id = subscription.Id }, subscription);
         }
 
+        [HttpPut]
+        public IActionResult Unsubscribe(int id)
+        {
+            var currentUser = GetCurrentUserProfile();
+            subscription.EndDateTime = DateTime.Now;
+
+            _subscriptionRepository.Add(subscription);
+            return CreatedAtAction("Get", new { id = subscription.Id }, subscription);
+        }
+
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
-
     }
 }
