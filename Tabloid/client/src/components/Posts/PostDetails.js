@@ -108,7 +108,7 @@ const PostDetails = (props) => {
                     <p className="text-secondary">Written by {post.userProfile.displayName} {'\t'} 
                         <span className="text-success">{isSubscribed
                             ? <Button onClick={unsubscribe} outline color="danger" size="sm">Unubscribe</Button>
-                            : <Button onClick={subscribe} outline color="primary" size="sm">Subscribe</Button>
+                            : <Button onClick={subscribe} outline color="theme-primary" size="sm">Subscribe</Button>
                         } </span>
                     </p>
                     {(post.publishDateTime)
@@ -122,9 +122,9 @@ const PostDetails = (props) => {
                 </Row>
                 <Row>
                     {currentUser
-                        ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/edit`)}>Edit</Button>
+                        ? <Button color="theme-primary" onClick={() => history.push(`/post/${post.id}/edit`)}>Edit</Button>
                         : null}
-                    <Button color="primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
+                    <Button color="theme-primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
                     <Button onClick={() => history.push(`/post/tags/${id}`)}>Manage Tags</Button>
                 </Row>
             </section>
@@ -151,8 +151,8 @@ const PostDetails = (props) => {
                 </Col>
             </Row>
             <Row>
-                <Button className="btn btn-primary m-2" type="button" onClick={() => history.push(`/comments/${post.id}`)} >View Comments</Button>
-                <Button className="btn btn-primary m-2" type="button" onClick={() => history.push(`/comments/${post.id}/create`)} >Add Comment</Button>
+                <Button color="theme-primary" className="m-2" type="button" onClick={() => history.push(`/comments/${post.id}`)} >View Comments</Button>
+                <Button color="theme-primary" className="m-2" type="button" onClick={() => history.push(`/comments/${post.id}/create`)} >Add Comment</Button>
             </Row>
         </Container>
     )
