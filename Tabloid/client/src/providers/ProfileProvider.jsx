@@ -10,6 +10,7 @@ export function ProfileProvider(props) {
   const { getToken } = useContext(UserProfileContext);
 
   const [ProfileList, setProfileList] = useState([]);
+  const [truthy, setTruthy] = useState(true);
 
   // Method gets all Profiles from API in alphabetical order
   const getUserProfiles = async () => {
@@ -34,10 +35,11 @@ export function ProfileProvider(props) {
         .catch(err=>{
             history.push("/404")
         })
-        if(userProfile.status === 400){
+        if(!userProfile){
             history.push("/404")
             return
         }
+        console.log(userProfile);
         return userProfile
     }
 
@@ -74,7 +76,7 @@ export function ProfileProvider(props) {
 
 
   return (
-    <ProfileContext.Provider value={{ ProfileList, getUserProfiles, getUserById, changeActiveStatus, changeAdminStatus}}>
+    <ProfileContext.Provider value={{ ProfileList, getUserProfiles, getUserById, changeActiveStatus, changeAdminStatus, truthy, setTruthy}}>
       {props.children}
     </ProfileContext.Provider>
   )
