@@ -34,10 +34,10 @@ const UserEdit = (props) => {
         checkImage();
         isUsersPage(props.match.params.id)
     }
-    
+
 
     const isUsersPage = (id) => {
-        
+
         JSON.parse(window.sessionStorage.getItem("userProfile")).id == id ? setUsersPage(false) : setUsersPage(true)
     }
 
@@ -108,15 +108,15 @@ const UserEdit = (props) => {
                                 </div>
                                 <div className="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                                     <div className="d-flex justify-content-between">
-                                        <Link to={`/userprofiles/${user.isActive === true ? "active" : "inactive"}`} className="btn btn-sm btn-info mr-4">
+                                        <Link to={`/userprofiles/${user.isActive === true ? "active" : "inactive"}`} className="btn btn-sm btn-primary mr-4">
                                             Cancel
                                         </Link>
-                                        {usersPage === true ?   user.userTypeId === 1 ? <>  <button type="button" onClick={setIsAdmin} className="btn btn-sm btn-default float-right">
+                                        {usersPage === true ? user.userTypeId === 1 ? <>  <button type="button" onClick={setIsAdmin} className="btn btn-sm btn-secondary float-right">
                                             Commence Demotion
-                                        </button></> : <>  <button type="button" onClick={setIsAdmin} className="btn btn-sm btn-default float-right">
+                                        </button></> : <>  <button type="button" onClick={setIsAdmin} className="btn btn-sm btn-secondary float-right">
                                                 Promote
-                                        </button></>  : <></>}
-                                        
+                                        </button></> : <></>}
+
 
                                     </div>
                                 </div>

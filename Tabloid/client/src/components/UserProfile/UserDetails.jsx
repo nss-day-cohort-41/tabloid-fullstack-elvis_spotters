@@ -14,7 +14,7 @@ const UserDetails = (props) => {
     const [usersPage, setUsersPage] = useState(false);
 
     const isUsersPage = (id) => {
-        
+
         JSON.parse(window.sessionStorage.getItem("userProfile")).id == id ? setUsersPage(true) : setUsersPage(false);
         JSON.parse(window.sessionStorage.getItem("userProfile")).userType.id == 1 ? isAdmin(true) : isAdmin(false);
     }
@@ -109,12 +109,12 @@ const UserDetails = (props) => {
                                 </div>
                                 <div className="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                                     <div className="d-flex justify-content-between">
-                                        <button type="button" onClick={e => history.push(`/userprofiles/${originalState === true ? "active" : "inactive"}`)} className="btn btn-sm btn-info mr-4">
+                                        <button type="button" onClick={e => history.push(`/userprofiles/${originalState === true ? "active" : "inactive"}`)} className="btn btn-sm btn-primary mr-4">
                                             Cancel
                                         </button>
-                                        {usersPage === false && admin === true ? originalState === true ? <>  <button type="button" onClick={setIsActive} className="btn btn-sm btn-default float-right">
+                                        {usersPage === false && admin === true ? originalState === true ? <>  <button type="button" onClick={setIsActive} className="btn btn-sm btn-secondary float-right">
                                             Confirm Deactivate
-                                        </button></> : <>  <button type="button" onClick={setIsActive} className="btn btn-sm btn-default float-right">
+                                        </button></> : <>  <button type="button" onClick={setIsActive} className="btn btn-sm btn-secondary float-right">
                                                 Confirm Activate
                                         </button></> : <></>}
 
