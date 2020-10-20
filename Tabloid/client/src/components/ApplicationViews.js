@@ -8,6 +8,7 @@ import { CommentProvider } from "../providers/CommentProvider";
 import Login from "./Login";
 import Register from "./Register";
 import Categories from "./Categories/Categories";
+import Homepage from "./Posts/Homepage";
 import PostList from "./Posts/PostList";
 import MyPosts from "./Posts/MyPosts";
 import PostDetails from "./Posts/PostDetails"
@@ -25,6 +26,7 @@ import CreateCategory from "./Categories/CreateCategory";
 import EditCategory from "./Categories/EditCategory";
 import DeleteCategory from "./Categories/DeleteCategory";
 import UserProfiles from "./UserProfile/UserProfiles";
+import UserProfilesInActive from "./UserProfile/UserProfilesInActive";
 import { PostTagProvider } from "../providers/PostTagProvider";
 import AddPostTag from "./Tags/AddPostTag";
 import UserDetails from "./UserProfile/UserDetails";
@@ -123,7 +125,7 @@ function ApplicationViews(props) {
     {
       name: "Default",
       provider: PostProvider,
-      component: withRouter(PostList),
+      component: withRouter(Homepage),
       path: "/",
       to: "/login"
     },
@@ -161,6 +163,20 @@ function ApplicationViews(props) {
       component: withRouter(UserDetails),
       path: "/userprofiles/details/:id",
       to: "/login"
+    },
+    {
+      name:"UserProfile",
+      provider:ProfileProvider,
+      component:withRouter(UserProfiles),
+      path:"/userprofiles/active",
+      to:"/login"
+    },
+    {
+      name:"UserProfile",
+      provider:ProfileProvider,
+      component:withRouter(UserProfilesInActive),
+      path:"/userprofiles/inactive",
+      to:"/login"
     },
     {
       name: "UserProfile",

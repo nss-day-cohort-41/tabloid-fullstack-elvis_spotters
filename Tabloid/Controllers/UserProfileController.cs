@@ -60,6 +60,21 @@ namespace Tabloid.Controllers
                 return NotFound();
                 }
             }
+
+        [Authorize]
+        [HttpGet("admin")]
+        public IActionResult GetAdminCount()
+        {
+            try
+            {
+                return Ok(_userProfileRepository.CountUserType(UserType.ADMIN_ID));
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
         [Authorize]
         [HttpPut("active")]
         public  IActionResult IsActive(UserProfile user)
@@ -80,7 +95,7 @@ namespace Tabloid.Controllers
             {
             try
                 {
-                _userProfileRepository.isActive(user);
+                _userProfileRepository.isAdmin(user);
                 return Ok(_userProfileRepository.GetUserById(user.Id));
                 }
             catch

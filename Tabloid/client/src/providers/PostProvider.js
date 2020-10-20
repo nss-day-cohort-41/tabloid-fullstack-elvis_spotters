@@ -11,6 +11,19 @@ export function PostProvider(props) {
 
     const [posts, setPosts] = useState([]);
     const [categories, setCategories] = useState([]);
+    
+
+    const getSubscriptions = async () => {
+        const token = await getToken();
+        const res = await fetch(`${apiUrl}/subscription`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        const value = await res.json();
+        setPosts(value);
+    }
 
     const getAllPosts = () => {
         getToken().then((token) =>
@@ -117,7 +130,7 @@ export function PostProvider(props) {
     }
 
     return (
-        <PostContext.Provider value={{ posts, categories, setPosts, getAllPosts, getMyPosts, getPost, getCategories, saveNewPost, updatePost, deletePost, getTagsByPostId }}>
+        <PostContext.Provider value={{ posts, categories, setPosts, getSubscriptions, getAllPosts, getMyPosts, getPost, getCategories, saveNewPost, updatePost, deletePost, getTagsByPostId }}>
             {props.children}
         </PostContext.Provider>
     );
