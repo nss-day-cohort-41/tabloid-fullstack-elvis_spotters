@@ -16,7 +16,7 @@ import {
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
 export default function Header() {
-  const { isLoggedIn, logout } = useContext(UserProfileContext);
+  const { isLoggedIn, logout, isAdministrator } = useContext(UserProfileContext);
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
@@ -35,7 +35,7 @@ export default function Header() {
             }
           </Nav>
           <Nav navbar>
-            {isLoggedIn &&
+            {isLoggedIn && isAdministrator &&
               <>
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/post/new">New Post</NavLink>
@@ -67,6 +67,26 @@ export default function Header() {
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
+
+                <NavItem>
+                  <a aria-current="page" className="nav-link"
+                    style={{ cursor: "pointer" }} onClick={logout}>Logout</a>
+                </NavItem>
+              </>
+            }
+            {isLoggedIn && !isAdministrator &&
+              <>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/post/new">New Post</NavLink>
+                </NavItem>
+
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/post">All Posts</NavLink>
+                </NavItem>
+
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/post/my">My Posts</NavLink>
+                </NavItem>
 
                 <NavItem>
                   <a aria-current="page" className="nav-link"

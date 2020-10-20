@@ -4,12 +4,22 @@ import { useParams, useHistory } from 'react-router-dom';
 import { FormGroup, Label, Input, Button } from 'reactstrap';
 
 const AddPostTag = () => {
-  const { getAllTags, getTagsByPostId, addPostTag, getAllPosts } = useContext(PostTagContext);
+  const { getAllTags, getTagsByPostId, addPostTag, getAllPosts, getPost } = useContext(PostTagContext);
   const { id } = useParams();
   const history = useHistory();
 
   const [allTags, setAllTags] = useState([]);
   const [currentTags, setCurrentTags] = useState([]);
+
+  const loggedInUser = JSON.parse(sessionStorage.userProfile);
+
+  // Method to restrict users from manually accessing other user's post tags via url
+  const userPostVerify = async () => {
+    const res = await getPost(id);
+    return await res.userProfileId !== loggedInUser.id ? history.push('/post') : null
+  }
+
+  userPostVerify();
 
   const getAllTagsFromDb = async () => {
     const res = await getAllTags();
@@ -29,6 +39,8 @@ const AddPostTag = () => {
       return history.push('/post')
     }
   }
+
+  getAllPostsFromDb();
 
   const handleFieldChange = (e) => {
     const stateToChange = [...currentTags];
@@ -53,7 +65,6 @@ const AddPostTag = () => {
   }
 
   useEffect(() => {
-    getAllPostsFromDb();
     getAllTagsFromDb();
     getTagsByPostIdFromDb();
   }, [])
