@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { PostContext } from "../../providers/PostProvider";
 import { useHistory, useParams } from "react-router-dom";
-import { Container, Row, Col, Button, Badge } from "reactstrap";
+import { Row, Col, Button, Badge } from "reactstrap";
 import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 const PostDetails = (props) => {
@@ -55,6 +55,7 @@ const PostDetails = (props) => {
 
         // Invoking method to get all tags associated with post upon page load
         getTagsByPostIdFromDb();
+        // eslint-disable-next-line
     }, []);
 
     // Both subscription methods return only the current post's author Id.
@@ -100,7 +101,7 @@ const PostDetails = (props) => {
     }
 
     return (
-        <Container pt={5}>
+        <>
             <section className="px-3">
                 <Row className="justify-content-between">
                     <h1 className="text-secondary">{post.title}</h1>
@@ -125,11 +126,11 @@ const PostDetails = (props) => {
                 </Row>
                 <Row>
                     {currentUser
-                        ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/edit`)}>Edit</Button>
+                        ? <Button outline color="primary" onClick={() => history.push(`/post/${post.id}/edit`)}>Edit</Button>
                         : null
                     }
                     {currentUser || isAdministrator
-                        ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
+                        ? <Button outline color="primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
                         : null
                     }
                     {currentUser ? <Button onClick={() => history.push(`/post/tags/${id}`)}>Manage Tags</Button> : null}
@@ -146,7 +147,7 @@ const PostDetails = (props) => {
             {post.imageLocation !== null
                 ? <Row className="justify-content-center">
                     <div>
-                        <img src={`${post.imageLocation}`}></img>
+                        <img src={`${post.imageLocation}`} alt={`${post.title}`}></img>
                     </div>
                 </Row>
                 : null
@@ -158,10 +159,10 @@ const PostDetails = (props) => {
                 </Col>
             </Row>
             <Row>
-                <Button className="btn btn-primary m-2" type="button" onClick={() => history.push(`/comments/${post.id}`)} >View Comments</Button>
-                <Button className="btn btn-primary m-2" type="button" onClick={() => history.push(`/comments/${post.id}/create`)} >Add Comment</Button>
+                <Button color="primary" className="m-1" type="button" onClick={() => history.push(`/comments/${post.id}`)} >View Comments</Button>
+                <Button color="primary" className="m-1" type="button" onClick={() => history.push(`/comments/${post.id}/create`)} >Add Comment</Button>
             </Row>
-        </Container>
+        </>
     )
 }
 

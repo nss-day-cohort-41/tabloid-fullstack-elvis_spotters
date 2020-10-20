@@ -21,15 +21,15 @@ export default function Header() {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <div>
-      <Navbar color="light" light expand="md">
+    <header>
+      <Navbar color="secondary" dark fixed="top" expand="lg">
         <NavbarBrand tag={RRNavLink} to="/">Tabloid</NavbarBrand>
-        <NavbarToggler onClick={toggle} />
+        <NavbarToggler className="font-weight-bold bg-primary text-white rounded" onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
-          <Nav className="mr-auto" navbar>
+          <Nav className="ml-auto" navbar>
             { /* When isLoggedIn === true, we will render the Home link */}
             {isLoggedIn &&
-              <NavItem>
+              <NavItem className="mx-0 mx-lg-1">
                 <NavLink tag={RRNavLink} to="/">Home</NavLink>
               </NavItem>
             }
@@ -37,38 +37,38 @@ export default function Header() {
           <Nav navbar>
             {isLoggedIn && isAdministrator &&
               <>
-                <NavItem>
+                <NavItem className="mx-0 mx-lg-1">
                   <NavLink tag={RRNavLink} to="/post/new">New Post</NavLink>
                 </NavItem>
 
-                <NavItem>
+                <NavItem className="mx-0 mx-lg-1">
                   <NavLink tag={RRNavLink} to="/post">All Posts</NavLink>
                 </NavItem>
 
-                <NavItem>
+                <NavItem className="mx-0 mx-lg-1">
                   <NavLink tag={RRNavLink} to="/post/my">My Posts</NavLink>
                 </NavItem>
 
-                <NavItem>
+                <NavItem className="mx-0 mx-lg-1">
                   <NavLink tag={RRNavLink} to="/userprofiles/active">Profiles</NavLink>
                 </NavItem>
 
                 {/* Admin tools dropdown housing tag and category management */}
                 <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav caret>
+                  <DropdownToggle nav caret className="mx-0 mx-lg-1">
                     Admin Tools
                   </DropdownToggle>
-                  <DropdownMenu right>
-                    <DropdownItem>
+                  <DropdownMenu right className="bg-secondary">
+                    <DropdownItem className="py-3 px-0 px-lg-3 rounded bg-secondary text-white">
                       <NavLink tag={RRNavLink} to="/tags">Tag Management</NavLink>
                     </DropdownItem>
-                    <DropdownItem>
+                    <DropdownItem className="py-3 px-0 px-lg-3 rounded bg-secondary text-white">
                       <NavLink tag={RRNavLink} to="/category">Category Management</NavLink>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
 
-                <NavItem>
+                <NavItem className="mx-0 mx-lg-1">
                   <a aria-current="page" className="nav-link"
                     style={{ cursor: "pointer" }} onClick={logout}>Logout</a>
                 </NavItem>
@@ -96,10 +96,10 @@ export default function Header() {
             }
             {!isLoggedIn &&
               <>
-                <NavItem>
+                <NavItem className="mx-0 mx-lg-1">
                   <NavLink tag={RRNavLink} to="/login">Login</NavLink>
                 </NavItem>
-                <NavItem>
+                <NavItem className="mx-0 mx-lg-1">
                   <NavLink tag={RRNavLink} to="/register">Register</NavLink>
                 </NavItem>
               </>
@@ -107,6 +107,6 @@ export default function Header() {
           </Nav>
         </Collapse>
       </Navbar>
-    </div>
+    </header>
   );
 }

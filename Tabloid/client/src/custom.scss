@@ -1,0 +1,10 @@
+// Theme colors
+$theme-colors: (
+    "primary": #625772,
+    "secondary": #2c3e50,
+    "pink": #f9a1bc,
+    "teal": #1abc9c
+);
+
+// Import Bootstrap and its default variables
+@import '~bootstrap/scss/bootstrap.scss'
