@@ -7,6 +7,7 @@ import { useState, useEffect, useContext } from 'react';
 const UserDetails = (props) => {
     const { getUserById, changeActiveStatus, getAdminCount } = useContext(ProfileContext);
     const [originalState, setOriginalState] = useState(true);
+    const [admin, isAdmin] = useState(false)
     const [throttle, setThrottle] = useState({
         count: 0
     });
@@ -14,7 +15,8 @@ const UserDetails = (props) => {
 
     const isUsersPage = (id) => {
         
-        JSON.parse(window.sessionStorage.getItem("userProfile")).id == id ? setUsersPage(false) : setUsersPage(true)
+        JSON.parse(window.sessionStorage.getItem("userProfile")).id == id ? setUsersPage(true) : setUsersPage(false);
+        JSON.parse(window.sessionStorage.getItem("userProfile")).userType.id == 1 ? isAdmin(true) : isAdmin(false);
     }
 
     const [user, setUser] = useState({
@@ -110,7 +112,7 @@ const UserDetails = (props) => {
                                         <button type="button" onClick={e => history.push(`/userprofiles/${originalState === true ? "active" : "inactive"}`)} className="btn btn-sm btn-info mr-4">
                                             Cancel
                                         </button>
-                                        {usersPage === true ? originalState === true ? <>  <button type="button" onClick={setIsActive} className="btn btn-sm btn-default float-right">
+                                        {usersPage === false && admin === true ? originalState === true ? <>  <button type="button" onClick={setIsActive} className="btn btn-sm btn-default float-right">
                                             Confirm Deactivate
                                         </button></> : <>  <button type="button" onClick={setIsActive} className="btn btn-sm btn-default float-right">
                                                 Confirm Activate
