@@ -1,19 +1,31 @@
 import React, { useState, useEffect, useContext } from "react";
 import { PostContext } from "../../providers/PostProvider";
+import { UserProfileContext } from "../../providers/UserProfileProvider";
 import { useHistory, useParams } from "react-router-dom";
 import { Container, Row, Button } from "reactstrap";
 
 const DeletePost = (props) => {
 
     const { getPost, deletePost } = useContext(PostContext);
+    const { isAdministrator } = useContext(UserProfileContext);
     const { id } = useParams();
 
     const [post, setPost] = useState();
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const history = useHistory();
 
     useEffect(() => {
-        getPost(id).then((res) => setPost(res));
+        const loggedInUser = JSON.parse(sessionStorage.userProfile);
+        getPost(id).then((res) => {
+            if (res.userProfileId != loggedInUser.id && !isAdministrator) {
+                // Kick back to post list if another user reaches this area
+                history.push("/post");
+            } else {
+            setPost(res);
+            setIsLoaded(true);
+            }
+        })
     }, []);
 
     if (!post) {
@@ -61,7 +73,7 @@ const DeletePost = (props) => {
 
                 <Row>
                     <Button color="primary" onClick={confirmDelete}>Delete</Button>
-                    <Button color="primary" onClick={() => history.goBack()}>Cancel</Button>
+                    <Button color="primary" onClick={() => history.goBack()} disabled={!isLoaded} >Cancel</Button>
                 </Row>
             </section>
         </Container>
