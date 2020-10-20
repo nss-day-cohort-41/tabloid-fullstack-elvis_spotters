@@ -26,8 +26,7 @@ const EditPost = (props) => {
         imageLocation: false,
         categoryId: false
     });
-    const [currentUser, setCurrentUser] = useState();
-
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const { id } = useParams();
     const history = useHistory();
@@ -82,14 +81,15 @@ const EditPost = (props) => {
     }
 
     useEffect(() => {
-        const loggedInUser = JSON.parse(sessionStorage.userProfile);
+        const currentUser = JSON.parse(sessionStorage.userProfile);
         getCategories();
         getPost(id).then((res) => {
-            if (res.userProfileId != loggedInUser.id) {
+            if (res.userProfileId != currentUser.id) {
                 // Kick back to previous page if another user reaches this area
                 history.push("/post");
             } else {
-            setEditedPost(res);
+                setEditedPost(res);
+                setIsLoaded(true);
             }
         })
     }, []);
@@ -158,7 +158,7 @@ const EditPost = (props) => {
                         <Button className="primary" disabled={!isFormValid}>Submit</Button>
                     </Col>
                     <Col sm={1}>
-                        <Button className="secondary" type="button" onClick={() => history.goBack()}>Cancel</Button>
+                        <Button className="secondary" type="button" onClick={() => history.goBack()} disabled={!isLoaded} >Cancel</Button>
                     </Col>
                 </FormGroup>
             </Form>
