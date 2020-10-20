@@ -2,14 +2,22 @@ import React from 'react';
 import { ProfileContext } from "../../providers/ProfileProvider";
 import { Link, useHistory } from "react-router-dom";
 import "./userprofile.css"
+import { useState, useEffect, useContext } from 'react';
 
 const UserDetails = (props) => {
-    const { getUserById, changeActiveStatus, getAdminCount } = React.useContext(ProfileContext);
-    const [originalState, setOriginalState] = React.useState(true);
-    const [throttle, setThrottle] = React.useState({
+    const { getUserById, changeActiveStatus, getAdminCount } = useContext(ProfileContext);
+    const [originalState, setOriginalState] = useState(true);
+    const [throttle, setThrottle] = useState({
         count: 0
-    })
-    const [user, setUser] = React.useState({
+    });
+    const [usersPage, setUsersPage] = useState(false);
+
+    const isUsersPage = (id) => {
+        
+        JSON.parse(window.sessionStorage.getItem("userProfile")).id == id ? setUsersPage(false) : setUsersPage(true)
+    }
+
+    const [user, setUser] = useState({
         id: 0,
         firstName: "Jessica",
         lastName: " Jones",
@@ -32,7 +40,8 @@ const UserDetails = (props) => {
         if (!result) return;
         setOriginalState(result.isActive);
         setUser(result)
-        checkImage()
+        checkImage();
+        isUsersPage(props.match.params.id);
     }
     const checkImage = () => {
         const image = document.getElementById('profileImg');
@@ -64,7 +73,7 @@ const UserDetails = (props) => {
     }
 
 
-    React.useEffect(() => {
+    useEffect(() => {
         getUser();
     }, [])
 
@@ -101,11 +110,12 @@ const UserDetails = (props) => {
                                         <button type="button" onClick={e => history.push(`/userprofiles/${originalState === true ? "active" : "inactive"}`)} className="btn btn-sm btn-info mr-4">
                                             Cancel
                                         </button>
-                                        {originalState === true ? <>  <button type="button" onClick={setIsActive} className="btn btn-sm btn-default float-right">
+                                        {usersPage === true ? originalState === true ? <>  <button type="button" onClick={setIsActive} className="btn btn-sm btn-default float-right">
                                             Confirm Deactivate
                                         </button></> : <>  <button type="button" onClick={setIsActive} className="btn btn-sm btn-default float-right">
                                                 Confirm Activate
-                                        </button></>}
+                                        </button></> : <></>}
+
 
                                     </div>
                                 </div>
@@ -145,7 +155,7 @@ const UserDetails = (props) => {
                         </div>
                     </div>
                 </div>
-            </div>;
+            </div>
 
 
         </div>

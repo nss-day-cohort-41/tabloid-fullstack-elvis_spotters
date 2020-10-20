@@ -27,11 +27,18 @@ const UserEdit = (props) => {
     });
 
     const history = useHistory();
-
+    const [usersPage, setUsersPage] = useState(false);
     const getUser = async () => {
         let result = await getUserById(props.match.params.id);
         setUser(result)
-        checkImage()
+        checkImage();
+        isUsersPage(props.match.params.id)
+    }
+    
+
+    const isUsersPage = (id) => {
+        
+        JSON.parse(window.sessionStorage.getItem("userProfile")).id == id ? setUsersPage(false) : setUsersPage(true)
     }
 
     const checkImage = () => {
@@ -104,11 +111,12 @@ const UserEdit = (props) => {
                                         <Link to={`/userprofiles/${user.isActive === true ? "active" : "inactive"}`} className="btn btn-sm btn-info mr-4">
                                             Cancel
                                         </Link>
-                                        {user.userTypeId === 1 ? <>  <button type="button" onClick={setIsAdmin} className="btn btn-sm btn-default float-right">
+                                        {usersPage === true ?   user.userTypeId === 1 ? <>  <button type="button" onClick={setIsAdmin} className="btn btn-sm btn-default float-right">
                                             Commence Demotion
                                         </button></> : <>  <button type="button" onClick={setIsAdmin} className="btn btn-sm btn-default float-right">
                                                 Promote
-                                        </button></>}
+                                        </button></>  : <></>}
+                                        
 
                                     </div>
                                 </div>
