@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { PostContext } from "../../providers/PostProvider";
 import { useHistory, useParams } from "react-router-dom";
-import { Container, Row, Col, Button, Badge } from "reactstrap";
+import { Row, Col, Button, Badge } from "reactstrap";
 import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 const PostDetails = (props) => {
@@ -101,7 +101,7 @@ const PostDetails = (props) => {
     }
 
     return (
-        <Container pt={5}>
+        <>
             <section className="px-3">
                 <Row className="justify-content-between">
                     <h1 className="text-secondary">{post.title}</h1>
@@ -112,7 +112,7 @@ const PostDetails = (props) => {
                     <p className="text-secondary">Written by {post.userProfile.displayName} {'\t'}
                         <span className="text-success">{isSubscribed
                             ? <Button onClick={unsubscribe} outline color="danger" size="sm">Unubscribe</Button>
-                            : <Button onClick={subscribe} outline color="theme-primary" size="sm">Subscribe</Button>
+                            : <Button onClick={subscribe} outline color="primary" size="sm">Subscribe</Button>
                         } </span>
                     </p>
                     {(post.publishDateTime)
@@ -126,11 +126,11 @@ const PostDetails = (props) => {
                 </Row>
                 <Row>
                     {currentUser
-                        ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/edit`)}>Edit</Button>
+                        ? <Button outline color="primary" onClick={() => history.push(`/post/${post.id}/edit`)}>Edit</Button>
                         : null
                     }
                     {currentUser || isAdministrator
-                        ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
+                        ? <Button outline color="primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
                         : null
                     }
                     {currentUser ? <Button onClick={() => history.push(`/post/tags/${id}`)}>Manage Tags</Button> : null}
@@ -159,10 +159,10 @@ const PostDetails = (props) => {
                 </Col>
             </Row>
             <Row>
-                <Button color="theme-primary" className="m-2" type="button" onClick={() => history.push(`/comments/${post.id}`)} >View Comments</Button>
-                <Button color="theme-primary" className="m-2" type="button" onClick={() => history.push(`/comments/${post.id}/create`)} >Add Comment</Button>
+                <Button color="primary" className="m-1" type="button" onClick={() => history.push(`/comments/${post.id}`)} >View Comments</Button>
+                <Button color="primary" className="m-1" type="button" onClick={() => history.push(`/comments/${post.id}/create`)} >Add Comment</Button>
             </Row>
-        </Container>
+        </>
     )
 }
 

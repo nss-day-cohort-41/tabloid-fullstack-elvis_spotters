@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { PostContext } from "../../providers/PostProvider";
 import { UserProfileContext } from "../../providers/UserProfileProvider";
 import { useHistory, useParams } from "react-router-dom";
-import { Container, Row, Button } from "reactstrap";
+import { Row, Button } from "reactstrap";
 
 const DeletePost = (props) => {
 
@@ -39,10 +39,10 @@ const DeletePost = (props) => {
     }
 
     return (
-        <Container pt={5}>
-            <h1>Delete</h1>
-            <h3>Do you want to delete this?</h3>
+        <>
             <section className="justify-content-center">
+            <h1 className="text-center">Delete Post</h1>
+            <h3 className="text-center">Do you want to delete this?</h3>
                 <dl className="row">
                     <dt className="col-sm-2">Title</dt>
                     <dt className="col-sm-10">{post.title}</dt>
@@ -71,12 +71,12 @@ const DeletePost = (props) => {
                     <dt className="col-sm-10">{post.userProfile.displayName}</dt>
                 </dl>
 
-                <Row>
-                    <Button color="primary" onClick={confirmDelete}>Delete</Button>
-                    <Button color="primary" onClick={() => history.goBack()} disabled={!isLoaded} >Cancel</Button>
+                <Row className="px-5">
+                    <Button color="danger" block onClick={confirmDelete} disabled={!isLoaded}>Delete</Button>
+                    <Button color="primary" block onClick={() => history.goBack()}>Cancel</Button>
                 </Row>
             </section>
-        </Container>
+        </>
     )
 }
 

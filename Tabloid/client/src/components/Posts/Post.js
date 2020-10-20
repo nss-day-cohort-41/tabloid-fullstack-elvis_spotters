@@ -12,7 +12,7 @@ const Post = ({ post, currentUser }) => {
         <tr>
             {console.log(isAdministrator)}
             <td>
-                <Link to={`/post/${post.id}/details`} >
+                <Link to={`/post/${post.id}/details`} className="text-primary">
                     <strong>{post.title}</strong>
                 </Link>
             </td>
@@ -24,10 +24,10 @@ const Post = ({ post, currentUser }) => {
             </td>
             <td>
                 {(currentUser === post.userProfile.id)
-                    ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/edit`)}>Edit</Button>
+                    ? <Button outline color="primary" className="mx-1" onClick={() => history.push(`/post/${post.id}/edit`)}>Edit</Button>
                     : null}
                 {(currentUser === post.userProfile.id || isAdministrator)
-                    ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
+                    ? <Button outline color="primary" className="mx-1" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
                     : null
                 }
             </td>

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Container, Form, FormGroup, Col, Label, Input, Button, FormFeedback, FormText } from "reactstrap";
+import { Row, Card, CardTitle, Form, FormGroup, Col, Label, Input, Button, FormFeedback, FormText } from "reactstrap";
 import { PostContext } from "../../providers/PostProvider";
 import { ValidateNewPost } from "./ValidateNewPost";
 
@@ -70,66 +70,66 @@ const NewPost = (props) => {
     }, []);
 
     return (
-        <Container>
-            <div>
-                <h1>Create a New Post</h1>
-            </div>
-            <Form onSubmit={handleSubmit}>
-                <FormGroup row>
-                    <Label for="title" sm={2}>Title</Label>
-                    <Col sm={10}>
-                        <Input type="text" name="title" id="title" placeholder="Title your post" maxLength="255"
-                            invalid={formFeedback.title} required onChange={handleFieldChange} />
-                        <FormFeedback>Please give this post a title</FormFeedback>
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Label for="content" sm={2}>Post Content</Label>
-                    <Col sm={10}>
-                        <Input type="textarea" name="content" id="content" placeholder="Say what you want to say here..." required
-                            invalid={formFeedback.content} onChange={handleFieldChange} />
-                        <FormFeedback>Enter some text for content</FormFeedback>
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Label for="imageLocation" sm={2}>Image URL (optional)</Label>
-                    <Col sm={10}>
-                        <Input type="url" name="imageLocation" id="imageLocation" placeholder="https://website.com/mypic" maxLength="255"
-                            invalid={newPost.imageLocation !== undefined && formFeedback.imageLocation} onChange={handleFieldChange} />
-                        <FormFeedback>Please enter a proper URL, including http or https, or leave blank</FormFeedback>
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Label for="publishDateTime" sm={2}>Date to Publish (Optional)</Label>
-                    <Col sm={10}>
-                        <Input type="date" name="publishDateTime" id="publishDateTime"
-                            onChange={handleFieldChange} />
-                        <FormText>This post will not be visible on the main page until the date entered here.</FormText>
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Label for="categoryId" sm={2}>Category</Label>
-                    <Col sm={10}>
-                        <Input type="select" name="categoryId" id="categoryId" invalid={formFeedback.categoryId}
-                            onChange={handleFieldChange} required>
-                            <option value="">Select a Category</option>
-                            {categories.map(category =>
-                                <option key={category.id} value={category.id}>{category.name}</option>
-                            )}
-                        </Input>
-                        <FormFeedback>Select a category</FormFeedback>
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Col sm={1}>
-                        <Button className="primary" disabled={!isFormValid}>Submit</Button>
-                    </Col>
-                    <Col sm={1}>
-                        <Button className="secondary" type="button" onClick={() => history.push("/")}>Cancel</Button>
-                    </Col>
-                </FormGroup>
-            </Form>
-        </Container>
+        <>
+            <Row className="justify-content-center">
+                <Card className="col=md=12 col-lg-8">
+                    <CardTitle>
+                        <h3 className="mt-3 text-primary text-center">Create a New Post</h3>
+                    </CardTitle>
+                    <Form className="mt-5 card-body" onSubmit={handleSubmit}>
+                        <FormGroup row>
+                            <Label for="title" sm={2}>Title</Label>
+                            <Col sm={10}>
+                                <Input type="text" name="title" id="title" placeholder="Title your post" maxLength="255"
+                                    invalid={formFeedback.title} required onChange={handleFieldChange} />
+                                <FormFeedback>Please give this post a title</FormFeedback>
+                            </Col>
+                        </FormGroup>
+                        <FormGroup row>
+                            <Label for="content" sm={2}>Post Content</Label>
+                            <Col sm={10}>
+                                <Input type="textarea" name="content" id="content" placeholder="Say what you want to say here..." required
+                                    invalid={formFeedback.content} onChange={handleFieldChange} />
+                                <FormFeedback>Enter some text for content</FormFeedback>
+                            </Col>
+                        </FormGroup>
+                        <FormGroup row>
+                            <Label for="imageLocation" sm={2}>Image URL (optional)</Label>
+                            <Col sm={10}>
+                                <Input type="url" name="imageLocation" id="imageLocation" placeholder="https://website.com/mypic" maxLength="255"
+                                    invalid={newPost.imageLocation !== undefined && formFeedback.imageLocation} onChange={handleFieldChange} />
+                                <FormFeedback>Please enter a proper URL, including http or https, or leave blank</FormFeedback>
+                            </Col>
+                        </FormGroup>
+                        <FormGroup row>
+                            <Label for="publishDateTime" sm={2}>Date to Publish (Optional)</Label>
+                            <Col sm={10}>
+                                <Input type="date" name="publishDateTime" id="publishDateTime"
+                                    onChange={handleFieldChange} />
+                                <FormText>This post will not be visible on the main page until the date entered here.</FormText>
+                            </Col>
+                        </FormGroup>
+                        <FormGroup row>
+                            <Label for="categoryId" sm={2}>Category</Label>
+                            <Col sm={10}>
+                                <Input type="select" name="categoryId" id="categoryId" invalid={formFeedback.categoryId}
+                                    onChange={handleFieldChange} required>
+                                    <option value="">Select a Category</option>
+                                    {categories.map(category =>
+                                        <option key={category.id} value={category.id}>{category.name}</option>
+                                    )}
+                                </Input>
+                                <FormFeedback>Select a category</FormFeedback>
+                            </Col>
+                        </FormGroup>
+                        <FormGroup row>
+                                <Button color="primary" block disabled={!isFormValid}>Submit</Button>
+                                <Button color="secondary" block type="button" onClick={() => history.push("/")}>Cancel</Button>
+                        </FormGroup>
+                    </Form>
+                </Card>
+            </Row>
+        </>
     )
 
 

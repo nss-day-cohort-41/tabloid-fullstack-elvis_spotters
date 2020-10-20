@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { PostContext } from "../../providers/PostProvider";
 import Post from "./Post"
-import { Container, Row, Table } from "reactstrap";
+import { Row, Table } from "reactstrap";
 
 const Homepage = (props) => {
 
@@ -17,12 +17,12 @@ const Homepage = (props) => {
     }, []);
 
     return (
-        <Container>
+        <>
             <Row>
-                <h2>Posts from Authors You have Subscribed To</h2>
+                <h1>Posts from Authors You have Subscribed To</h1>
             </Row>
                     {posts.length > 0
-                    ? <Table>
+                    ? <Table striped>
                         <thead>
                             <tr>
                                 <th>Title</th>
@@ -39,7 +39,7 @@ const Homepage = (props) => {
                     </Table>
                     : <p><em>Subscribe to some authors to see their posts here.</em></p>
                     }
-        </Container>
+        </>
     )
 }
 

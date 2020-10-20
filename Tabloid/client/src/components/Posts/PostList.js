@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { PostContext } from "../../providers/PostProvider";
 import Post from "./Post"
-import { Container, Row, Button, Table } from "reactstrap";
+import { Row, Button, Table } from "reactstrap";
 
 const PostList = (props) => {
 
@@ -18,14 +18,14 @@ const PostList = (props) => {
     }, []);
 
     return (
-        <Container>
+        <>
             <Row>
-                <h2>Published Posts</h2>
+                <h1>Published Posts</h1>
             </Row>
             <Row>
-                <Button onClick={() => history.push("/post/new")}>Create New Post</Button>
+                <Button color="primary" onClick={() => history.push("/post/new")}>Create New Post</Button>
             </Row>
-            <Table>
+            <Table striped>
                 <thead>
                     <tr>
                         <th>Title</th>
@@ -40,7 +40,7 @@ const PostList = (props) => {
                     ))}
                 </tbody>
             </Table>
-        </Container>
+        </>
     )
 }
 
