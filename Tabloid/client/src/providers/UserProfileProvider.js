@@ -10,7 +10,8 @@ export function UserProfileProvider(props) {
 
   const userProfile = sessionStorage.getItem("userProfile");
   const [isLoggedIn, setIsLoggedIn] = useState(userProfile != null);
-  const [isAdministrator, setIsAdministrator] = useState(false);
+  const [isAdministrator, setIsAdministrator] = useState(userProfile != null && JSON.parse(userProfile).userTypeId === 1);
+  // isAdministrator can be used throughout the app to check the user's authorization level
 
   const [isFirebaseReady, setIsFirebaseReady] = useState(false);
   useEffect(() => {

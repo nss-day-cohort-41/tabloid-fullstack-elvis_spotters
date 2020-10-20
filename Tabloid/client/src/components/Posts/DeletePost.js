@@ -11,6 +11,7 @@ const DeletePost = (props) => {
     const { id } = useParams();
 
     const [post, setPost] = useState();
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const history = useHistory();
 
@@ -22,6 +23,7 @@ const DeletePost = (props) => {
                 history.push("/post");
             } else {
             setPost(res);
+            setIsLoaded(true);
             }
         })
     }, []);
@@ -71,7 +73,7 @@ const DeletePost = (props) => {
 
                 <Row>
                     <Button color="primary" onClick={confirmDelete}>Delete</Button>
-                    <Button color="primary" onClick={() => history.goBack()}>Cancel</Button>
+                    <Button color="primary" onClick={() => history.goBack()} disabled={!isLoaded} >Cancel</Button>
                 </Row>
             </section>
         </Container>
