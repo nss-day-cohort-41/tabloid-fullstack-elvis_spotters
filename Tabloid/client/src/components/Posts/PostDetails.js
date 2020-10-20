@@ -8,7 +8,7 @@ const PostDetails = (props) => {
 
     const { getPost, getTagsByPostId } = useContext(PostContext);
     const { getToken, isAdministrator } = useContext(UserProfileContext);
-    
+
     const { id } = useParams();
 
     const [post, setPost] = useState();
@@ -63,26 +63,26 @@ const PostDetails = (props) => {
     const subscribe = (evt) => {
         evt.preventDefault();
         getToken().then((token) =>
-        fetch(`/api/subscription/${post.userProfileId}`, {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
-        }).then(res => res.json())
-        .then(() => setIsSubscribed(true)));
+            fetch(`/api/subscription/${post.userProfileId}`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            }).then(res => res.json())
+                .then(() => setIsSubscribed(true)));
     }
 
     const unsubscribe = (evt) => {
         evt.preventDefault();
         getToken().then((token) =>
-        fetch(`/api/subscription/${post.userProfileId}`, {
-            method: "PUT",
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
-        }).then(() => setIsSubscribed(false)));
+            fetch(`/api/subscription/${post.userProfileId}`, {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            }).then(() => setIsSubscribed(false)));
     }
 
     const getReadTime = () => {
@@ -109,7 +109,7 @@ const PostDetails = (props) => {
                 </Row>
 
                 <Row className="justify-content-between">
-                    <p className="text-secondary">Written by {post.userProfile.displayName} {'\t'} 
+                    <p className="text-secondary">Written by {post.userProfile.displayName} {'\t'}
                         <span className="text-success">{isSubscribed
                             ? <Button onClick={unsubscribe} outline color="danger" size="sm">Unubscribe</Button>
                             : <Button onClick={subscribe} outline color="theme-primary" size="sm">Subscribe</Button>
@@ -133,7 +133,7 @@ const PostDetails = (props) => {
                         ? <Button color="primary" onClick={() => history.push(`/post/${post.id}/delete`)}>Delete</Button>
                         : null
                     }
-                    <Button onClick={() => history.push(`/post/tags/${id}`)}>Manage Tags</Button>
+                    {currentUser ? <Button onClick={() => history.push(`/post/tags/${id}`)}>Manage Tags</Button> : null}
                 </Row>
             </section>
 

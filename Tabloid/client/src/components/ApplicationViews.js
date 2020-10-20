@@ -34,7 +34,7 @@ import UserEdit from "./UserProfile/UserEdit";
 
 function ApplicationViews(props) {
   //Add Views to this array, follow the pattern
-  const appViews = [
+  const adminViews = [
     {
       name: "Categories",
       provider: CategoryProvider,
@@ -165,18 +165,18 @@ function ApplicationViews(props) {
       to: "/login"
     },
     {
-      name:"UserProfile",
-      provider:ProfileProvider,
-      component:withRouter(UserProfiles),
-      path:"/userprofiles/active",
-      to:"/login"
+      name: "UserProfile",
+      provider: ProfileProvider,
+      component: withRouter(UserProfiles),
+      path: "/userprofiles/active",
+      to: "/login"
     },
     {
-      name:"UserProfile",
-      provider:ProfileProvider,
-      component:withRouter(UserProfilesInActive),
-      path:"/userprofiles/inactive",
-      to:"/login"
+      name: "UserProfile",
+      provider: ProfileProvider,
+      component: withRouter(UserProfilesInActive),
+      path: "/userprofiles/inactive",
+      to: "/login"
     },
     {
       name: "UserProfile",
@@ -193,9 +193,97 @@ function ApplicationViews(props) {
       to: "/login"
     },
   ]
-  const { isLoggedIn } = useContext(UserProfileContext);
+
+  const authorViews = [
+    {
+      name: "Post",
+      provider: PostProvider,
+      component: withRouter(PostList),
+      path: "/post",
+      to: "/login"
+    },
+    {
+      name: "MyPosts",
+      provider: PostProvider,
+      component: withRouter(MyPosts),
+      path: "/post/my",
+      to: "/login"
+    },
+    {
+      name: "PostDetails",
+      provider: PostProvider,
+      component: withRouter(PostDetails),
+      path: "/post/:id/details",
+      to: "/login"
+    },
+    {
+      name: "NewPost",
+      provider: PostProvider,
+      component: NewPost,
+      path: "/post/new",
+      to: "/login"
+    },
+    {
+      name: "EditPost",
+      provider: PostProvider,
+      component: withRouter(EditPost),
+      path: "/post/:id/edit",
+      to: "/login"
+    },
+    {
+      name: "DeletePost",
+      provider: PostProvider,
+      component: withRouter(DeletePost),
+      path: "/post/:id/delete",
+      to: "/login"
+    },
+    {
+      name: "AddPostTag",
+      provider: PostTagProvider,
+      component: withRouter(AddPostTag),
+      path: "/post/tags/:id",
+      to: "/login"
+    },
+    {
+      name: "Default",
+      provider: PostProvider,
+      component: withRouter(Homepage),
+      path: "/",
+      to: "/login"
+    },
+    {
+      name: "Comments",
+      provider: CommentProvider,
+      component: withRouter(CommentList),
+      path: "/comments/:postId",
+      to: "/login"
+    },
+    {
+      name: "Add Comment",
+      provider: CommentProvider,
+      component: withRouter(CreateComment),
+      path: "/comments/:postId/create",
+      to: "/login"
+    },
+    {
+      name: "Delete Comment",
+      provider: CommentProvider,
+      component: withRouter(DeleteComment),
+      path: "/comments/:postId/delete/:commentId",
+      to: "/login"
+    },
+    {
+      name: "Edit Comment",
+      provider: CommentProvider,
+      component: withRouter(EditComment),
+      path: "/comments/:postId/edit/:commentId",
+      to: "/login"
+    },
+  ]
+
+  const { isLoggedIn, isAdministrator } = useContext(UserProfileContext);
   //Mapping object array "AppViews" into an array of Routes and Components
-  const routes = appViews.map((ele, index) => {
+  const routes = isAdministrator ? adminViews.map((ele, index) => {
     return (
         <Route key={index} path={ele.path} exact>
           <ele.provider>
@@ -204,6 +292,17 @@ function ApplicationViews(props) {
         </Route>
     )
   })
+    :
+    authorViews.map((ele, index) => {
+      return (
+        <Route key={index} path={ele.path} exact>
+          <ele.provider>
+            {isLoggedIn ? <ele.component /> : <Redirect to={ele.to} />}
+          </ele.provider>
+        </Route>
+      )
+    })
+
   return (
     <main className="pt-5">
 

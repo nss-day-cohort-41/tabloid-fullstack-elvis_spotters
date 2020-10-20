@@ -72,8 +72,21 @@ export function PostTagProvider(props) {
     }
   }
 
+  // Method to get single post by id
+  const getPost = async (postId) => {
+    const token = await getToken();
+    const res = await fetch(`${postApiUrl}/${postId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    const value = await res.json();
+    return value
+  }
+
   return (
-    <PostTagContext.Provider value={{ getTagsByPostId, getAllTags, addPostTag, getAllPosts }}>
+    <PostTagContext.Provider value={{ getTagsByPostId, getAllTags, addPostTag, getAllPosts, getPost }}>
       {props.children}
     </PostTagContext.Provider>
   )
