@@ -10,7 +10,6 @@ const Post = ({ post, currentUser }) => {
 
     return (
         <tr>
-            {console.log(isAdministrator)}
             <td>
                 <Link to={`/post/${post.id}/details`} className="text-primary">
                     <strong>{post.title}</strong>

@@ -147,7 +147,7 @@ const PostDetails = (props) => {
             {post.imageLocation !== null
                 ? <Row className="justify-content-center">
                     <div>
-                        <img src={`${post.imageLocation}`}></img>
+                        <img src={`${post.imageLocation}`} alt={`${post.title}`}></img>
                     </div>
                 </Row>
                 : null

@@ -18,7 +18,7 @@ const DeletePost = (props) => {
     useEffect(() => {
         const loggedInUser = JSON.parse(sessionStorage.userProfile);
         getPost(id).then((res) => {
-            if (res.userProfileId != loggedInUser.id && !isAdministrator) {
+            if (res.userProfileId !== loggedInUser.id && !isAdministrator) {
                 // Kick back to post list if another user reaches this area
                 history.push("/post");
             } else {
@@ -26,6 +26,7 @@ const DeletePost = (props) => {
             setIsLoaded(true);
             }
         })
+    // eslint-disable-next-line
     }, []);
 
     if (!post) {

@@ -15,6 +15,7 @@ const MyPosts = (props) => {
         getMyPosts();
         const loggedInUser = JSON.parse(sessionStorage.userProfile);
         setCurrentUser(loggedInUser.id);
+    // eslint-disable-next-line
     }, []);
 
     return (
