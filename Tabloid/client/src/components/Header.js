@@ -21,8 +21,8 @@ export default function Header() {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <div>
-      <Navbar color="light" light expand="md">
+    <header>
+      <Navbar color="primary" dark expand="md">
         <NavbarBrand tag={RRNavLink} to="/">Tabloid</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
@@ -87,6 +87,6 @@ export default function Header() {
           </Nav>
         </Collapse>
       </Navbar>
-    </div>
+    </header>
   );
 }

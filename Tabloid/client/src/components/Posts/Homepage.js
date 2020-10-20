@@ -15,6 +15,7 @@ const Homepage = (props) => {
         getSubscriptions();
         const loggedInUser = JSON.parse(sessionStorage.userProfile);
         setCurrentUser(loggedInUser.id);
+        // eslint-disable-next-line
     }, []);
 
     return (

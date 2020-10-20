@@ -92,6 +92,7 @@ const EditPost = (props) => {
                 setIsLoaded(true);
             }
         })
+        // eslint-disable-next-line
     }, []);
 
     if (!editedPost) {

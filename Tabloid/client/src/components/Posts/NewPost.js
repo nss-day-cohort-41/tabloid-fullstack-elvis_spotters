@@ -66,6 +66,7 @@ const NewPost = (props) => {
 
     useEffect(() => {
         getCategories();
+        // eslint-disable-next-line
     }, []);
 
     return (

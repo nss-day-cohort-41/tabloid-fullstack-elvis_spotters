@@ -55,6 +55,7 @@ const PostDetails = (props) => {
 
         // Invoking method to get all tags associated with post upon page load
         getTagsByPostIdFromDb();
+        // eslint-disable-next-line
     }, []);
 
     // Both subscription methods return only the current post's author Id.
