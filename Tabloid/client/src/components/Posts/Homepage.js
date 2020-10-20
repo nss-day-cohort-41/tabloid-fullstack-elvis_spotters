@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
 import { PostContext } from "../../providers/PostProvider";
 import Post from "./Post"
-import { Container, Row, Button, Table } from "reactstrap";
+import { Container, Row, Table } from "reactstrap";
 
 const Homepage = (props) => {
 
     const { posts, getSubscriptions } = useContext(PostContext);
 
-    const history = useHistory();
     const [currentUser, setCurrentUser] = useState();
 
     useEffect(() => {
