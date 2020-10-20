@@ -43,7 +43,10 @@ const PostDetails = (props) => {
         }
 
         getPost(id).then((res) => {
-            if (loggedInUser.id === res.userProfileId) {
+            console.log(res)
+            if (loggedInUser.id !== res.userProfileId && (!res.publishDateTime || !res.isApproved)) {
+                history.push("/post");
+            } else if (loggedInUser.id === res.userProfileId) {
                 setCurrentUser(true);
             }
             checkSubscription(res.userProfileId).then(setIsSubscribed);

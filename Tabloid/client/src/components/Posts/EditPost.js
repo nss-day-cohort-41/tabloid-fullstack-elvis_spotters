@@ -84,7 +84,7 @@ const EditPost = (props) => {
         const currentUser = JSON.parse(sessionStorage.userProfile);
         getCategories();
         getPost(id).then((res) => {
-            if (res.userProfileId != currentUser.id) {
+            if (res.userProfileId !== currentUser.id) {
                 // Kick back to previous page if another user reaches this area
                 history.push("/post");
             } else {
