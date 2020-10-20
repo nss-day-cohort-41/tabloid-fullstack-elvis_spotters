@@ -2,15 +2,18 @@ import React, { useState, useEffect, useContext } from "react";
 import { PostContext } from "../../providers/PostProvider";
 import { useHistory, useParams } from "react-router-dom";
 import { Container, Row, Col, Button, Badge } from "reactstrap";
-import { Link } from "react-router-dom";
+import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 const PostDetails = (props) => {
 
     const { getPost, getTagsByPostId } = useContext(PostContext);
+    const { getToken } = useContext(UserProfileContext);
+    
     const { id } = useParams();
 
     const [post, setPost] = useState();
     const [currentUser, setCurrentUser] = useState(false);
+    const [isSubscribed, setIsSubscribed] = useState(false);
 
     // State for tags associated with post
     const [tags, setTags] = useState([]);
@@ -25,19 +28,58 @@ const PostDetails = (props) => {
 
     const loggedInUser = JSON.parse(sessionStorage.userProfile);
 
-
-
     useEffect(() => {
+
+        const checkSubscription = async (providerId) => {
+            const token = await getToken();
+            const res = await fetch(`../../api/subscription/check?id=${providerId}`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            const value = await res.json();
+            return value;
+        }
+
         getPost(id).then((res) => {
             if (loggedInUser.id === res.userProfileId) {
                 setCurrentUser(true);
             }
+            checkSubscription(res.userProfileId).then(setIsSubscribed);
             setPost(res)
         });
 
         // Invoking method to get all tags associated with post upon page load
         getTagsByPostIdFromDb();
     }, []);
+
+    // Both subscription methods return only the current post's author Id.
+    // The rest of the subscription is built by the API to limit possible interaction with the user.
+    const subscribe = (evt) => {
+        evt.preventDefault();
+        getToken().then((token) =>
+        fetch(`/api/subscription/${post.userProfileId}`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        }).then(res => res.json())
+        .then(() => setIsSubscribed(true)));
+    }
+
+    const unsubscribe = (evt) => {
+        evt.preventDefault();
+        getToken().then((token) =>
+        fetch(`/api/subscription/${post.userProfileId}`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        }).then(() => setIsSubscribed(false)));
+    }
 
     const getReadTime = () => {
         if (!post.content) return ("0 minutes");
@@ -63,7 +105,12 @@ const PostDetails = (props) => {
                 </Row>
 
                 <Row className="justify-content-between">
-                    <p className="text-secondary">Written by {post.userProfile.displayName}</p>
+                    <p className="text-secondary">Written by {post.userProfile.displayName} {'\t'} 
+                        <span className="text-success">{isSubscribed
+                            ? <Button onClick={unsubscribe} outline color="danger" size="sm">Unubscribe</Button>
+                            : <Button onClick={subscribe} outline color="primary" size="sm">Subscribe</Button>
+                        } </span>
+                    </p>
                     {(post.publishDateTime)
                         ? <p className="text-black-50">Published on {post.publishDateTime.substring(0, 10)}</p>
                         : <p className="text-black-50">Unpublished</p>

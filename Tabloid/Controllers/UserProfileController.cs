@@ -60,6 +60,21 @@ namespace Tabloid.Controllers
                 return NotFound();
                 }
             }
+
+        [Authorize]
+        [HttpGet("admin")]
+        public IActionResult GetAdminCount()
+        {
+            try
+            {
+                return Ok(_userProfileRepository.CountUserType(UserType.ADMIN_ID));
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
         [Authorize]
         [HttpPut("active")]
         public  IActionResult IsActive(UserProfile user)

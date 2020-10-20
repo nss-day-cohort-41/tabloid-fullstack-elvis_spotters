@@ -33,6 +33,13 @@ namespace Tabloid.Controllers
             return Ok(_postRepository.GetAllPublishedPosts());
         }
 
+        [HttpGet("subscription")]
+        public IActionResult GetSubscribed()
+        {
+            var currentUser = GetCurrentUserProfile();
+            return Ok(_postRepository.GetSubscribedPosts(currentUser.Id));
+        }
+
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {

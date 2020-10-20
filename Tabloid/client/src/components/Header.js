@@ -38,15 +38,19 @@ export default function Header() {
             {isLoggedIn &&
               <>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/userprofiles/active">Profiles</NavLink>
+                  <NavLink tag={RRNavLink} to="/post/new">New Post</NavLink>
                 </NavItem>
 
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/post">Posts</NavLink>
+                  <NavLink tag={RRNavLink} to="/post">All Posts</NavLink>
                 </NavItem>
 
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/post/my">My Posts</NavLink>
+                </NavItem>
+
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/userprofiles/active">Profiles</NavLink>
                 </NavItem>
 
                 {/* Admin tools dropdown housing tag and category management */}
