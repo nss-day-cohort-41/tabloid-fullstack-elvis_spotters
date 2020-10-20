@@ -197,15 +197,15 @@ function ApplicationViews(props) {
   //Mapping object array "AppViews" into an array of Routes and Components
   const routes = appViews.map((ele, index) => {
     return (
-      <Route key={index} path={ele.path} exact>
-        <ele.provider>
-          {isLoggedIn ? <ele.component /> : <Redirect to={ele.to} />}
-        </ele.provider>
-      </Route>
+        <Route key={index} path={ele.path} exact>
+          <ele.provider>
+            {isLoggedIn ? <ele.component /> : <Redirect to={ele.to} />}
+          </ele.provider>
+        </Route>
     )
   })
   return (
-    <main>
+    <main className="pt-5">
 
       <Switch>
         <Route path="/login">
